@@ -1,0 +1,8 @@
+<RCC>
+    <qresource prefix="/buttonImages">
+        <file>dropper.png</file>
+        <file>eraser.png</file>
+        <file>broadBrush.png</file>
+        <file>paintBrush.png</file>
+    </qresource>
+</RCC>

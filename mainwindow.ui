@@ -17,40 +17,31 @@
    <layout class="QGridLayout" name="gridLayout_2">
     <item row="1" column="0">
      <layout class="QGridLayout" name="gridLayout">
-      <item row="11" column="1">
+      <item row="7" column="3">
        <layout class="QHBoxLayout" name="horizontalLayout"/>
       </item>
-      <item row="0" column="0">
-       <layout class="QVBoxLayout" name="verticalLayout_3">
-        <item>
-         <widget class="QPushButton" name="pushButton_3">
-          <property name="text">
-           <string>PushButton</string>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <widget class="QPushButton" name="pushButton_2">
-          <property name="text">
-           <string>PushButton</string>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <widget class="QPushButton" name="pushButton">
-          <property name="text">
-           <string>PushButton</string>
-          </property>
-         </widget>
-        </item>
-       </layout>
-      </item>
-      <item row="0" column="1">
+      <item row="1" column="3">
        <widget class="QTabWidget" name="tabWidget">
+        <property name="currentIndex">
+         <number>1</number>
+        </property>
         <widget class="QWidget" name="tab">
          <attribute name="title">
           <string>Tab 1</string>
          </attribute>
+         <widget class="CanvasModel" name="tempCanvas">
+          <property name="geometry">
+           <rect>
+            <x>20</x>
+            <y>120</y>
+            <width>256</width>
+            <height>192</height>
+           </rect>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">background-color: rgb(108, 123, 255);</string>
+          </property>
+         </widget>
         </widget>
         <widget class="QWidget" name="tab_2">
          <attribute name="title">
@@ -59,7 +50,7 @@
         </widget>
        </widget>
       </item>
-      <item row="0" column="2">
+      <item row="1" column="4">
        <layout class="QVBoxLayout" name="verticalLayout_8">
         <item>
          <widget class="QGraphicsView" name="graphicsView"/>
@@ -83,8 +74,51 @@
         </item>
        </layout>
       </item>
-      <item row="2" column="0">
-       <spacer name="verticalSpacer_2">
+      <item row="1" column="1">
+       <layout class="QVBoxLayout" name="verticalLayout">
+        <item>
+         <widget class="QPushButton" name="paintBrushButton">
+          <property name="text">
+           <string/>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QPushButton" name="broadBrushButton">
+          <property name="text">
+           <string/>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QPushButton" name="eraserButton">
+          <property name="text">
+           <string/>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QPushButton" name="dropperButton">
+          <property name="text">
+           <string/>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </item>
+      <item row="2" column="1">
+       <layout class="QVBoxLayout" name="verticalLayout_3">
+        <item>
+         <widget class="clickedColorResponse" name="primaryColorWidget">
+          <property name="styleSheet">
+           <string notr="true">background-color: rgb(17, 16, 47);</string>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </item>
+      <item row="2" column="3">
+       <spacer name="verticalSpacer">
         <property name="orientation">
          <enum>Qt::Vertical</enum>
         </property>
@@ -121,6 +155,18 @@
   <widget class="QStatusBar" name="statusBar"/>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
+ <customwidgets>
+  <customwidget>
+   <class>clickedColorResponse</class>
+   <extends>QGraphicsView</extends>
+   <header>clickedcolorresponse.h</header>
+  </customwidget>
+  <customwidget>
+   <class>CanvasModel</class>
+   <extends>QGraphicsView</extends>
+   <header>canvasmodel.h</header>
+  </customwidget>
+ </customwidgets>
  <resources/>
  <connections/>
 </ui>

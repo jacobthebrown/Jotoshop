@@ -2,6 +2,7 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
+#include "toolsmodel.h"
 
 namespace Ui {
 class MainWindow;
@@ -17,6 +18,16 @@ public:
 
 private:
     Ui::MainWindow *ui;
+    ToolsModel toolBar;
+    QImage canvasImage;
+
+    void SetToolBarPics();
+public slots:
+    void recieveSelectedColor(QColor);
+    void paintCanvas(QPoint&);
+
+signals:
+    void updateToolBar(QColor);
 };
 
 #endif // MAINWINDOW_H
