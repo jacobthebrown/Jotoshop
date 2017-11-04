@@ -22,12 +22,23 @@ private:
     QImage canvasImage;
 
     void SetToolBarPics();
+    //Temp function to test brush width
+    //void paint(QPoint,QImage&,QRgb,int);
+
 public slots:
     void recieveSelectedColor(QColor);
     void paintCanvas(QPoint&);
 
 signals:
     void updateToolBar(QColor);
+    void ToolClicked(QString);
+
+private slots:
+    void UpdateButtonBorder(QString);
+    void on_paintBrushButton_clicked();
+    void on_broadBrushButton_clicked();
+    void on_eraserButton_clicked();
+    void on_dropperButton_clicked();
 };
 
 #endif // MAINWINDOW_H

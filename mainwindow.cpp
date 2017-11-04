@@ -18,7 +18,8 @@ MainWindow::MainWindow(QWidget *parent) :
 
     ui->tabWidget->removeTab(1);
 
-
+    connect(&toolBar,SIGNAL(HighlightToolIcon(QString)),this,SLOT(UpdateButtonBorder(QString)));
+    connect(this,SIGNAL(ToolClicked(QString)),&toolBar,SLOT(UpdateTool(QString)));
 }
 
 MainWindow::~MainWindow()
@@ -64,8 +65,85 @@ void MainWindow::recieveSelectedColor(QColor receivedColor)
 
 void MainWindow::paintCanvas(QPoint &pos)
 {
-    qDebug() << "We in";
-    canvasImage.setPixel(pos.x(),pos.y(),toolBar.getColor());
+    //paint(pos,canvasImage,toolBar.Color(),toolBar.Width());
+
+        int offset = toolBar.Width()/2;
+
+    try
+        {
+            for(int i = pos.x()- offset; i <= pos.x()+ offset; i++)
+            {
+                for(int j = pos.y() - offset; j < pos.y() + offset; j++)
+                {
+                    if(i > 0 && i < canvasImage.width() && j > 0 && j < canvasImage.height())
+                    {
+                        canvasImage.setPixel(i,j,toolBar.Color());
+                    }
+                }
+            }
+        }
+        catch(...)
+        {
+
+        }
+
+
+    //canvasImage.setPixel(pos.x(),pos.y(),toolBar.Color());
     QPixmap map(QPixmap::fromImage(canvasImage));
     ui->tempCanvas->setPixmap(map);
+}
+
+//void MainWindow::paint(QPoint pos, QImage& im, QRgb color, qint32 width)
+//{
+//    int offset = width/2;
+//    for(int i = pos.x()- offset; i <= pos.x()+ offset; i++)
+//    {
+//        for(int j = pos.y() - offset; j < pos.y() + offset; j++)
+//        {
+//            im.setPixel(i,j,color);
+//        }
+//    }
+//    QPixmap map(QPixmap::fromImage(im));
+//    ui->tempCanvas->setPixmap(map);
+//}
+
+void MainWindow::UpdateButtonBorder(QString name)
+{
+    qDebug() << name;
+    QString styleSheetNotClicked = "background-color: rgb(173,173,173)";
+    ui->paintBrushButton->setStyleSheet(styleSheetNotClicked);
+    ui->broadBrushButton->setStyleSheet(styleSheetNotClicked);
+    ui->dropperButton->setStyleSheet(styleSheetNotClicked);
+    ui->eraserButton->setStyleSheet(styleSheetNotClicked);
+
+    QString stylesheetClicked = "background-color: rgb(173,173,173);border-style:solid;border-width:2px;border-color:rgb(253,120,44);";
+    if(name == "paintBrushButton")
+        ui->paintBrushButton->setStyleSheet(stylesheetClicked);
+    if(name == "broadBrushButton")
+        ui->broadBrushButton->setStyleSheet(stylesheetClicked);
+   if(name == "eraserButton")
+        ui->eraserButton->setStyleSheet(stylesheetClicked);
+   if(name == "dropperButton")
+        ui->dropperButton->setStyleSheet(stylesheetClicked);
+
+}
+
+void MainWindow::on_paintBrushButton_clicked()
+{
+    emit ToolClicked("paintBrushButton");
+}
+
+void MainWindow::on_broadBrushButton_clicked()
+{
+    emit ToolClicked("broadBrushButton");
+}
+
+void MainWindow::on_eraserButton_clicked()
+{
+    emit ToolClicked("eraserButton");
+}
+
+void MainWindow::on_dropperButton_clicked()
+{
+    emit ToolClicked("dropperButton");
 }

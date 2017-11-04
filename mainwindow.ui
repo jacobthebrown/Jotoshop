@@ -23,7 +23,7 @@
       <item row="1" column="3">
        <widget class="QTabWidget" name="tabWidget">
         <property name="currentIndex">
-         <number>1</number>
+         <number>0</number>
         </property>
         <widget class="QWidget" name="tab">
          <attribute name="title">
@@ -39,7 +39,7 @@
            </rect>
           </property>
           <property name="styleSheet">
-           <string notr="true">background-color: rgb(108, 123, 255);</string>
+           <string notr="true">background-color: rgb(178, 178, 178);</string>
           </property>
          </widget>
         </widget>
