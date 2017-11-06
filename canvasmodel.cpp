@@ -11,7 +11,7 @@ CanvasModel::CanvasModel(QWidget *parent) : QGraphicsView(parent)
     this->setScene(scene);
 
 }
-
+// ok what
 CanvasModel::~CanvasModel()
 {
     ;
