@@ -29,18 +29,16 @@
          <attribute name="title">
           <string>Tab 1</string>
          </attribute>
-         <widget class="CanvasModel" name="tempCanvas">
+         <widget class="QWidget" name="gridLayoutWidget">
           <property name="geometry">
            <rect>
-            <x>20</x>
-            <y>120</y>
-            <width>256</width>
-            <height>192</height>
+            <x>9</x>
+            <y>19</y>
+            <width>111</width>
+            <height>331</height>
            </rect>
           </property>
-          <property name="styleSheet">
-           <string notr="true">background-color: rgb(178, 178, 178);</string>
-          </property>
+          <layout class="QGridLayout" name="CanvasLayout"/>
          </widget>
         </widget>
         <widget class="QWidget" name="tab_2">
@@ -50,7 +48,7 @@
         </widget>
        </widget>
       </item>
-      <item row="1" column="4">
+      <item row="1" column="5">
        <layout class="QVBoxLayout" name="verticalLayout_8">
         <item>
          <widget class="QGraphicsView" name="graphicsView"/>
@@ -101,6 +99,13 @@
          <widget class="QPushButton" name="dropperButton">
           <property name="text">
            <string/>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QPushButton" name="addCanvasButton">
+          <property name="text">
+           <string>AddCanvas</string>
           </property>
          </widget>
         </item>
@@ -160,11 +165,6 @@
    <class>clickedColorResponse</class>
    <extends>QGraphicsView</extends>
    <header>clickedcolorresponse.h</header>
-  </customwidget>
-  <customwidget>
-   <class>CanvasModel</class>
-   <extends>QGraphicsView</extends>
-   <header>canvasmodel.h</header>
   </customwidget>
  </customwidgets>
  <resources/>

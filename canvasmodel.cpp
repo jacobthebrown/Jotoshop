@@ -1,8 +1,20 @@
 #include "canvasmodel.h"
 
-CanvasModel::CanvasModel(QWidget *parent) : QLabel(parent)
+CanvasModel::CanvasModel(QWidget *parent) : QGraphicsView(parent)
 {
+    this->canvasImage = QImage(200,200, QImage::Format_ARGB32);
 
+    this->canvasImage.fill(QColor(255,0,0));
+    this->item = new QGraphicsPixmapItem(QPixmap::fromImage(canvasImage));
+    this->scene = new QGraphicsScene(this);
+    this->scene->addItem(item);
+    this->setScene(scene);
+
+}
+
+CanvasModel::~CanvasModel()
+{
+    ;
 }
 
 void CanvasModel::mouseMoveEvent(QMouseEvent *mouse_event)
@@ -13,8 +25,6 @@ void CanvasModel::mouseMoveEvent(QMouseEvent *mouse_event)
     {
         if(mousePos.x() > 0 && mousePos.y() > 0)
             emit sendMousePosition(mousePos);
-
-
     }
 }
 
@@ -22,3 +32,5 @@ void CanvasModel::mousePressEvent(QMouseEvent *mouse_event)
 {
     mouseMoveEvent(mouse_event);
 }
+
+

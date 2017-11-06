@@ -1,23 +1,29 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
+#include <QLayout>
+#include <QWidget>
 #include <QDebug>
+#include <QLineEdit>
+#include <QLabel>
+#include <QPoint>
+#include <QColorDialog>
 
-MainWindow::MainWindow(QWidget *parent) :
-    QMainWindow(parent),
-    ui(new Ui::MainWindow)
+MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWindow)
 {
+    count = 0;
     ui->setupUi(this);
     connect(ui->primaryColorWidget, SIGNAL(sendColorSelected(QColor)),this,SLOT(recieveSelectedColor(QColor)));
     connect(this,SIGNAL(updateToolBar(QColor)),&toolBar,SLOT(SetColor(QColor)));
     SetToolBarPics();
 
-    connect(ui->tempCanvas, SIGNAL(sendMousePosition(QPoint&)),this,SLOT(paintCanvas(QPoint&)));
-
-    canvasImage = QImage(ui->tempCanvas->size().width(),ui->tempCanvas->size().height(),QImage::Format_ARGB32);
-    canvasImage.fill(QColor(0,0,0,0));
+    //Canvas conncections
+    //connect(ui->CanvasLayout, SIGNAL(sendMousePosition(QPoint&)),this,SLOT(paintCanvas(QPoint&))); // Mouse position on canvas
+    connect(this, SIGNAL(addCanvas()), &canvasWidget, SLOT(addCanvas()));
+    connect(&canvasWidget,SIGNAL(sendCurrentCanvas(CanvasModel*)), this, SLOT(showCanvas(CanvasModel*)));
 
     ui->tabWidget->removeTab(1);
 
+    //ToolBar connections
     connect(&toolBar,SIGNAL(HighlightToolIcon(QString)),this,SLOT(UpdateButtonBorder(QString)));
     connect(this,SIGNAL(ToolClicked(QString)),&toolBar,SLOT(UpdateTool(QString)));
 }
@@ -67,7 +73,7 @@ void MainWindow::paintCanvas(QPoint &pos)
 {
     //paint(pos,canvasImage,toolBar.Color(),toolBar.Width());
 
-        int offset = toolBar.Width()/2;
+    int offset = toolBar.Width()/2;
 
     try
         {
@@ -90,7 +96,7 @@ void MainWindow::paintCanvas(QPoint &pos)
 
     //canvasImage.setPixel(pos.x(),pos.y(),toolBar.Color());
     QPixmap map(QPixmap::fromImage(canvasImage));
-    ui->tempCanvas->setPixmap(map);
+    //ui->tempCanvas->setPixmap(map);
 }
 
 //void MainWindow::paint(QPoint pos, QImage& im, QRgb color, qint32 width)
@@ -136,6 +142,7 @@ void MainWindow::on_paintBrushButton_clicked()
 void MainWindow::on_broadBrushButton_clicked()
 {
     emit ToolClicked("broadBrushButton");
+
 }
 
 void MainWindow::on_eraserButton_clicked()
@@ -147,3 +154,16 @@ void MainWindow::on_dropperButton_clicked()
 {
     emit ToolClicked("dropperButton");
 }
+
+void MainWindow::showCanvas(CanvasModel *canvas)
+{
+    ui->CanvasLayout->addWidget(canvas,1,count);
+    count++;
+}
+
+void MainWindow::on_addCanvasButton_clicked()
+{
+    emit addCanvas();
+}
+
+
