@@ -2,8 +2,10 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
-#include "toolsmodel.h"
-#include "qcanvaswidget.h"
+#include "Models/toolsmodel.h"
+#include "Widgets/qwidgetcanvas.h"
+#include "Widgets/qwidgetpreview.h"
+#include "Widgets/qwidgettoolbar.h"
 
 namespace Ui {
 class MainWindow;

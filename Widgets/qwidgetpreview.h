@@ -2,7 +2,7 @@
 #define QWIDGETPREVIEW_H
 
 #include <QWidget>
-#include <Qpainter>
+#include <QPainter>
 
 class QWidgetPreview : public QWidget
 {
@@ -10,7 +10,9 @@ class QWidgetPreview : public QWidget
 public:
     explicit QWidgetPreview(QWidget *parent = nullptr);
 
+private:
     void paintEvent(QPaintEvent *event);
+
 signals:
 
 public slots:

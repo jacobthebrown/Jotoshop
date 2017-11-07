@@ -26,21 +26,21 @@ DEFINES += QT_DEPRECATED_WARNINGS
 SOURCES += \
         main.cpp \
         mainwindow.cpp \
-    toolsmodel.cpp \
-    clickedcolorresponse.cpp \
-    canvasmodel.cpp \
-    qwidgettoolbar.cpp \
-    qwidgetcanvas.cpp \
-    qwidgetpreview.cpp
+    Models/canvasmodel.cpp \
+    Models/clickedcolorresponse.cpp \
+    Models/toolsmodel.cpp \
+    Widgets/qwidgetcanvas.cpp \
+    Widgets/qwidgetpreview.cpp \
+    Widgets/qwidgettoolbar.cpp
 
 HEADERS += \
-        mainwindow.h \
-    toolsmodel.h \
-    clickedcolorresponse.h \
-    canvasmodel.h \
-    qwidgettoolbar.h \
-    qwidgetcanvas.h \
-    qwidgetpreview.h
+    mainwindow.h \
+    Models/canvasmodel.h \
+    Models/clickedcolorresponse.h \
+    Models/toolsmodel.h \
+    Widgets/qwidgetcanvas.h \
+    Widgets/qwidgetpreview.h \
+    Widgets/qwidgettoolbar.h
 
 FORMS += \
         mainwindow.ui

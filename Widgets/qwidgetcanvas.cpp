@@ -1,10 +1,7 @@
-#include "QWidgetCanvas.h"
+#include "qwidgetcanvas.h"
 
 QWidgetCanvas::QWidgetCanvas(QWidget *parent) : QWidget(parent)
 {
-
-    QHBoxLayout *layout = new QHBoxLayout();
-    setLayout(layout);
 
     CanvasPainter = new QPainter(this);
     this->CanvasImage = new QImage(QSize(512, 512), QImage::Format_ARGB32);
@@ -22,7 +19,16 @@ void QWidgetCanvas::paintEvent(QPaintEvent *event) {
         QWidget::paintEvent(event);
 
 }
+
 /*
+void QWidgetCanvas::addCanvas()
+{
+    CanvasModel* newCan = new CanvasModel;
+    currentCanvas = newCan;
+    composites.push_back(currentCanvas);
+    emit sendCurrentCanvas(composites.at(0));
+}
+
 void QWidgetCanvas::resizeEvent(QResizeEvent *event)
 {
     if (width() > CanvasImage->width() || height() > CanvasImage->height()) {

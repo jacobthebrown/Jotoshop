@@ -73,7 +73,7 @@
            </property>
            <layout class="QGridLayout" name="gridLayout">
             <item row="0" column="0">
-             <widget class="QWidgetCanvas" name="widget" native="true">
+             <widget class="QWidgetCanvas" name="Canvas" native="true">
               <property name="minimumSize">
                <size>
                 <width>600</width>
@@ -209,19 +209,19 @@
   <customwidget>
    <class>QWidgetToolbar</class>
    <extends>QWidget</extends>
-   <header>qwidgettoolbar.h</header>
+   <header>Widgets/qwidgettoolbar.h</header>
    <container>1</container>
   </customwidget>
   <customwidget>
    <class>QWidgetCanvas</class>
    <extends>QWidget</extends>
-   <header>qwidgetcanvas.h</header>
+   <header>Widgets/qwidgetcanvas.h</header>
    <container>1</container>
   </customwidget>
   <customwidget>
    <class>QWidgetPreview</class>
    <extends>QWidget</extends>
-   <header>qwidgetpreview.h</header>
+   <header>Widgets/qwidgetpreview.h</header>
    <container>1</container>
   </customwidget>
  </customwidgets>

@@ -10,12 +10,12 @@ class QWidgetToolbar : public QWidget
     Q_OBJECT
 public:
     explicit QWidgetToolbar(QWidget *parent = nullptr);
-    void createToolButton();
 
 private:
-   int toolCount;
+    void createToolButton();
+    int toolCount;
+    void paintEvent(QPaintEvent *e);
 
-   void paintEvent(QPaintEvent *e);
 signals:
 
 public slots:
