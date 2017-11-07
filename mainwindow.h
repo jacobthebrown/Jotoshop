@@ -19,26 +19,27 @@ public:
     int count;
 private:
     Ui::MainWindow *ui;
-    ToolsModel toolBar;
-    QCanvasWidget canvasWidget;
-    QImage canvasImage;
+    //ToolsModel toolBar;
+    //QCanvasWidget canvasWidget;
+    //QImage canvasImage;
 
-    void SetToolBarPics();
+    //void SetToolBarPics();
     //Temp function to test brush width
     //void paint(QPoint,QImage&,QRgb,int);
 
 public slots:
-    void recieveSelectedColor(QColor);
-    void paintCanvas(QPoint&);
+    //void recieveSelectedColor(QColor);
+    //void paintCanvas(QPoint&);
 
 signals:
-    void updateToolBar(QColor);
-    void ToolClicked(QString);
+    //void updateToolBar(QColor);
+    //void ToolClicked(QString);
 
     //Canvas signals
-    void addCanvas();
+    //void addCanvas();
 
 private slots:
+    /*
     void UpdateButtonBorder(QString);
     void on_paintBrushButton_clicked();
     void on_broadBrushButton_clicked();
@@ -48,6 +49,7 @@ private slots:
     //Canvas
     void showCanvas(CanvasModel*);
     void on_addCanvasButton_clicked();
+    */
 };
 
 #endif // MAINWINDOW_H

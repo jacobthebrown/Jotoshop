@@ -20,10 +20,10 @@ class QWidgetCanvas : public QWidget
 {
     Q_OBJECT
 public:
-    explicit QWidgetCanvas(QWidget *parent = nullptr);
+    QWidgetCanvas(QWidget *parent = nullptr);
 
     void paintEvent(QPaintEvent *event);
-    void resizeEvent(QResizeEvent *event);
+    //void resizeEvent(QResizeEvent *event);
 
     QImage* CanvasImage;
     QPainter* CanvasPainter;

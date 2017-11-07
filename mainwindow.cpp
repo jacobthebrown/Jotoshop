@@ -8,10 +8,8 @@
 #include <QPoint>
 #include <QColorDialog>
 
-MainWindow::MainWindow(QWidget *parent) :
-    QMainWindow(parent),
-    ui(new Ui::MainWindow)
-{
+MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWindow) {
+
     count = 0;
     ui->setupUi(this);
     //connect(ui->primaryColorWidget, SIGNAL(sendColorSelected(QColor)),this,SLOT(recieveSelectedColor(QColor)));
@@ -26,8 +24,8 @@ MainWindow::MainWindow(QWidget *parent) :
     //ui->tabWidget->removeTab(1);
 
     //ToolBar connections
-    connect(&toolBar,SIGNAL(HighlightToolIcon(QString)),this,SLOT(UpdateButtonBorder(QString)));
-    connect(this,SIGNAL(ToolClicked(QString)),&toolBar,SLOT(UpdateTool(QString)));
+    //connect(&toolBar,SIGNAL(HighlightToolIcon(QString)),this,SLOT(UpdateButtonBorder(QString)));
+    //connect(this,SIGNAL(ToolClicked(QString)),&toolBar,SLOT(UpdateTool(QString)));
 }
 
 MainWindow::~MainWindow()
@@ -35,6 +33,8 @@ MainWindow::~MainWindow()
 
     delete ui;
 }
+
+/*
 
 void MainWindow::SetToolBarPics()
 {
@@ -60,6 +60,8 @@ void MainWindow::SetToolBarPics()
     //ui->dropperButton->setIconSize(size);
 }
 
+
+
 void MainWindow::recieveSelectedColor(QColor receivedColor)
 {
     emit updateToolBar(receivedColor);
@@ -78,6 +80,8 @@ void MainWindow::paintCanvas(QPoint &pos)
     //QPixmap map(QPixmap::fromImage(canvasImage));
     //ui->tempCanvas->setPixmap(map);
 }
+
+
 
 void MainWindow::on_broadBrushButton_clicked()
 {
@@ -106,4 +110,4 @@ void MainWindow::on_addCanvasButton_clicked()
     emit addCanvas();
 }
 
-
+*/

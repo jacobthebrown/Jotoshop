@@ -22,7 +22,7 @@ void QWidgetCanvas::paintEvent(QPaintEvent *event) {
         QWidget::paintEvent(event);
 
 }
-
+/*
 void QWidgetCanvas::resizeEvent(QResizeEvent *event)
 {
     if (width() > CanvasImage->width() || height() > CanvasImage->height()) {
@@ -31,4 +31,4 @@ void QWidgetCanvas::resizeEvent(QResizeEvent *event)
     }
     QWidget::resizeEvent(event);
 }
-
+*/

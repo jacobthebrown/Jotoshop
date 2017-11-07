@@ -12,6 +12,7 @@ class QCanvasWidget: public QWidget
     Q_OBJECT
 public:
     QCanvasWidget();
+    virtual ~QCanvasWidget();
 private:
     CanvasModel* currentCanvas;
     QVector<CanvasModel*> composites;

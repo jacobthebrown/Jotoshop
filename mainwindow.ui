@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>516</width>
-    <height>396</height>
+    <width>734</width>
+    <height>544</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -65,7 +65,7 @@
           <widget class="QWidget" name="scrollAreaWidgetContents">
            <property name="geometry">
             <rect>
-             <x>-144</x>
+             <x>0</x>
              <y>0</y>
              <width>618</width>
              <height>618</height>
@@ -99,13 +99,6 @@
             </item>
            </layout>
           </widget>
-         </widget>
-        </item>
-        <item>
-         <widget class="QPushButton" name="addCanvasButton">
-          <property name="text">
-           <string>AddCanvas</string>
-          </property>
          </widget>
         </item>
        </layout>
@@ -154,7 +147,7 @@
         <rect>
          <x>0</x>
          <y>0</y>
-         <width>496</width>
+         <width>714</width>
          <height>126</height>
         </rect>
        </property>
@@ -190,7 +183,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>516</width>
+     <width>734</width>
      <height>21</height>
     </rect>
    </property>
