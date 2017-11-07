@@ -27,11 +27,19 @@ QImage* QWidgetCanvas::getCurrentCanvasImage()
     return this->CurrentCanvas->GetImage();
 }
 
+QVector<QImage> QWidgetCanvas::getAllCompositeImages()
+{
+    QVector<QImage> canvasImages;
+    foreach (Canvas* c, this->composites) {
+        canvasImages.push_back(*(c->GetImage()));
+    }
+    return canvasImages;
+}
+
 
 void QWidgetCanvas::addCanvas()
 {
     this->CurrentCanvas = new Canvas;
-    //this->CurrentCanvas->GetImage()->fill(QColor(100,100,100)); // for test
     this->composites.push_back(CurrentCanvas);
 }
 
@@ -68,7 +76,7 @@ void QWidgetCanvas::paintEvent(QPaintEvent *event) {
 //        painter.drawRect(0,0,this->width() - 1, this->height() - 1);
 
 
-        //QWidget::paintEvent(event);
+        QWidget::paintEvent(event);
 
 
 

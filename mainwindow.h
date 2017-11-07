@@ -22,8 +22,8 @@ public:
 private:
     Ui::MainWindow *ui;
     QLabel *label;
-    QVector<QLabel> canvasLabels;
 
+    void previewSprite(QVector<QImage> imageVector);
     void addToFrameBar();
 
 

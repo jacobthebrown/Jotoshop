@@ -131,6 +131,13 @@
          </widget>
         </item>
         <item>
+         <widget class="QSlider" name="fpsSpeedSlider">
+          <property name="orientation">
+           <enum>Qt::Horizontal</enum>
+          </property>
+         </widget>
+        </item>
+        <item>
          <widget class="QPushButton" name="addCanvasButton">
           <property name="text">
            <string>Add Canvas</string>

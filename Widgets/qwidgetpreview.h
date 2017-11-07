@@ -4,13 +4,17 @@
 #include <QWidget>
 #include <QPainter>
 
+
 class QWidgetPreview : public QWidget
 {
     Q_OBJECT
 public:
     explicit QWidgetPreview(QWidget *parent = nullptr);
 
+    void playImages(QVector<QImage> images);
+
 private:
+    int fps;
     void paintEvent(QPaintEvent *event);
 
 signals:

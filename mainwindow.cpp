@@ -21,10 +21,17 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
+void MainWindow::previewSprite(QVector<QImage> imageVector)
+{
+    ui->Preview->playImages(imageVector);
+}
+
+// Add label version of composite to frame bar
 void MainWindow::addToFrameBar()
 {
     label = new QLabel;
-    QPixmap tempPix = tempPix.fromImage(*ui->Canvas->getCurrentCanvasImage());
+    QImage tempImage = ui->Canvas->getCurrentCanvasImage()->scaled(80,80,Qt::KeepAspectRatio);
+    QPixmap tempPix = tempPix.fromImage(tempImage);
     label->setPixmap(tempPix);
     label->setFixedSize(80,80);
     ui->scrollArea_2Layout->addWidget(label);
@@ -107,6 +114,7 @@ void MainWindow::on_addCanvasButton_clicked()
     ui->Canvas->update();
 
 }
+
 
 
 

@@ -16,6 +16,7 @@ public:
 
     Canvas* getCurrentCanvas();
     QImage* getCurrentCanvasImage();
+    QVector<QImage> getAllCompositeImages();
     void addCanvas();
     void drawLineTo(const QPoint &endPoint);
 
