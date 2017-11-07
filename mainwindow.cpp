@@ -7,31 +7,27 @@
 #include <QLabel>
 #include <QPoint>
 #include <QColorDialog>
+#include <QPixmap>
 
 MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWindow) {
 
-    count = 0;
     ui->setupUi(this);
-    //connect(ui->primaryColorWidget, SIGNAL(sendColorSelected(QColor)),this,SLOT(recieveSelectedColor(QColor)));
-    //connect(this,SIGNAL(updateToolBar(QColor)),&toolBar,SLOT(SetColor(QColor)));
-    //SetToolBarPics();
 
-    //connect(ui->tempCanvas, SIGNAL(sendMousePosition(QPoint&)),this,SLOT(paintCanvas(QPoint&)));
-
-    //canvasImage = QImage(ui->tempCanvas->size().width(),ui->tempCanvas->size().height(),QImage::Format_ARGB32);
-    //canvasImage.fill(QColor(0,0,0,0));
-
-    //ui->tabWidget->removeTab(1);
-
-    //ToolBar connections
-    //connect(&toolBar,SIGNAL(HighlightToolIcon(QString)),this,SLOT(UpdateButtonBorder(QString)));
-    //connect(this,SIGNAL(ToolClicked(QString)),&toolBar,SLOT(UpdateTool(QString)));
 }
 
 MainWindow::~MainWindow()
 {
 
     delete ui;
+}
+
+void MainWindow::addToFrameBar()
+{
+    label = new QLabel;
+    QPixmap tempPix = tempPix.fromImage(*ui->Canvas->getCurrentCanvasImage());
+    label->setPixmap(tempPix);
+    label->setFixedSize(80,80);
+    ui->scrollArea_2Layout->addWidget(label);
 }
 
 /*
@@ -98,16 +94,20 @@ void MainWindow::on_dropperButton_clicked()
 {
     emit ToolClicked("dropperButton");
 }
+*/
 
-void MainWindow::showCanvas(CanvasModel *canvas)
-{
-    ui->CanvasLayout->addWidget(canvas,1,count);
-    count++;
-}
 
 void MainWindow::on_addCanvasButton_clicked()
 {
-    emit addCanvas();
+    // Add current canvas to frame bar
+    addToFrameBar();
+
+    //Add new canvas and update display
+    ui->Canvas->addCanvas();
+    ui->Canvas->update();
+
 }
 
-*/
+
+
+

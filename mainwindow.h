@@ -18,11 +18,16 @@ class MainWindow : public QMainWindow
 public:
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
-    int count;
+
 private:
     Ui::MainWindow *ui;
+    QLabel *label;
+    QVector<QLabel> canvasLabels;
+
+    void addToFrameBar();
+
+
     //ToolsModel toolBar;
-    //QCanvasWidget canvasWidget;
     //QImage canvasImage;
 
     //void SetToolBarPics();
@@ -47,11 +52,11 @@ private slots:
     void on_broadBrushButton_clicked();
     void on_eraserButton_clicked();
     void on_dropperButton_clicked();
-
+*/
     //Canvas
-    void showCanvas(CanvasModel*);
+
     void on_addCanvasButton_clicked();
-    */
+
 };
 
 #endif // MAINWINDOW_H

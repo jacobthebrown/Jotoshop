@@ -11,7 +11,19 @@ class QWidgetCanvas : public QWidget
     Q_OBJECT
 public:
     explicit QWidgetCanvas(QWidget *parent = nullptr);
+
+    QPoint lastPoint;
+
     Canvas* getCurrentCanvas();
+    QImage* getCurrentCanvasImage();
+    void addCanvas();
+    void drawLineTo(const QPoint &endPoint);
+
+
+protected:
+    void mouseMoveEvent(QMouseEvent *mouse_event);
+    void mousePressEvent(QMouseEvent *mouse_event);
+
 
 private:
     void paintEvent(QPaintEvent *event);
@@ -21,15 +33,10 @@ private:
     //QImage* CanvasImage;
 
 private:
-    //CanvasModel* currentCanvas;
-    //QVector<CanvasModel*> composites;
+    QVector<Canvas*> composites;
     Canvas* CurrentCanvas;
 
-public slots:
-    //void addCanvas();
 
-signals:
-    //void sendCurrentCanvas(CanvasModel*);
 };
 
 #endif // QWIDGETCANVAS_H
