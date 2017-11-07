@@ -17,7 +17,7 @@ void QWidgetToolbar::createToolButton() {
     pb->setMaximumSize(32,32);
     pb->setMinimumSize(32,32);
     pb->setText(QString(""));
-    pb->move(32*(toolCount % 2), 32*(toolCount / 2));
+    pb->move(16 + 32*(toolCount % 2), 16 + 32*(toolCount / 2));
     pb->show();
 
     (this->toolCount)++;
@@ -28,7 +28,8 @@ void QWidgetToolbar::paintEvent(QPaintEvent *e)
 {
     QPainter painter;
     QPainterPath path;
-    path.addRoundRect(0, 0, 64, 32*(toolCount / 2), 0);
+    path.addRoundRect(8, 8, 80, 16 + 32*(toolCount / 2), 0);
+    path.addRoundRect(0,0,this->width()-1,this->height()-1,0);
 
     QPen pen(Qt::lightGray, 10);
     painter.setPen(pen);

@@ -29,14 +29,18 @@ SOURCES += \
     toolsmodel.cpp \
     clickedcolorresponse.cpp \
     canvasmodel.cpp \
-    qwidgettoolbar.cpp
+    qwidgettoolbar.cpp \
+    qwidgetcanvas.cpp \
+    qwidgetpreview.cpp
 
 HEADERS += \
         mainwindow.h \
     toolsmodel.h \
     clickedcolorresponse.h \
     canvasmodel.h \
-    qwidgettoolbar.h
+    qwidgettoolbar.h \
+    qwidgetcanvas.h \
+    qwidgetpreview.h
 
 FORMS += \
         mainwindow.ui
