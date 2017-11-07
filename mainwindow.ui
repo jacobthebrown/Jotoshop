@@ -101,6 +101,13 @@
           </widget>
          </widget>
         </item>
+        <item>
+         <widget class="QPushButton" name="addCanvasButton">
+          <property name="text">
+           <string>AddCanvas</string>
+          </property>
+         </widget>
+        </item>
        </layout>
       </item>
       <item>

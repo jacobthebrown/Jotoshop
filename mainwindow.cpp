@@ -1,11 +1,18 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
+#include <QLayout>
+#include <QWidget>
 #include <QDebug>
+#include <QLineEdit>
+#include <QLabel>
+#include <QPoint>
+#include <QColorDialog>
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow)
 {
+    count = 0;
     ui->setupUi(this);
     //connect(ui->primaryColorWidget, SIGNAL(sendColorSelected(QColor)),this,SLOT(recieveSelectedColor(QColor)));
     //connect(this,SIGNAL(updateToolBar(QColor)),&toolBar,SLOT(SetColor(QColor)));
@@ -18,7 +25,9 @@ MainWindow::MainWindow(QWidget *parent) :
 
     //ui->tabWidget->removeTab(1);
 
-
+    //ToolBar connections
+    connect(&toolBar,SIGNAL(HighlightToolIcon(QString)),this,SLOT(UpdateButtonBorder(QString)));
+    connect(this,SIGNAL(ToolClicked(QString)),&toolBar,SLOT(UpdateTool(QString)));
 }
 
 MainWindow::~MainWindow()
@@ -69,3 +78,32 @@ void MainWindow::paintCanvas(QPoint &pos)
     //QPixmap map(QPixmap::fromImage(canvasImage));
     //ui->tempCanvas->setPixmap(map);
 }
+
+void MainWindow::on_broadBrushButton_clicked()
+{
+    emit ToolClicked("broadBrushButton");
+
+}
+
+void MainWindow::on_eraserButton_clicked()
+{
+    emit ToolClicked("eraserButton");
+}
+
+void MainWindow::on_dropperButton_clicked()
+{
+    emit ToolClicked("dropperButton");
+}
+
+void MainWindow::showCanvas(CanvasModel *canvas)
+{
+    ui->CanvasLayout->addWidget(canvas,1,count);
+    count++;
+}
+
+void MainWindow::on_addCanvasButton_clicked()
+{
+    emit addCanvas();
+}
+
+
