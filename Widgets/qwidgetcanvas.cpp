@@ -3,22 +3,39 @@
 QWidgetCanvas::QWidgetCanvas(QWidget *parent) : QWidget(parent)
 {
 
-    CanvasPainter = new QPainter(this);
-    this->CanvasImage = new QImage(QSize(512, 512), QImage::Format_ARGB32);
+    //CanvasPainter = new QPainter(this);
+    //this->CanvasImage = new QImage(QSize(512, 512), QImage::Format_ARGB32);
+    this->CurrentCanvas = new Canvas();
 
+    QImage* imageTest = this->getCurrentCanvas()->GetImage();
+
+    for (int i = 0; i < 100; i++)
+        for (int j = 0; j < 100; j++)
+            imageTest->setPixel(i,j, QColor(i,i,i,255).rgba());
+}
+
+Canvas* QWidgetCanvas::getCurrentCanvas()
+{
+    return this->CurrentCanvas;
 }
 
 void QWidgetCanvas::paintEvent(QPaintEvent *event) {
 
         QPainter painter(this);
-        int ImageWidth = (this->width()/2) - (CanvasImage->width()/2);
-        int ImageHeight = (this->height()/2) - (CanvasImage->height()/2);
-        painter.drawImage(ImageWidth, ImageHeight, *CanvasImage);
+
+        QImage* canvasImage = getCurrentCanvas()->GetImage();
+
+        int ImageWidth = (this->width()/2) - (canvasImage->width()/2);
+        int ImageHeight = (this->height()/2) - (canvasImage->height()/2);
+        painter.drawImage(ImageWidth, ImageHeight, *canvasImage);
         painter.drawRect(0,0,this->width() - 1, this->height() - 1);
 
         QWidget::paintEvent(event);
 
 }
+
+
+
 
 /*
 void QWidgetCanvas::addCanvas()

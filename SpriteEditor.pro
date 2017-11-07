@@ -26,7 +26,7 @@ DEFINES += QT_DEPRECATED_WARNINGS
 SOURCES += \
         main.cpp \
         mainwindow.cpp \
-    Models/canvasmodel.cpp \
+    Models/canvas.cpp \
     Models/clickedcolorresponse.cpp \
     Models/toolsmodel.cpp \
     Widgets/qwidgetcanvas.cpp \
@@ -35,7 +35,7 @@ SOURCES += \
 
 HEADERS += \
     mainwindow.h \
-    Models/canvasmodel.h \
+    Models/canvas.h \
     Models/clickedcolorresponse.h \
     Models/toolsmodel.h \
     Widgets/qwidgetcanvas.h \
