@@ -33,7 +33,8 @@ SOURCES += \
     Widgets/qwidgetpreview.cpp \
     Widgets/qwidgettoolbar.cpp \
     Models/toolpaint.cpp \
-    Widgets/qwidgetslidercombo.cpp
+    Widgets/qwidgetslidercombo.cpp \
+    Widgets/qwidgetanimationstrip.cpp
 
 HEADERS += \
     mainwindow.h \
@@ -44,7 +45,8 @@ HEADERS += \
     Widgets/qwidgetpreview.h \
     Widgets/qwidgettoolbar.h \
     Models/toolpaint.h \
-    Widgets/qwidgetslidercombo.h
+    Widgets/qwidgetslidercombo.h \
+    Widgets/qwidgetanimationstrip.h
 
 FORMS += \
         mainwindow.ui

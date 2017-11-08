@@ -71,10 +71,10 @@
           <widget class="QWidget" name="scrollAreaWidgetContents">
            <property name="geometry">
             <rect>
-             <x>0</x>
+             <x>-166</x>
              <y>0</y>
-             <width>624</width>
-             <height>624</height>
+             <width>618</width>
+             <height>618</height>
             </rect>
            </property>
            <layout class="QGridLayout" name="gridLayout">
@@ -190,56 +190,13 @@
      </layout>
     </item>
     <item>
-     <widget class="QScrollArea" name="scrollArea_2">
-      <property name="enabled">
-       <bool>true</bool>
-      </property>
+     <widget class="QWidgetAnimationStrip" name="widget" native="true">
       <property name="minimumSize">
        <size>
-        <width>4</width>
+        <width>1</width>
         <height>128</height>
        </size>
       </property>
-      <property name="maximumSize">
-       <size>
-        <width>16777215</width>
-        <height>128</height>
-       </size>
-      </property>
-      <property name="widgetResizable">
-       <bool>true</bool>
-      </property>
-      <widget class="QWidget" name="scrollAreaWidgetContents_2">
-       <property name="enabled">
-        <bool>true</bool>
-       </property>
-       <property name="geometry">
-        <rect>
-         <x>0</x>
-         <y>0</y>
-         <width>1008</width>
-         <height>126</height>
-        </rect>
-       </property>
-       <widget class="QWidget" name="horizontalLayoutWidget">
-        <property name="geometry">
-         <rect>
-          <x>10</x>
-          <y>10</y>
-          <width>991</width>
-          <height>111</height>
-         </rect>
-        </property>
-        <layout class="QHBoxLayout" name="scrollArea_2Layout">
-         <property name="spacing">
-          <number>-1</number>
-         </property>
-         <property name="sizeConstraint">
-          <enum>QLayout::SetDefaultConstraint</enum>
-         </property>
-        </layout>
-       </widget>
-      </widget>
      </widget>
     </item>
    </layout>
@@ -250,7 +207,7 @@
      <x>0</x>
      <y>0</y>
      <width>1034</width>
-     <height>22</height>
+     <height>21</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuFile">
@@ -288,6 +245,12 @@
    <class>QWidgetPreview</class>
    <extends>QWidget</extends>
    <header>Widgets/qwidgetpreview.h</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>QWidgetAnimationStrip</class>
+   <extends>QWidget</extends>
+   <header>widgets/qwidgetanimationstrip.h</header>
    <container>1</container>
   </customwidget>
  </customwidgets>

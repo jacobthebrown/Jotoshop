@@ -34,7 +34,7 @@ void MainWindow::addToFrameBar()
     QPixmap tempPix = tempPix.fromImage(tempImage);
     label->setPixmap(tempPix);
     label->setFixedSize(80,80);
-    ui->scrollArea_2Layout->addWidget(label);
+    //ui->scrollArea_2Layout->addWidget(label);
 }
 
 /*
