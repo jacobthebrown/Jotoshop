@@ -5,7 +5,9 @@
  */
 QWidgetPreview::QWidgetPreview(QWidget *parent) : QWidget(parent)
 {
-    //timer.start(60, this);
+    timer.start(2000, this);
+    imagesPos = 0;
+    m_image = nullptr;
 }
 
 void QWidgetPreview::setImage(QImage *image)
@@ -20,9 +22,13 @@ void QWidgetPreview::setImage(QImage *image)
  */
 void QWidgetPreview::playImages(QVector<QImage *> im)
 {
-    foreach (QImage* i, im) {
-        setImage(i);
-    };
+    images = im;
+}
+
+void QWidgetPreview::start(int fps)
+{
+    //fps = fps;
+    timer.start(fps, this);
 }
 
 /*
@@ -30,9 +36,10 @@ void QWidgetPreview::playImages(QVector<QImage *> im)
  */
 void QWidgetPreview::paintEvent(QPaintEvent *event) {
 
-    if (!m_image) { return; }
+
     QPainter painter(this);
-    painter.drawImage(rect(), *m_image, m_image->rect());
+    if(m_image != nullptr)
+        painter.drawImage(rect(), *m_image, m_image->rect()); // CRASHES HERE
 
     //painter.drawRect(0,0,this->width() - 1, this->height() - 1);
     QWidget::paintEvent(event);
@@ -40,16 +47,19 @@ void QWidgetPreview::paintEvent(QPaintEvent *event) {
 
 }
 
-//void QWidgetPreview::timerEvent(QTimerEvent *event)
-//{
-//    if (event->timerId() == timer.timerId())
-//    {
-//        qDebug() << "time";
-//        //++imagesPos;
-//        update();
-//    }
-//    else
-//        QWidget::timerEvent(event);
-//}
+void QWidgetPreview::timerEvent(QTimerEvent *event)
+{
+    if (event->timerId() == timer.timerId() && images.count() > 0)
+    {
+        qDebug() << "time";
+        imagesPos++;
+        if(imagesPos >= images.count())
+            imagesPos = 0;
+        setImage(images.at(imagesPos));
+        update();
+    }
+    else
+        QWidget::timerEvent(event);
+}
 
 

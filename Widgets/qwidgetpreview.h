@@ -3,8 +3,8 @@
 
 #include <QWidget>
 #include <QPainter>
-//#include <QBasicTimer>
-//#include <QTimerEvent>
+#include <QBasicTimer>
+#include <QTimerEvent>
 
 
 class QWidgetPreview : public QWidget
@@ -16,12 +16,15 @@ public:
 
     void playImages(QVector<QImage*> im);
 
+    void start(int fps);
+
 private:
     int fps;
-    //QBasicTimer timer;
-    QVector<QImage> images;
+    int imagesPos;
+    QBasicTimer timer;
+    QVector<QImage*> images;
     void paintEvent(QPaintEvent *event);
-    //void timerEvent(QTimerEvent *event);
+    void timerEvent(QTimerEvent *event);
 
     QImage* m_image;
 

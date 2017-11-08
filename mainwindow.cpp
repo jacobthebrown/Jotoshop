@@ -120,5 +120,5 @@ void MainWindow::on_addCanvasButton_clicked()
 
 void MainWindow::on_previewButton_clicked()
 {
-
+    ui->Preview->playImages(ui->Canvas->getAllCompositeImages());
 }
