@@ -5,7 +5,7 @@
  */
 QWidgetPreview::QWidgetPreview(QWidget *parent) : QWidget(parent)
 {
-    timer.start(2000, this);
+    //timer.start(2000, this);
     imagesPos = 0;
     m_image = nullptr;
 }
@@ -20,14 +20,14 @@ void QWidgetPreview::setImage(QImage *image)
 /*
  *  TODO: Insert documentation.
  */
-void QWidgetPreview::playImages(QVector<QImage *> im)
+void QWidgetPreview::setImages(QVector<QImage *> im)
 {
     images = im;
 }
 
-void QWidgetPreview::start(int fps)
+void QWidgetPreview::setSpeed(int speed)
 {
-    //fps = fps;
+    fps = 1000/speed;
     timer.start(fps, this);
 }
 

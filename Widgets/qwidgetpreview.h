@@ -14,9 +14,9 @@ public:
     explicit QWidgetPreview(QWidget *parent = nullptr);
     void setImage(QImage* image);
 
-    void playImages(QVector<QImage*> im);
+    void setImages(QVector<QImage*> im);
 
-    void start(int fps);
+    void setSpeed(int speed);
 
 private:
     int fps;

@@ -58,6 +58,7 @@ private slots:
     void on_addCanvasButton_clicked();
 
     void on_previewButton_clicked();
+    void on_fpsSpeedSlider_valueChanged(int value);
 };
 
 #endif // MAINWINDOW_H

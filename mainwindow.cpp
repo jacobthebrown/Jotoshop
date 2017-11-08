@@ -23,7 +23,7 @@ MainWindow::~MainWindow()
 
 void MainWindow::previewSprite(QVector<QImage*> imageVector)
 {
-    ui->Preview->playImages(imageVector);
+    ui->Preview->setImages(imageVector);
 }
 
 // Add label version of composite to frame bar
@@ -120,5 +120,11 @@ void MainWindow::on_addCanvasButton_clicked()
 
 void MainWindow::on_previewButton_clicked()
 {
-    ui->Preview->playImages(ui->Canvas->getAllCompositeImages());
+    ui->Preview->setImages(ui->Canvas->getAllCompositeImages());
+}
+
+void MainWindow::on_fpsSpeedSlider_valueChanged(int value)
+{
+    ui->sliderValueLabel->setText(QString::number(value));
+    ui->Preview->setSpeed(value);
 }
