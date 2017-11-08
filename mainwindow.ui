@@ -71,10 +71,10 @@
           <widget class="QWidget" name="scrollAreaWidgetContents">
            <property name="geometry">
             <rect>
-             <x>-166</x>
+             <x>0</x>
              <y>0</y>
-             <width>618</width>
-             <height>618</height>
+             <width>624</width>
+             <height>624</height>
             </rect>
            </property>
            <layout class="QGridLayout" name="gridLayout">
@@ -141,8 +141,14 @@
         </item>
         <item>
          <widget class="QLabel" name="sliderValueLabel">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
           <property name="text">
-           <string/>
+           <string>FPS: 15</string>
           </property>
          </widget>
         </item>
@@ -172,13 +178,6 @@
          </widget>
         </item>
         <item>
-         <widget class="QPushButton" name="previewButton">
-          <property name="text">
-           <string>Preview Sprite</string>
-          </property>
-         </widget>
-        </item>
-        <item>
          <widget class="QPushButton" name="addCanvasButton">
           <property name="text">
            <string>Add Canvas</string>
@@ -190,7 +189,7 @@
      </layout>
     </item>
     <item>
-     <widget class="QWidgetAnimationStrip" name="widget" native="true">
+     <widget class="QWidgetAnimationStrip" name="AnimationStrip" native="true">
       <property name="minimumSize">
        <size>
         <width>1</width>
@@ -207,7 +206,7 @@
      <x>0</x>
      <y>0</y>
      <width>1034</width>
-     <height>21</height>
+     <height>22</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuFile">

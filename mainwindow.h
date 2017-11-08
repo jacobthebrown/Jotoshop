@@ -21,10 +21,9 @@ public:
 
 private:
     Ui::MainWindow *ui;
-    QLabel *label;
+    //QLabel *label;
 
-    void previewSprite(QVector<QImage *> imageVector);
-    void addToFrameBar();
+    QLabel *getCanvasAsLabel();
 
 
     //ToolsModel toolBar;
@@ -42,8 +41,8 @@ signals:
     //void updateToolBar(QColor);
     //void ToolClicked(QString);
 
-    //Canvas signals
-    //void addCanvas();
+    void addCanvas();
+    void addToStrip(QImage*);
 
 private slots:
     /*
@@ -54,10 +53,10 @@ private slots:
     void on_dropperButton_clicked();
 */
     //Canvas
+    void sendPreviewImages(QVector<QImage*> images);
 
+    //
     void on_addCanvasButton_clicked();
-
-    void on_previewButton_clicked();
     void on_fpsSpeedSlider_valueChanged(int value);
 };
 

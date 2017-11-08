@@ -17,6 +17,7 @@ public:
 signals:
 
 public slots:
+    void addQImage(QImage*image);
 };
 
 #endif // QWIDGETANIMATIONSTRIP_H

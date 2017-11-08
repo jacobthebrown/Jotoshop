@@ -13,6 +13,13 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
 
     ui->setupUi(this);
 
+    // Connects canvas widget images with preview widget images
+    connect(this, SIGNAL(addCanvas()), ui->Canvas, SLOT(addCanvas()));
+    connect(ui->Canvas, SIGNAL(sendImages(QVector<QImage*>)), this, SLOT(sendPreviewImages(QVector<QImage*>)));
+
+    // Connects canvas widget images with animation strip
+    connect(this, SIGNAL(addToStrip(QImage*)), ui->AnimationStrip, SLOT(addQImage(QImage*)));
+
 }
 
 MainWindow::~MainWindow()
@@ -21,20 +28,25 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
-void MainWindow::previewSprite(QVector<QImage*> imageVector)
-{
-    ui->Preview->setImages(imageVector);
-}
 
-// Add label version of composite to frame bar
-void MainWindow::addToFrameBar()
+
+//
+QLabel* MainWindow::getCanvasAsLabel()
 {
-    label = new QLabel;
+    QLabel* label = new QLabel;
     QImage tempImage = ui->Canvas->getActiveCanvasImage()->scaled(80,80,Qt::KeepAspectRatio);
     QPixmap tempPix = tempPix.fromImage(tempImage);
     label->setPixmap(tempPix);
     label->setFixedSize(80,80);
-    //ui->scrollArea_2Layout->addWidget(label);
+    return label;
+}
+
+/*
+* Sends qimages from canvas widget to preview widget
+*/
+void MainWindow::sendPreviewImages(QVector<QImage*> images)
+{
+    ui->Preview->setImages(images);
 }
 
 /*
@@ -108,23 +120,18 @@ void MainWindow::on_dropperButton_clicked()
  */
 void MainWindow::on_addCanvasButton_clicked()
 {
-    // Add current canvas to frame bar
-    addToFrameBar();
+    // Add current canvas to animation strip
+    ui->AnimationStrip->layout()->addWidget(getCanvasAsLabel());
 
     //Add new canvas and update display
-    ui->Canvas->addCanvas();
+    addCanvas();
     ui->Canvas->update();
 
 }
 
 
-void MainWindow::on_previewButton_clicked()
-{
-    ui->Preview->setImages(ui->Canvas->getAllCompositeImages());
-}
-
 void MainWindow::on_fpsSpeedSlider_valueChanged(int value)
 {
-    ui->sliderValueLabel->setText(QString::number(value));
+    ui->sliderValueLabel->setText("FPS: " + QString::number(value));
     ui->Preview->setSpeed(value);
 }

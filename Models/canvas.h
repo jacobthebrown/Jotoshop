@@ -13,6 +13,7 @@ class Canvas
 
 public:
     Canvas();
+    Canvas(const Canvas& other);
     ~Canvas();
     QImage* GetImage();
 

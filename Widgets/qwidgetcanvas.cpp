@@ -38,12 +38,15 @@ QVector<QImage*> QWidgetCanvas::getAllCompositeImages()
 }
 
 /*
- *  Adds a canvas to the composite.
+ *  Adds a new copied canvas to the composite.
  */
 void QWidgetCanvas::addCanvas()
 {
-    this->ActiveCanvas = new Canvas;
-    this->composites.push_back(ActiveCanvas);
+
+    this->ActiveCanvas = new Canvas(*ActiveCanvas);
+    this->composites.push_back(this->ActiveCanvas);
+
+    emit sendImages(this->getAllCompositeImages());
 }
 
 /*
@@ -76,6 +79,7 @@ void QWidgetCanvas::paintEvent(QPaintEvent *event) {
 
         QWidget::paintEvent(event);
 }
+
 
 /*
  *  TODO: Comment, refactor to make generic execution.

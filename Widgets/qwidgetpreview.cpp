@@ -1,30 +1,39 @@
 #include "qwidgetpreview.h"
 #include <QDebug>
 /*
- *  TODO: Insert documentation.
+ *  Prview widget allows for the animation of qimages.
+ *  The current displayed image is initialized to nullptr
+ *  and the image position counter is initialzied to 0
+ *  and starts timer at 15 fps.
  */
 QWidgetPreview::QWidgetPreview(QWidget *parent) : QWidget(parent)
 {
-    //timer.start(2000, this);
+    timer.start(1000/15,this);
     imagesPos = 0;
-    m_image = nullptr;
+    currentImage = nullptr;
 }
 
-void QWidgetPreview::setImage(QImage *image)
+/*
+ *  Sets a new image to be displayed and updates the display.
+ */
+void QWidgetPreview::setCurrentImage(QImage *image)
 {
-    m_image = image;
+    currentImage = image;
     repaint();
 
 }
 
 /*
- *  TODO: Insert documentation.
+ *  Method for setting current list of images.
  */
 void QWidgetPreview::setImages(QVector<QImage *> im)
 {
     images = im;
 }
 
+/*
+ *  Sets the FPS play speed of image display.
+ */
 void QWidgetPreview::setSpeed(int speed)
 {
     fps = 1000/speed;
@@ -32,30 +41,33 @@ void QWidgetPreview::setSpeed(int speed)
 }
 
 /*
- *  TODO: Insert documentation.
+ *  Event for displaying preview widget and current image if exists.
  */
 void QWidgetPreview::paintEvent(QPaintEvent *event) {
 
 
     QPainter painter(this);
-    if(m_image != nullptr)
-        painter.drawImage(rect(), *m_image, m_image->rect()); // CRASHES HERE
 
-    //painter.drawRect(0,0,this->width() - 1, this->height() - 1);
+    if(currentImage != nullptr)
+        painter.drawImage(rect(), *currentImage, currentImage->rect());
+
     QWidget::paintEvent(event);
 
 
 }
 
+
+/*
+ *  Event for updating display image for every given time interval.
+ */
 void QWidgetPreview::timerEvent(QTimerEvent *event)
 {
     if (event->timerId() == timer.timerId() && images.count() > 0)
     {
-        qDebug() << "time";
         imagesPos++;
         if(imagesPos >= images.count())
             imagesPos = 0;
-        setImage(images.at(imagesPos));
+        setCurrentImage(images.at(imagesPos));
         update();
     }
     else
