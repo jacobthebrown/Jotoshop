@@ -4,6 +4,12 @@
 #include <QWidget>
 #include <QPushButton>
 #include <QPainter>
+#include <QSlider>
+#include <QLabel>
+#include <QButtonGroup>
+#include "QWidgetSliderCombo.h"
+#include <QList>
+#include <vector>
 
 class QWidgetToolbar : public QWidget
 {
@@ -12,10 +18,12 @@ public:
     explicit QWidgetToolbar(QWidget *parent = nullptr);
 
 private:
-    void createToolButton();
-    int toolCount;
+    QPushButton* createToolButton();
     void paintEvent(QPaintEvent *e);
+    int upPadding, rightPadding, bottomPadding, leftPadding;
+    QButtonGroup* ToolButtons;
 
+    int getSize();
 signals:
 
 public slots:

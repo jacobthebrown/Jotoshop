@@ -1,32 +1,33 @@
 #include "qwidgetcanvas.h"
 
+/*
+ *  Default Constructor for the QWidgetCanvas
+ */
 QWidgetCanvas::QWidgetCanvas(QWidget *parent) : QWidget(parent)
 {
-
-    //CanvasPainter = new QPainter(this);
-    //this->CanvasImage = new QImage(QSize(512, 512), QImage::Format_ARGB32);
-    this->CurrentCanvas = new Canvas();
-    this->composites.push_back(CurrentCanvas);
-
-    QImage* imageTest = this->getCurrentCanvas()->GetImage();
-
-    for (int i = 0; i < 100; i++)
-        for (int j = 0; j < 100; j++)
-            imageTest->setPixel(i,j, QColor(i,i,i,255).rgba());
+    this->ActiveCanvas = new Canvas();
+    this->composites.push_back(ActiveCanvas);
 }
 
-// Return current Canvas
-Canvas* QWidgetCanvas::getCurrentCanvas()
+/*
+ *  Returns active drawing canvas.
+ */
+Canvas* QWidgetCanvas::getActiveCanvas()
 {
-    return this->CurrentCanvas;
+    return this->ActiveCanvas;
 }
 
-// Return current Canvas QImage
-QImage* QWidgetCanvas::getCurrentCanvasImage()
+/*
+ *  Returns image of active drawing canvas.
+ */
+QImage* QWidgetCanvas::getActiveCanvasImage()
 {
-    return this->CurrentCanvas->GetImage();
+    return this->ActiveCanvas->GetImage();
 }
 
+/*
+ *  Returns a vector of QImages from the composite of canvas.
+ */
 QVector<QImage> QWidgetCanvas::getAllCompositeImages()
 {
     QVector<QImage> canvasImages;
@@ -36,24 +37,27 @@ QVector<QImage> QWidgetCanvas::getAllCompositeImages()
     return canvasImages;
 }
 
-
+/*
+ *  Adds a canvas to the composite.
+ */
 void QWidgetCanvas::addCanvas()
 {
-    this->CurrentCanvas = new Canvas;
-    this->composites.push_back(CurrentCanvas);
+    this->ActiveCanvas = new Canvas;
+    this->composites.push_back(ActiveCanvas);
 }
 
-
+/*
+ *  Executes the currect tool's mouse press event.
+ *  TODO: Refactor to be a generic drawing event for Tool object.
+ */
 void QWidgetCanvas::drawLineTo(const QPoint &endPoint)
 {
-        QPainter painter(this->getCurrentCanvasImage());
+        QPainter painter(this->getActiveCanvasImage());
 
         painter.setPen(QPen(QColor("blue"), 10, Qt::SolidLine, Qt::RoundCap,
                             Qt::RoundJoin));
         //painter.drawLine(lastPoint, endPoint);
         painter.drawPoint(endPoint);
-
-
 
         update();
 
@@ -61,54 +65,47 @@ void QWidgetCanvas::drawLineTo(const QPoint &endPoint)
 
 }
 
-
+/*
+ *  Triggered every tick, paints the canvas image on the Widget.
+ */
 void QWidgetCanvas::paintEvent(QPaintEvent *event) {
 
         QPainter painter(this);
         QRect dirtyRect = event->rect();
-        painter.drawImage(dirtyRect, *getCurrentCanvasImage(), dirtyRect);
-
-//        QImage* canvasImage = getCurrentCanvasImage();
-
-//        int ImageWidth = (this->width()/2) - (canvasImage->width()/2);
-//        int ImageHeight = (this->height()/2) - (canvasImage->height()/2);
-//        painter.drawImage(ImageWidth, ImageHeight, *canvasImage);
-//        painter.drawRect(0,0,this->width() - 1, this->height() - 1);
-
+        painter.drawImage(dirtyRect, *getActiveCanvasImage(), dirtyRect);
 
         QWidget::paintEvent(event);
-
-
-
 }
-
-
-void QWidgetCanvas::mouseMoveEvent(QMouseEvent *event)
-{
-    if (event->button() == Qt::LeftButton) {
-        drawLineTo(event->pos());
-    }
-
-}
-
-void QWidgetCanvas::mousePressEvent(QMouseEvent *event)
-{
-    if (event->button() == Qt::LeftButton) {
-            lastPoint = event->pos();
-            mouseMoveEvent(event);
-
-    }
-}
-
-
 
 /*
-void QWidgetCanvas::resizeEvent(QResizeEvent *event)
+ *  TODO: Comment, refactor to make generic execution.
+ */
+void QWidgetCanvas::mouseMoveEvent(QMouseEvent *event)
 {
-    if (width() > CanvasImage->width() || height() > CanvasImage->height()) {
-        int newWidth = qMax(width() + 128, CanvasImage->width());
-        int newHeight = qMax(height() + 128, CanvasImage->height());
-    }
-    QWidget::resizeEvent(event);
+    if (!this->MouseDown)
+        continue;
+
+    drawLineTo(event->pos());
 }
-*/
+
+/*
+ *  TODO: Refactor to remove boolean, and refactor for more mouse types.
+ */
+void QWidgetCanvas::mousePressEvent(QMouseEvent *event)
+{
+
+    if (event->button() == Qt::LeftButton) {
+        this->MouseDown = true;
+    }
+}
+
+/*
+ *  TODO: See mousePressEvent todo.
+ */
+void QWidgetCanvas::mouseReleaseEvent(QMouseEvent* event) {
+
+    if (event->button() == Qt::LeftButton) {
+        this->MouseDown = false;
+    }
+
+}

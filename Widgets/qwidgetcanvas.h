@@ -4,6 +4,7 @@
 #include <QWidget>
 #include <QPainter>
 #include <QImage>
+#include <QSlider>
 #include "../Models/canvas.h"
 
 class QWidgetCanvas : public QWidget
@@ -14,8 +15,8 @@ public:
 
     QPoint lastPoint;
 
-    Canvas* getCurrentCanvas();
-    QImage* getCurrentCanvasImage();
+    Canvas* getActiveCanvas();
+    QImage* getActiveCanvasImage();
     QVector<QImage> getAllCompositeImages();
     void addCanvas();
     void drawLineTo(const QPoint &endPoint);
@@ -28,6 +29,7 @@ protected:
 
 private:
     void paintEvent(QPaintEvent *event);
+    bool MouseDown;
 
 
     //QPainter* CanvasPainter;
@@ -35,9 +37,11 @@ private:
 
 private:
     QVector<Canvas*> composites;
-    Canvas* CurrentCanvas;
+    Canvas* ActiveCanvas;
 
 
+
+    void mouseReleaseEvent(QMouseEvent *event);
 };
 
 #endif // QWIDGETCANVAS_H

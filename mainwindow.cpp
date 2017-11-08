@@ -30,7 +30,7 @@ void MainWindow::previewSprite(QVector<QImage> imageVector)
 void MainWindow::addToFrameBar()
 {
     label = new QLabel;
-    QImage tempImage = ui->Canvas->getCurrentCanvasImage()->scaled(80,80,Qt::KeepAspectRatio);
+    QImage tempImage = ui->Canvas->getActiveCanvasImage()->scaled(80,80,Qt::KeepAspectRatio);
     QPixmap tempPix = tempPix.fromImage(tempImage);
     label->setPixmap(tempPix);
     label->setFixedSize(80,80);
@@ -103,7 +103,9 @@ void MainWindow::on_dropperButton_clicked()
 }
 */
 
-
+/*
+ * TODO
+ */
 void MainWindow::on_addCanvasButton_clicked()
 {
     // Add current canvas to frame bar

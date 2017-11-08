@@ -1,10 +1,16 @@
 #include "qwidgetpreview.h"
 
+/*
+ *  TODO: Insert documentation.
+ */
 QWidgetPreview::QWidgetPreview(QWidget *parent) : QWidget(parent)
 {
 
 }
 
+/*
+ *  TODO: Insert documentation.
+ */
 void QWidgetPreview::playImages(QVector<QImage> images)
 {
     QPainter painter(this);
@@ -15,6 +21,9 @@ void QWidgetPreview::playImages(QVector<QImage> images)
     }
 }
 
+/*
+ *  TODO: Insert documentation.
+ */
 void QWidgetPreview::paintEvent(QPaintEvent *event) {
 
         QPainter painter(this);
