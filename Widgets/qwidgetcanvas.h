@@ -17,7 +17,7 @@ public:
 
     Canvas* getActiveCanvas();
     QImage* getActiveCanvasImage();
-    QVector<QImage> getAllCompositeImages();
+    QVector<QImage *> getAllCompositeImages();
     void addCanvas();
     void drawLineTo(const QPoint &endPoint);
 

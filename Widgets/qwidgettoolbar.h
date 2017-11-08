@@ -7,7 +7,7 @@
 #include <QSlider>
 #include <QLabel>
 #include <QButtonGroup>
-#include "QWidgetSliderCombo.h"
+#include "qwidgetslidercombo.h"
 #include <QList>
 #include <vector>
 

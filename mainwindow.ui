@@ -10,10 +10,16 @@
     <height>606</height>
    </rect>
   </property>
+  <property name="mouseTracking">
+   <bool>false</bool>
+  </property>
   <property name="windowTitle">
    <string>MainWindow</string>
   </property>
   <widget class="QWidget" name="centralWidget">
+   <property name="mouseTracking">
+    <bool>false</bool>
+   </property>
    <layout class="QVBoxLayout" name="verticalLayout_2">
     <item>
      <layout class="QHBoxLayout" name="horizontalLayout_3">
@@ -128,12 +134,22 @@
             <height>200</height>
            </size>
           </property>
+          <property name="mouseTracking">
+           <bool>false</bool>
+          </property>
          </widget>
         </item>
         <item>
          <widget class="QSlider" name="fpsSpeedSlider">
           <property name="orientation">
            <enum>Qt::Horizontal</enum>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QPushButton" name="previewButton">
+          <property name="text">
+           <string>Preview Sprite</string>
           </property>
          </widget>
         </item>

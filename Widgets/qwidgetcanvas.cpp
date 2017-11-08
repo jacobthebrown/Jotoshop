@@ -28,11 +28,11 @@ QImage* QWidgetCanvas::getActiveCanvasImage()
 /*
  *  Returns a vector of QImages from the composite of canvas.
  */
-QVector<QImage> QWidgetCanvas::getAllCompositeImages()
+QVector<QImage*> QWidgetCanvas::getAllCompositeImages()
 {
-    QVector<QImage> canvasImages;
+    QVector<QImage*> canvasImages;
     foreach (Canvas* c, this->composites) {
-        canvasImages.push_back(*(c->GetImage()));
+        canvasImages.push_back(c->GetImage());
     }
     return canvasImages;
 }
@@ -82,10 +82,10 @@ void QWidgetCanvas::paintEvent(QPaintEvent *event) {
  */
 void QWidgetCanvas::mouseMoveEvent(QMouseEvent *event)
 {
-    if (!this->MouseDown)
-        continue;
+    if (this->MouseDown)
+        drawLineTo(event->pos());//continue;
 
-    drawLineTo(event->pos());
+    //drawLineTo(event->pos());
 }
 
 /*

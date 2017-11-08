@@ -21,7 +21,7 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
-void MainWindow::previewSprite(QVector<QImage> imageVector)
+void MainWindow::previewSprite(QVector<QImage*> imageVector)
 {
     ui->Preview->playImages(imageVector);
 }
@@ -118,6 +118,7 @@ void MainWindow::on_addCanvasButton_clicked()
 }
 
 
+void MainWindow::on_previewButton_clicked()
+{
 
-
-
+}

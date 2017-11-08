@@ -23,7 +23,7 @@ private:
     Ui::MainWindow *ui;
     QLabel *label;
 
-    void previewSprite(QVector<QImage> imageVector);
+    void previewSprite(QVector<QImage *> imageVector);
     void addToFrameBar();
 
 
@@ -57,6 +57,7 @@ private slots:
 
     void on_addCanvasButton_clicked();
 
+    void on_previewButton_clicked();
 };
 
 #endif // MAINWINDOW_H
