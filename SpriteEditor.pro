@@ -34,10 +34,11 @@ SOURCES += \
     Widgets/qwidgettoolbar.cpp \
     Models/toolpaint.cpp \
     Widgets/qwidgetslidercombo.cpp \
-    Widgets/qwidgetanimationstrip.cpp
+    Widgets/qwidgetanimationstrip.cpp \
     Models/gifexporter.cpp \
     Models/image.cpp \
     Models/pixel.cpp
+
 
 HEADERS += \
     mainwindow.h \
@@ -49,10 +50,11 @@ HEADERS += \
     Widgets/qwidgettoolbar.h \
     Models/toolpaint.h \
     Widgets/qwidgetslidercombo.h \
-    Widgets/qwidgetanimationstrip.h
+    Widgets/qwidgetanimationstrip.h \
     Models/gifexporter.h \
     Models/image.h \
-    Models/pixel.h
+    Models/pixel.h \
+
 
 FORMS += \
         mainwindow.ui

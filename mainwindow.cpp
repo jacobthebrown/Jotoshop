@@ -42,12 +42,17 @@ void MainWindow::exportGIF()
     // Gets the user's desired name for the file
     const QString fileName = QFileDialog::getSaveFileName(this, tr("Save File"), "C:/Users/Sam/Documents", tr("Image Files (*.gif)"));
 
-    const QVector<QImage*> images = ui->Preview->getImages();
+    QVector<QImage*> temp;
+    foreach (QImage *im, ui->Canvas->getAllCompositeImages()) {
+        QImage* ima = new QImage;
+        *ima = *im;
+        temp.push_back(ima);
+    }
 
     int width = ui->Canvas->width();
     int height = ui->Canvas->height();
 
-    emit exportToGIF(fileName, images, width, height);
+    emit exportToGIF(fileName, temp, width, height);
 }
 
 QPixmap* MainWindow::getCanvasAsLabel()
@@ -194,12 +199,11 @@ void MainWindow::sendPreviewImages(QVector<QImage*> images)
  */
 void MainWindow::onCanvasIconClicked(QListWidgetItem *item)
 {
-    qDebug() << "okk";
     for(int i = 0; i < ui->AnimationStrip->listArea->count(); i++){
         if (ui->AnimationStrip->listArea->item(i) == item)
             ui->Canvas->setActiveCanvas(ui->Canvas->composites.at(i));
     }
-    //if (ui->AnimationStrip->listArea->item(0) == item)
+
 }
 
 /*
@@ -275,7 +279,6 @@ void MainWindow::on_addCanvasButton_clicked()
 {
     // Add current canvas to animation strip
     ui->AnimationStrip->addQImage(QPixmap::fromImage(*ui->Canvas->getActiveCanvasImage()), QString::number(ui->Canvas->getAllCompositeImages().indexOf(ui->Canvas->getActiveCanvasImage())));
-    //ui->sliderValueLabel->setPixmap(QPixmap::fromImage(*ui->Canvas->getActiveCanvasImage()));
 
     //Add new canvas and update display
     addCanvas();
