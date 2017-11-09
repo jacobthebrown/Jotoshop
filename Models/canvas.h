@@ -16,7 +16,7 @@ public:
     Canvas(const Canvas& other);
     ~Canvas();
     QImage* GetImage();
-
+    void LoadImage(QImage* im);
 private:
     QImage* CanvasImage;
 

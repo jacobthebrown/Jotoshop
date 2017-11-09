@@ -18,8 +18,11 @@ public:
     Canvas* getActiveCanvas();
     QImage* getActiveCanvasImage();
     QVector<QImage *> getAllCompositeImages();
+    void setActiveCanvas(Canvas *can);
 
     void drawLineTo(const QPoint &endPoint);
+
+    QVector<Canvas*> composites; //PUBLIC FOR TESTING
 
 
 protected:
@@ -30,8 +33,9 @@ protected:
 private:
     void paintEvent(QPaintEvent *event);
     bool MouseDown;
-    QVector<Canvas*> composites;
+    //QVector<Canvas*> composites;
     Canvas* ActiveCanvas;
+    void addCanvas(QImage*);
 
 
 signals:
@@ -39,7 +43,7 @@ signals:
 
 private slots:
     void addCanvas();
-
+    void load(QImage*);
 
 
 

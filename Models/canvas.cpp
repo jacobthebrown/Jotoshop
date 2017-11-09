@@ -23,3 +23,7 @@ QImage* Canvas::GetImage()
     return this->CanvasImage;
 }
 
+void Canvas::LoadImage(QImage* im)
+{
+    this->CanvasImage = im;
+}

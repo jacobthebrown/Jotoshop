@@ -23,8 +23,10 @@ private:
     Ui::MainWindow *ui;
     //QLabel *label;
 
-    QLabel *getCanvasAsLabel();
+
+    QPixmap *getCanvasAsLabel();
     void SaveFile(int width, int height, int frames, QVector<QImage*> images);
+    void LoadFile();
 
 
     //ToolsModel toolBar;
@@ -44,6 +46,8 @@ signals:
 
     void addCanvas();
     void addToStrip(QImage*);
+    void loadImage(QImage*);
+
 
 private slots:
     /*
@@ -56,10 +60,13 @@ private slots:
     //Canvas
     void sendPreviewImages(QVector<QImage*> images);
 
+    void onCanvasIconClicked(QListWidgetItem* item);
+
     //
     void on_addCanvasButton_clicked();
     void on_fpsSpeedSlider_valueChanged(int value);
     void on_actionSave_triggered();
+    void on_actionLoad_triggered();
 };
 
 #endif // MAINWINDOW_H

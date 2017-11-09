@@ -18,8 +18,11 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     connect(ui->Canvas, SIGNAL(sendImages(QVector<QImage*>)), this, SLOT(sendPreviewImages(QVector<QImage*>)));
 
     // Connects canvas widget images with animation strip
-    connect(this, SIGNAL(addToStrip(QImage*)), ui->AnimationStrip, SLOT(addQImage(QImage*)));
+    connect(ui->AnimationStrip, SIGNAL(sendClickedCanvas(QListWidgetItem*)), this, SLOT(onCanvasIconClicked(QListWidgetItem*)));
+    //connect(this, SIGNAL(addToStrip(QLabel*)), ui->AnimationStrip, SLOT(addQImage(QLabel*)));
 
+    // Upon loading an image creates a new canvas
+    connect(this,SIGNAL(loadImage(QImage*)),ui->Canvas,SLOT(load(QImage*)));
 }
 
 MainWindow::~MainWindow()
@@ -31,14 +34,13 @@ MainWindow::~MainWindow()
 
 
 //
-QLabel* MainWindow::getCanvasAsLabel()
+QPixmap* MainWindow::getCanvasAsLabel()
 {
-    QLabel* label = new QLabel;
-    QImage tempImage = ui->Canvas->getActiveCanvasImage()->scaled(80,80,Qt::KeepAspectRatio);
-    QPixmap tempPix = tempPix.fromImage(tempImage);
-    label->setPixmap(tempPix);
-    label->setFixedSize(80,80);
-    return label;
+    //QLabel* label = new QLabel;
+    QImage tempImage = ui->Canvas->getActiveCanvasImage()->scaled(100,120,Qt::KeepAspectRatio);
+    QPixmap* tempPix = new QPixmap;
+    tempPix->fromImage(tempImage);
+    return tempPix;
 }
 
 void MainWindow::SaveFile(int width, int height, int frames, QVector<QImage*> images)
@@ -66,6 +68,7 @@ void MainWindow::SaveFile(int width, int height, int frames, QVector<QImage*> im
     out << QString::number(frames) + "\n";
 
     QColor pixel;
+    // Loops through each images writing individual pixels to the file
     foreach(QImage* image, images)
     {
         for(int y = 0; y < image->height(); y++)
@@ -89,7 +92,77 @@ void MainWindow::SaveFile(int width, int height, int frames, QVector<QImage*> im
             }
         }
     }
+    file.close();
+    file.flush();
 
+}
+
+void MainWindow::LoadFile()
+{
+    QFile file(QFileDialog::getOpenFileName(this,tr("Load Project"),"",tr("*.ssp")));
+    if(!file.open(QFile::ReadOnly | QFile::Text))
+    {
+        QMessageBox::warning(this,"Error","Couldn't Open File");
+        return;
+    }
+
+    qint32 height, width, frames;
+
+    QStringList lineSplit;
+    QString line;
+    QTextStream in(&file);
+
+    line = in.readLine();
+    lineSplit = line.split(' ');
+
+    height = lineSplit[0].toInt();
+    width = lineSplit[1].toInt();
+
+    line = in.readLine();
+    frames = line.toInt();
+
+     QString temp;
+     QImage *im;
+     QLabel* label;
+     QPixmap tempPix;
+    int row = 0, col = 0;
+    for(int z = 0; z < frames; z++)
+    {
+        im = new QImage(width, height, QImage::Format_ARGB32);
+        for(int y = 0; y < height; y++)
+        {
+            line = in.readLine();
+            lineSplit = line.split(' ');
+            for(int x = 0; x < lineSplit.size(); x += 4)
+            {
+//                temp += lineSplit[x] + " " +lineSplit[x + 1] +  " " + lineSplit[x + 2] + " " + lineSplit[x + 3] + " ";
+                im->setPixel(row,col,qRgba(lineSplit[x].toInt(),lineSplit[x + 1].toInt(),lineSplit[x + 2].toInt(),lineSplit[x + 3].toInt()));
+                row++;
+                if(row == height)
+                    row = 0;
+            }
+            col++;
+            if(col == width)
+                col = 0;
+        }
+
+        label = new QLabel;
+        //im->scaled(80,80,Qt::KeepAspectRatio);
+        //QImage tempImage = ui->Canvas->getActiveCanvasImage()->scaled(80,80,Qt::KeepAspectRatio);
+        tempPix= QPixmap::fromImage(*im);
+        QImage t = im->scaled(80,80,Qt::KeepAspectRatio);
+        //tempPix.scaled(80,80,Qt::KeepAspectRatio);
+        label->setPixmap(QPixmap::fromImage(t));
+        label->setFixedSize(80,80);
+        //ui->AnimationStrip->layout()->addWidget(label);
+        ui->AnimationStrip->addQImage(QPixmap::fromImage(t), QString::number(ui->Canvas->getAllCompositeImages().indexOf(ui->Canvas->getActiveCanvasImage())));
+
+        //Add new canvas and update display
+        //addCanvas();
+        emit(loadImage(im));
+    }
+    ui->Canvas->update();
+    file.close();
 }
 
 /*
@@ -98,6 +171,19 @@ void MainWindow::SaveFile(int width, int height, int frames, QVector<QImage*> im
 void MainWindow::sendPreviewImages(QVector<QImage*> images)
 {
     ui->Preview->setImages(images);
+}
+
+/*
+ *
+ */
+void MainWindow::onCanvasIconClicked(QListWidgetItem *item)
+{
+    qDebug() << "okk";
+    for(int i = 0; i < ui->AnimationStrip->listArea->count(); i++){
+        if (ui->AnimationStrip->listArea->item(i) == item)
+            ui->Canvas->setActiveCanvas(ui->Canvas->composites.at(i));
+    }
+    //if (ui->AnimationStrip->listArea->item(0) == item)
 }
 
 /*
@@ -172,7 +258,8 @@ void MainWindow::on_dropperButton_clicked()
 void MainWindow::on_addCanvasButton_clicked()
 {
     // Add current canvas to animation strip
-    ui->AnimationStrip->layout()->addWidget(getCanvasAsLabel());
+    ui->AnimationStrip->addQImage(QPixmap::fromImage(*ui->Canvas->getActiveCanvasImage()), QString::number(ui->Canvas->getAllCompositeImages().indexOf(ui->Canvas->getActiveCanvasImage())));
+    //ui->sliderValueLabel->setPixmap(QPixmap::fromImage(*ui->Canvas->getActiveCanvasImage()));
 
     //Add new canvas and update display
     addCanvas();
@@ -191,4 +278,8 @@ void MainWindow::on_actionSave_triggered()
 {
     QVector<QImage*> canvasVector = ui->Canvas->getAllCompositeImages();
     SaveFile((canvasVector[0])->width(), (canvasVector[0])->height(), canvasVector.count(), canvasVector);
+}
+void MainWindow::on_actionLoad_triggered()
+{
+    LoadFile();
 }

@@ -80,6 +80,13 @@ void QWidgetCanvas::paintEvent(QPaintEvent *event) {
         QWidget::paintEvent(event);
 }
 
+// might be edgy
+void QWidgetCanvas::setActiveCanvas(Canvas * can)
+{
+    this->ActiveCanvas = can;
+    update();
+}
+
 
 /*
  *  TODO: Comment, refactor to make generic execution.
@@ -112,4 +119,23 @@ void QWidgetCanvas::mouseReleaseEvent(QMouseEvent* event) {
         this->MouseDown = false;
     }
 
+}
+
+void QWidgetCanvas::load(QImage* im)
+{
+    addCanvas(im);
+}
+
+/*
+ * This function is used to load images onto canvases
+ *
+ */
+
+void QWidgetCanvas::addCanvas(QImage* im)
+{
+    this->ActiveCanvas = new Canvas(*ActiveCanvas);
+    this->ActiveCanvas->LoadImage(im);
+    this->composites.push_back(this->ActiveCanvas);
+
+    emit sendImages(this->getAllCompositeImages());
 }

@@ -110,6 +110,7 @@
               <property name="autoFillBackground">
                <bool>true</bool>
               </property>
+              <zorder>pushButton</zorder>
              </widget>
             </item>
            </layout>
