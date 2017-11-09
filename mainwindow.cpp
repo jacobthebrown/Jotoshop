@@ -41,6 +41,57 @@ QLabel* MainWindow::getCanvasAsLabel()
     return label;
 }
 
+void MainWindow::SaveFile(int width, int height, int frames, QVector<QImage*> images)
+{
+    // Grabs the filename saved; forcing the filter to be the extension
+    const QString filter = "(*.ssp)";
+    QString fileName = QFileDialog::getSaveFileName(this,tr("Save File"),tr(".ssp"),filter);
+    QFile file(fileName);
+
+    // Throws a warning dialog box if the file won't open
+    if(!file.open(QFile::WriteOnly | QFile::Text))
+    {
+        QMessageBox::warning(this,"Save Error","Error saving file!");
+        return;
+    }
+
+    // Creates a textstream handler
+    QTextStream out(&file);
+    QString line;
+
+    // Write height and width to file followed by the number of frames in project
+    line = QString::number(height) + " " + QString::number(width) + "\n";
+    out << line;
+
+    out << QString::number(frames) + "\n";
+
+    QColor pixel;
+    foreach(QImage* image, images)
+    {
+        for(int y = 0; y < image->height(); y++)
+        {
+            for(int x = 0; x < image->width(); x++)
+            {
+                pixel = image->pixelColor(x,y);
+
+                line = QString::number(pixel.red());
+                line += " ";
+                line += QString::number(pixel.green());
+                line += " ";
+                line += QString::number(pixel.blue());
+                line += " ";
+                line += QString::number(pixel.alpha());
+                if(x == image->width() - 1)
+                    line += "\n";
+                else
+                    line += " ";
+                out << line;
+            }
+        }
+    }
+
+}
+
 /*
 * Sends qimages from canvas widget to preview widget
 */
@@ -134,4 +185,10 @@ void MainWindow::on_fpsSpeedSlider_valueChanged(int value)
 {
     ui->sliderValueLabel->setText("FPS: " + QString::number(value));
     ui->Preview->setSpeed(value);
+}
+
+void MainWindow::on_actionSave_triggered()
+{
+    QVector<QImage*> canvasVector = ui->Canvas->getAllCompositeImages();
+    SaveFile((canvasVector[0])->width(), (canvasVector[0])->height(), canvasVector.count(), canvasVector);
 }

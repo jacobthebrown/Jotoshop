@@ -24,6 +24,7 @@ private:
     //QLabel *label;
 
     QLabel *getCanvasAsLabel();
+    void SaveFile(int width, int height, int frames, QVector<QImage*> images);
 
 
     //ToolsModel toolBar;
@@ -58,6 +59,7 @@ private slots:
     //
     void on_addCanvasButton_clicked();
     void on_fpsSpeedSlider_valueChanged(int value);
+    void on_actionSave_triggered();
 };
 
 #endif // MAINWINDOW_H
