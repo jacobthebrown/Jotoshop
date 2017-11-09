@@ -214,6 +214,7 @@
     <property name="title">
      <string>File</string>
     </property>
+    <addaction name="exportAction"/>
     <addaction name="actionSave"/>
     <addaction name="actionLoad"/>
    </widget>
@@ -228,6 +229,11 @@
    </attribute>
   </widget>
   <widget class="QStatusBar" name="statusBar"/>
+  <action name="exportAction">
+   <property name="text">
+    <string>Export to GIF</string>
+   </property>
+  </action>
   <action name="actionSave">
    <property name="text">
     <string>Save</string>

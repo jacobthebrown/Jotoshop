@@ -3,6 +3,7 @@
 
 #include <QMainWindow>
 #include "Models/toolsmodel.h"
+#include "Models/gifexporter.h"
 #include "Widgets/qwidgetcanvas.h"
 #include "Widgets/qwidgetpreview.h"
 #include "Widgets/qwidgettoolbar.h"
@@ -16,7 +17,7 @@ class MainWindow : public QMainWindow
     Q_OBJECT
 
 public:
-    explicit MainWindow(QWidget *parent = 0);
+    explicit MainWindow(GifExporter&, QWidget *parent = 0);
     ~MainWindow();
 
 private:
@@ -47,7 +48,7 @@ signals:
     void addCanvas();
     void addToStrip(QImage*);
     void loadImage(QImage*);
-
+	void exportToGIF(const QString&, const QVector<QImage*>&, int, int);
 
 private slots:
     /*
@@ -61,6 +62,8 @@ private slots:
     void sendPreviewImages(QVector<QImage*> images);
 
     void onCanvasIconClicked(QListWidgetItem* item);
+	// Open a file dialog to export the current array of canvases into a gif format
+    void exportGIF();
 
     //
     void on_addCanvasButton_clicked();

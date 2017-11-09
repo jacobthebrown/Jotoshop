@@ -9,16 +9,22 @@
 #include <QColorDialog>
 #include <QPixmap>
 
-MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWindow) {
+MainWindow::MainWindow(GifExporter& gifModel, QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWindow) {
 
     ui->setupUi(this);
+
+
 
     // Connects canvas widget images with preview widget images
     connect(this, SIGNAL(addCanvas()), ui->Canvas, SLOT(addCanvas()));
     connect(ui->Canvas, SIGNAL(sendImages(QVector<QImage*>)), this, SLOT(sendPreviewImages(QVector<QImage*>)));
 
+    // Connects "Export to GIF" menu button to the gif exporting logic
+    connect(ui->exportAction, &QAction::triggered, this, &MainWindow::exportGIF);
+    connect(this, &MainWindow::exportToGIF, &gifModel, &GifExporter::exportToGIF);
+
     // Connects canvas widget images with animation strip
-    connect(ui->AnimationStrip, SIGNAL(sendClickedCanvas(QListWidgetItem*)), this, SLOT(onCanvasIconClicked(QListWidgetItem*)));
+	connect(ui->AnimationStrip, SIGNAL(sendClickedCanvas(QListWidgetItem*)), this, SLOT(onCanvasIconClicked(QListWidgetItem*)));
     //connect(this, SIGNAL(addToStrip(QLabel*)), ui->AnimationStrip, SLOT(addQImage(QLabel*)));
 
     // Upon loading an image creates a new canvas
@@ -31,9 +37,19 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
+void MainWindow::exportGIF()
+{
+    // Gets the user's desired name for the file
+    const QString fileName = QFileDialog::getSaveFileName(this, tr("Save File"), "C:/Users/Sam/Documents", tr("Image Files (*.gif)"));
 
+    const QVector<QImage*> images = ui->Preview->getImages();
 
-//
+    int width = ui->Canvas->width();
+    int height = ui->Canvas->height();
+
+    emit exportToGIF(fileName, images, width, height);
+}
+
 QPixmap* MainWindow::getCanvasAsLabel()
 {
     //QLabel* label = new QLabel;

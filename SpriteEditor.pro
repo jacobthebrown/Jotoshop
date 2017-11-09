@@ -35,6 +35,9 @@ SOURCES += \
     Models/toolpaint.cpp \
     Widgets/qwidgetslidercombo.cpp \
     Widgets/qwidgetanimationstrip.cpp
+    Models/gifexporter.cpp \
+    Models/image.cpp \
+    Models/pixel.cpp
 
 HEADERS += \
     mainwindow.h \
@@ -47,6 +50,9 @@ HEADERS += \
     Models/toolpaint.h \
     Widgets/qwidgetslidercombo.h \
     Widgets/qwidgetanimationstrip.h
+    Models/gifexporter.h \
+    Models/image.h \
+    Models/pixel.h
 
 FORMS += \
         mainwindow.ui
