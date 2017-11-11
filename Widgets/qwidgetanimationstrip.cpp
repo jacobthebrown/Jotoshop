@@ -34,12 +34,17 @@ QWidgetAnimationStrip::QWidgetAnimationStrip(QWidget *parent) : QWidget(parent)
 
 }
 /*
- * Slot for adding a widget to the animation strip.
+ * Slot for adding/updating a widget to the animation strip.
  */
-void QWidgetAnimationStrip::addQImage(QPixmap pix, QString framePos)
+void QWidgetAnimationStrip::addQImage(QPixmap pix, int framePos)
 {
-
-    listArea->addItem(new QListWidgetItem(QIcon(pix),framePos));
+    qDebug() << listArea->count();
+    if(listArea->item(framePos) != 0) // if item exists, update
+        listArea->item(framePos)->operator =(QListWidgetItem(QIcon(pix),QString::number(framePos)));
+    else
+        listArea->addItem(new QListWidgetItem(QIcon(pix),QString::number(framePos)));
+    update();
+    qDebug() << listArea->count();
 
 }
 
@@ -54,13 +59,14 @@ void QWidgetAnimationStrip::paintEvent(QPaintEvent *e)
     painter.setPen(pen);
 
     painter.begin(this);
-        painter.drawPath(path);
-        painter.end();
+    painter.drawPath(path);
+    painter.end();
+    QWidget::paintEvent(e);
+
 }
 
 // when icon is clicked return that icons position
 void QWidgetAnimationStrip::canvasClicked(QListWidgetItem *item)
 {
-    qDebug() << "hhh";
     emit sendClickedCanvas(item);
 }

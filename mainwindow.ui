@@ -110,7 +110,6 @@
               <property name="autoFillBackground">
                <bool>true</bool>
               </property>
-              <zorder>pushButton</zorder>
              </widget>
             </item>
            </layout>
@@ -149,23 +148,23 @@
            </sizepolicy>
           </property>
           <property name="text">
-           <string>FPS: 15</string>
+           <string>FPS: 1</string>
           </property>
          </widget>
         </item>
         <item>
          <widget class="QSlider" name="fpsSpeedSlider">
           <property name="minimum">
-           <number>15</number>
+           <number>1</number>
           </property>
           <property name="maximum">
            <number>100</number>
           </property>
           <property name="value">
-           <number>15</number>
+           <number>1</number>
           </property>
           <property name="sliderPosition">
-           <number>15</number>
+           <number>1</number>
           </property>
           <property name="orientation">
            <enum>Qt::Horizontal</enum>

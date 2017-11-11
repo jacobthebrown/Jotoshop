@@ -8,7 +8,7 @@
  */
 QWidgetPreview::QWidgetPreview(QWidget *parent) : QWidget(parent)
 {
-    timer.start(1000/15,this);
+    timer.start(1000,this);
     imagesPos = 0;
     currentImage = nullptr;
 }

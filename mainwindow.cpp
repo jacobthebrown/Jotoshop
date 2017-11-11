@@ -13,8 +13,6 @@ MainWindow::MainWindow(GifExporter& gifModel, QWidget *parent) : QMainWindow(par
 
     ui->setupUi(this);
 
-
-
     // Connects canvas widget images with preview widget images
     connect(this, SIGNAL(addCanvas()), ui->Canvas, SLOT(addCanvas()));
     connect(ui->Canvas, SIGNAL(sendImages(QVector<QImage*>)), this, SLOT(sendPreviewImages(QVector<QImage*>)));
@@ -55,14 +53,7 @@ void MainWindow::exportGIF()
     emit exportToGIF(fileName, temp, width, height);
 }
 
-QPixmap* MainWindow::getCanvasAsLabel()
-{
-    //QLabel* label = new QLabel;
-    QImage tempImage = ui->Canvas->getActiveCanvasImage()->scaled(100,120,Qt::KeepAspectRatio);
-    QPixmap* tempPix = new QPixmap;
-    tempPix->fromImage(tempImage);
-    return tempPix;
-}
+
 
 void MainWindow::SaveFile(int width, int height, int frames, QVector<QImage*> images)
 {
@@ -176,7 +167,7 @@ void MainWindow::LoadFile()
         label->setPixmap(QPixmap::fromImage(t));
         label->setFixedSize(80,80);
         //ui->AnimationStrip->layout()->addWidget(label);
-        ui->AnimationStrip->addQImage(QPixmap::fromImage(t), QString::number(ui->Canvas->getAllCompositeImages().indexOf(ui->Canvas->getActiveCanvasImage())));
+        ui->AnimationStrip->addQImage(QPixmap::fromImage(t), ui->Canvas->getAllCompositeImages().indexOf(ui->Canvas->getActiveCanvasImage()));
 
         //Add new canvas and update display
         //addCanvas();
@@ -203,6 +194,10 @@ void MainWindow::onCanvasIconClicked(QListWidgetItem *item)
         if (ui->AnimationStrip->listArea->item(i) == item)
             ui->Canvas->setActiveCanvas(ui->Canvas->composites.at(i));
     }
+
+    // update animation bar
+//    ui->AnimationStrip->addQImage(QPixmap::fromImage(*ui->Canvas->getActiveCanvasImage()),
+//                                  ui->Canvas->getAllCompositeImages().indexOf(ui->Canvas->getActiveCanvasImage()));
 
 }
 
@@ -278,7 +273,8 @@ void MainWindow::on_dropperButton_clicked()
 void MainWindow::on_addCanvasButton_clicked()
 {
     // Add current canvas to animation strip
-    ui->AnimationStrip->addQImage(QPixmap::fromImage(*ui->Canvas->getActiveCanvasImage()), QString::number(ui->Canvas->getAllCompositeImages().indexOf(ui->Canvas->getActiveCanvasImage())));
+    ui->AnimationStrip->addQImage(QPixmap::fromImage(*ui->Canvas->getActiveCanvasImage()),
+                                  ui->Canvas->getAllCompositeImages().indexOf(ui->Canvas->getActiveCanvasImage()));
 
     //Add new canvas and update display
     addCanvas();

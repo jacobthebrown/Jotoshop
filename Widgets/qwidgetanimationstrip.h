@@ -23,7 +23,7 @@ private:
 signals:
     void sendClickedCanvas(QListWidgetItem *); // needs to be emitted
 public slots:
-    void addQImage(QPixmap pix, QString framePos);
+    void addQImage(QPixmap pix, int framePos);
     void canvasClicked(QListWidgetItem *);
 };
 

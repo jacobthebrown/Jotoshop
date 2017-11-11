@@ -22,10 +22,7 @@ public:
 
 private:
     Ui::MainWindow *ui;
-    //QLabel *label;
 
-
-    QPixmap *getCanvasAsLabel();
     void SaveFile(int width, int height, int frames, QVector<QImage*> images);
     void LoadFile();
 
@@ -62,6 +59,7 @@ private slots:
     void sendPreviewImages(QVector<QImage*> images);
 
     void onCanvasIconClicked(QListWidgetItem* item);
+
 	// Open a file dialog to export the current array of canvases into a gif format
     void exportGIF();
 
