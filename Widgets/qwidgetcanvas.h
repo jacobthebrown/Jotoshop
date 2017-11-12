@@ -23,6 +23,8 @@ public:
     void drawLineTo(const QPoint &endPoint);
 
     QVector<Canvas*> composites; //PUBLIC FOR TESTING
+    int imageWidth;
+    int imageHeight;
 
 
 protected:
@@ -41,6 +43,7 @@ private:
 
 signals:
     void sendImages(QVector<QImage *>);
+    void ImageUpdate(QImage*, int);
 
 private slots:
     void addCanvas();

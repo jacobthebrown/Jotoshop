@@ -11,6 +11,7 @@ QWidgetAnimationStrip::QWidgetAnimationStrip(QWidget *parent) : QWidget(parent)
     this->setMaximumHeight(128);
 
     listArea = new QListWidget;
+    listArea->setMovement(QListView::Static);
     listArea->setViewMode(QListWidget::IconMode);
 
     listArea->setMinimumSize(this->width(),this->height());
@@ -68,4 +69,11 @@ void QWidgetAnimationStrip::paintEvent(QPaintEvent *e)
 void QWidgetAnimationStrip::canvasClicked(QListWidgetItem *item)
 {
     emit sendClickedCanvas(item);
+}
+
+void QWidgetAnimationStrip::refreshImage(QImage * targetImage, int position)
+{
+    if(listArea->item(position) != 0) { // if item exists, update
+        listArea->item(position)->operator =(QListWidgetItem(QIcon(QPixmap::fromImage(*targetImage)),QString::number(position)));
+    }
 }

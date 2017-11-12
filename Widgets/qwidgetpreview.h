@@ -22,6 +22,8 @@ private:
     QImage* currentImage;
     int fps;
     int imagesPos;
+    int imageWidth;
+    int imageHeight;
 
     // Events
     void paintEvent(QPaintEvent *event);

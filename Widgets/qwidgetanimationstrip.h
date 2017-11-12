@@ -8,6 +8,7 @@
 #include <QHBoxLayout>
 #include <QListWidget>
 #include <QVector>
+#include <QPixmap>
 
 class QWidgetAnimationStrip : public QWidget
 {
@@ -28,6 +29,7 @@ signals:
 public slots:
     void addQImage(QPixmap pix, int framePos);
     void canvasClicked(QListWidgetItem *);
+    void refreshImage(QImage*, int);
 };
 
 #endif // QWIDGETANIMATIONSTRIP_H

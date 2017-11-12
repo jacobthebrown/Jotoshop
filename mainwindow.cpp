@@ -28,6 +28,9 @@ MainWindow::MainWindow(GifExporter& gifModel, QWidget *parent) : QMainWindow(par
     // Upon loading an image creates a new canvas
     connect(this,SIGNAL(loadImage(QImage*)),ui->Canvas,SLOT(load(QImage*)));
 
+    //
+    connect(ui->Canvas, SIGNAL(ImageUpdate(QImage*,int)), ui->AnimationStrip, SLOT(refreshImage(QImage*,int)) );
+
     //this->ui->Right_horzLayout->setAlignment(this->ui->Preview, Qt::AlignHCenter);
     //this->ui->Right_horzLayout->setSizeConstraint(QLayout::SetMaximumSize);
 

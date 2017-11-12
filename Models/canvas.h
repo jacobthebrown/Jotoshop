@@ -12,7 +12,7 @@ class Canvas
 {
 
 public:
-    Canvas();
+    Canvas(int width, int height);
     Canvas(const Canvas& other);
     ~Canvas();
     QImage* GetImage() const;

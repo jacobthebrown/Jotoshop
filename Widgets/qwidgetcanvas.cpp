@@ -10,6 +10,10 @@ QWidgetCanvas::QWidgetCanvas(QWidget *parent) : QWidget(parent)
     //this->composites.push_front(ActiveCanvas);
     this->CurrentScale = 1.0;
 
+    // TODO: CHANGE TO SIZE SETTINGS
+    this->imageHeight = 512;
+    this->imageWidth = 512;
+
     emit sendImages(this->getAllCompositeImages());
 }
 
@@ -58,7 +62,7 @@ void QWidgetCanvas::addCanvas()
     if (ActiveCanvas != nullptr)
         this->ActiveCanvas = new Canvas(*ActiveCanvas);
     else
-        this->ActiveCanvas = new Canvas();
+        this->ActiveCanvas = new Canvas(this->imageWidth, this->imageHeight);
 
     this->composites.push_back(this->ActiveCanvas);
 
@@ -84,6 +88,8 @@ void QWidgetCanvas::drawLineTo(const QPoint &endPoint)
         update();
 
         lastPoint = endPoint;
+
+
 }
 
 /*
@@ -137,6 +143,7 @@ void QWidgetCanvas::mouseReleaseEvent(QMouseEvent* event) {
 
     if (event->button() == Qt::LeftButton) {
         this->MouseDown = false;
+        emit ImageUpdate(getActiveCanvasImage(), this->composites.indexOf(getActiveCanvas(),0));
     }
 
 }
@@ -154,9 +161,9 @@ void QWidgetCanvas::addCanvas(QImage* im)
     if (ActiveCanvas != nullptr)
         this->ActiveCanvas = new Canvas(*ActiveCanvas);
     else
-        this->ActiveCanvas = new Canvas();
+        this->ActiveCanvas = new Canvas(this->imageWidth, this->imageHeight);
 
-    this->ActiveCanvas->LoadImage(im);
+    //this->ActiveCanvas->LoadImage(im);
 
     this->composites.push_back(this->ActiveCanvas);
 

@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>1034</width>
-    <height>606</height>
+    <height>666</height>
    </rect>
   </property>
   <property name="mouseTracking">
@@ -1002,10 +1002,16 @@ border-radius: 4px;
 }</string>
    </property>
    <layout class="QVBoxLayout" name="verticalLayout_2">
+    <property name="bottomMargin">
+     <number>0</number>
+    </property>
     <item>
      <layout class="QHBoxLayout" name="horizontalLayout_3">
       <item>
        <layout class="QVBoxLayout" name="Left_horzLayout" stretch="0">
+        <property name="spacing">
+         <number>0</number>
+        </property>
         <item>
          <widget class="QWidgetToolbar" name="Toolbar" native="true">
           <property name="sizePolicy">
@@ -1022,7 +1028,7 @@ border-radius: 4px;
           </property>
           <property name="maximumSize">
            <size>
-            <width>66</width>
+            <width>96</width>
             <height>16777215</height>
            </size>
           </property>
@@ -1052,8 +1058,8 @@ border-radius: 4px;
           <widget class="QWidget" name="scrollAreaWidgetContents">
            <property name="geometry">
             <rect>
-             <x>0</x>
-             <y>-2</y>
+             <x>-159</x>
+             <y>0</y>
              <width>618</width>
              <height>618</height>
             </rect>
@@ -1069,14 +1075,14 @@ border-radius: 4px;
               </property>
               <property name="minimumSize">
                <size>
-                <width>600</width>
-                <height>600</height>
+                <width>0</width>
+                <height>0</height>
                </size>
               </property>
               <property name="maximumSize">
                <size>
-                <width>600</width>
-                <height>600</height>
+                <width>16777215</width>
+                <height>16777215</height>
                </size>
               </property>
               <property name="sizeIncrement">
@@ -1153,10 +1159,10 @@ border-radius: 4px;
            <widget class="QWidget" name="scrollAreaWidgetContents_2">
             <property name="geometry">
              <rect>
-              <x>-20</x>
+              <x>0</x>
               <y>0</y>
-              <width>618</width>
-              <height>618</height>
+              <width>318</width>
+              <height>318</height>
              </rect>
             </property>
             <property name="sizePolicy">
@@ -1310,14 +1316,69 @@ border-radius: 4px;
      </layout>
     </item>
     <item>
-     <widget class="QWidgetAnimationStrip" name="AnimationStrip" native="true">
-      <property name="minimumSize">
-       <size>
-        <width>1</width>
-        <height>128</height>
-       </size>
-      </property>
-     </widget>
+     <layout class="QHBoxLayout" name="horizontalLayout">
+      <item>
+       <layout class="QVBoxLayout" name="verticalLayout">
+        <property name="spacing">
+         <number>0</number>
+        </property>
+        <property name="topMargin">
+         <number>25</number>
+        </property>
+        <property name="bottomMargin">
+         <number>25</number>
+        </property>
+        <item>
+         <widget class="QPushButton" name="animationstrip_CloneButton">
+          <property name="minimumSize">
+           <size>
+            <width>96</width>
+            <height>0</height>
+           </size>
+          </property>
+          <property name="maximumSize">
+           <size>
+            <width>96</width>
+            <height>16777215</height>
+           </size>
+          </property>
+          <property name="text">
+           <string>Clone Last</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QPushButton" name="animationstrip_NewButton">
+          <property name="minimumSize">
+           <size>
+            <width>96</width>
+            <height>0</height>
+           </size>
+          </property>
+          <property name="maximumSize">
+           <size>
+            <width>96</width>
+            <height>16777215</height>
+           </size>
+          </property>
+          <property name="text">
+           <string>Add New</string>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </item>
+      <item>
+       <widget class="QWidgetAnimationStrip" name="AnimationStrip" native="true">
+        <property name="minimumSize">
+         <size>
+          <width>1</width>
+          <height>128</height>
+         </size>
+        </property>
+       </widget>
+      </item>
+     </layout>
     </item>
    </layout>
   </widget>
