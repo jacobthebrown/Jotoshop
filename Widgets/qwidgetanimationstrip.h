@@ -7,6 +7,7 @@
 #include <QLabel>
 #include <QHBoxLayout>
 #include <QListWidget>
+#include <QVector>
 
 class QWidgetAnimationStrip : public QWidget
 {
@@ -16,9 +17,11 @@ class QWidgetAnimationStrip : public QWidget
 public:
     explicit QWidgetAnimationStrip(QWidget *parent = nullptr);
     QListWidget* listArea;
+    QVector<QListWidgetItem*> animationPreviewItems;
 
 private:
     QScrollArea* scrollArea;
+
 
 signals:
     void sendClickedCanvas(QListWidgetItem *); // needs to be emitted

@@ -37,7 +37,8 @@ SOURCES += \
     Widgets/qwidgetanimationstrip.cpp \
     Models/gifexporter.cpp \
     Models/image.cpp \
-    Models/pixel.cpp
+    Models/pixel.cpp \
+    Widgets/qwidgetexpandablescroller.cpp
 
 
 HEADERS += \
@@ -54,6 +55,7 @@ HEADERS += \
     Models/gifexporter.h \
     Models/image.h \
     Models/pixel.h \
+    Widgets/qwidgetexpandablescroller.h
 
 
 FORMS += \
