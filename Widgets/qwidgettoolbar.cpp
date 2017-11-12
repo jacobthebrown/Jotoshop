@@ -23,7 +23,7 @@ QWidgetToolbar::QWidgetToolbar(QWidget *parent) : QWidget(parent)
 
     // Create slider underneath buttons.
     int numOfTools = this->ToolButtons->buttons().length();
-    QWidgetSliderCombo* sizeSlider = new QWidgetSliderCombo(this, "Size", 0, 32*numOfTools/2 + 20, this->width(), 64);
+    QWidgetSliderCombo* sizeSlider = new QWidgetSliderCombo(this, "Size", 1, 32*numOfTools/2 + 25, this->width()-10, 64);
 
 }
 
