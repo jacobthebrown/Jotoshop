@@ -11,8 +11,9 @@ class QWidgetSliderCombo : public QWidget
 public:
     explicit QWidgetSliderCombo(QWidget *parent = nullptr);
     QWidgetSliderCombo(QWidget *parent, QString sliderLabel, int xPos, int yPos, int width, int height);
-private:
     QSlider* Slider;
+
+private:
     QLabel* SliderLabel;
 
 signals:

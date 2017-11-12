@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>1034</width>
-    <height>606</height>
+    <height>682</height>
    </rect>
   </property>
   <property name="mouseTracking">
@@ -1053,9 +1053,9 @@ border-radius: 4px;
            <property name="geometry">
             <rect>
              <x>0</x>
-             <y>-2</y>
-             <width>618</width>
-             <height>618</height>
+             <y>0</y>
+             <width>624</width>
+             <height>624</height>
             </rect>
            </property>
            <layout class="QGridLayout" name="gridLayout">
@@ -1153,10 +1153,10 @@ border-radius: 4px;
            <widget class="QWidget" name="scrollAreaWidgetContents_2">
             <property name="geometry">
              <rect>
-              <x>-20</x>
+              <x>0</x>
               <y>0</y>
-              <width>618</width>
-              <height>618</height>
+              <width>324</width>
+              <height>324</height>
              </rect>
             </property>
             <property name="sizePolicy">
@@ -1327,7 +1327,7 @@ border-radius: 4px;
      <x>0</x>
      <y>0</y>
      <width>1034</width>
-     <height>21</height>
+     <height>22</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuFile">
