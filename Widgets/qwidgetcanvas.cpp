@@ -5,8 +5,11 @@
  */
 QWidgetCanvas::QWidgetCanvas(QWidget *parent) : QWidget(parent)
 {
-    this->ActiveCanvas = new Canvas();
-    this->composites.push_back(ActiveCanvas);
+    //this->ActiveCanvas = new Canvas();
+    //this->composites.push_front(ActiveCanvas);
+    this->CurrentScale = 1.0;
+
+    emit sendImages(this->getAllCompositeImages());
 }
 
 /*
@@ -22,7 +25,10 @@ Canvas* QWidgetCanvas::getActiveCanvas()
  */
 QImage* QWidgetCanvas::getActiveCanvasImage()
 {
-    return this->ActiveCanvas->GetImage();
+    if (this->ActiveCanvas != nullptr)
+        return this->ActiveCanvas->GetImage();
+    else
+        return nullptr;
 }
 
 /*
@@ -32,8 +38,13 @@ QVector<QImage*> QWidgetCanvas::getAllCompositeImages()
 {
     QVector<QImage*> canvasImages;
     foreach (Canvas* c, this->composites) {
-        canvasImages.push_back(c->GetImage());
+        if (c != nullptr)
+            canvasImages.push_back(c->GetImage());
     }
+
+    // TODO: EXCEPTION CATCH FOR EMPTY VECTORS
+    //if ()
+
     return canvasImages;
 }
 
@@ -43,7 +54,11 @@ QVector<QImage*> QWidgetCanvas::getAllCompositeImages()
 void QWidgetCanvas::addCanvas()
 {
 
-    this->ActiveCanvas = new Canvas(*ActiveCanvas);
+    if (ActiveCanvas != nullptr)
+        this->ActiveCanvas = new Canvas(*ActiveCanvas);
+    else
+        this->ActiveCanvas = new Canvas();
+
     this->composites.push_back(this->ActiveCanvas);
 
     emit sendImages(this->getAllCompositeImages());
@@ -55,17 +70,19 @@ void QWidgetCanvas::addCanvas()
  */
 void QWidgetCanvas::drawLineTo(const QPoint &endPoint)
 {
+
+        if (this->getActiveCanvas() == nullptr)
+            return;
+
         QPainter painter(this->getActiveCanvasImage());
 
         painter.setPen(QPen(QColor("blue"), 10, Qt::SolidLine, Qt::RoundCap,
                             Qt::RoundJoin));
-        //painter.drawLine(lastPoint, endPoint);
         painter.drawPoint(endPoint);
 
         update();
 
         lastPoint = endPoint;
-
 }
 
 /*
@@ -75,7 +92,11 @@ void QWidgetCanvas::paintEvent(QPaintEvent *event) {
 
         QPainter painter(this);
         QRect dirtyRect = event->rect();
-        painter.drawImage(dirtyRect, *getActiveCanvasImage(), dirtyRect);
+
+        painter.scale(CurrentScale, CurrentScale);
+
+        if (getActiveCanvasImage() != nullptr)
+            painter.drawImage(dirtyRect, *getActiveCanvasImage(), dirtyRect);
 
         QWidget::paintEvent(event);
 }
@@ -93,10 +114,9 @@ void QWidgetCanvas::setActiveCanvas(Canvas * can)
  */
 void QWidgetCanvas::mouseMoveEvent(QMouseEvent *event)
 {
-    if (this->MouseDown)
-        drawLineTo(event->pos());//continue;
-
-    //drawLineTo(event->pos());
+    if (this->MouseDown) {
+        drawLineTo(this->mapFromGlobal(event->globalPos()));
+    }
 }
 
 /*
@@ -104,7 +124,6 @@ void QWidgetCanvas::mouseMoveEvent(QMouseEvent *event)
  */
 void QWidgetCanvas::mousePressEvent(QMouseEvent *event)
 {
-
     if (event->button() == Qt::LeftButton) {
         this->MouseDown = true;
     }
@@ -127,14 +146,17 @@ void QWidgetCanvas::load(QImage* im)
 }
 
 /*
- * This function is used to load images onto canvases
- *
+ *  This function is used to load images onto canvases
  */
-
 void QWidgetCanvas::addCanvas(QImage* im)
 {
-    this->ActiveCanvas = new Canvas(*ActiveCanvas);
+    if (ActiveCanvas != nullptr)
+        this->ActiveCanvas = new Canvas(*ActiveCanvas);
+    else
+        this->ActiveCanvas = new Canvas();
+
     this->ActiveCanvas->LoadImage(im);
+
     this->composites.push_back(this->ActiveCanvas);
 
     emit sendImages(this->getAllCompositeImages());

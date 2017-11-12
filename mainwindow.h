@@ -34,6 +34,8 @@ private:
     //Temp function to test brush width
     //void paint(QPoint,QImage&,QRgb,int);
 
+    QWidget *wrap(QLayout *l);
+    void resizeEvent(QResizeEvent *event);
 public slots:
     //void recieveSelectedColor(QColor);
     //void paintCanvas(QPoint&);

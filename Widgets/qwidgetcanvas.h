@@ -36,6 +36,7 @@ private:
     //QVector<Canvas*> composites;
     Canvas* ActiveCanvas;
     void addCanvas(QImage*);
+    double CurrentScale;
 
 
 signals:

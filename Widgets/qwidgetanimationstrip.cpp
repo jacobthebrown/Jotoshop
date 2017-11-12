@@ -10,39 +10,38 @@ QWidgetAnimationStrip::QWidgetAnimationStrip(QWidget *parent) : QWidget(parent)
     layout->setMargin(3);
     this->setMaximumHeight(128);
 
-    //QLabel* label = new QLabel("kk", this);
-    //label->setMinimumSize(200, 200);
-
     listArea = new QListWidget;
     listArea->setViewMode(QListWidget::IconMode);
-    //scrollArea = new QScrollArea(this);
 
-    //scrollArea->move(0,0);
     listArea->setMinimumSize(this->width(),this->height());
     listArea->setIconSize(QSize(80,80));
     listArea->setResizeMode(QListWidget::Adjust);
     listArea->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
     listArea->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOn);
-    //listArea->addItem(new QListWidgetItem(QIcon(":/Images/Buttons/Resources/Images/dropper.png"),"Earth"));//scrollArea->addScrollBarWidget(label, Qt::AlignLeft);
+
     listArea->show();
 
     layout->addWidget(listArea);
     this->setLayout(layout);
 
-    //Connected clicked icon event to handler
+    // TODO: RECONNECT IN MMAIN WINDOW?
     connect(listArea, SIGNAL(itemClicked(QListWidgetItem*)), this, SLOT(canvasClicked(QListWidgetItem*)));
-
 }
+
 /*
  * Slot for adding/updating a widget to the animation strip.
  */
 void QWidgetAnimationStrip::addQImage(QPixmap pix, int framePos)
 {
     qDebug() << listArea->count();
-    if(listArea->item(framePos) != 0) // if item exists, update
+    if(listArea->item(framePos) != 0) { // if item exists, update
         listArea->item(framePos)->operator =(QListWidgetItem(QIcon(pix),QString::number(framePos)));
-    else
-        listArea->addItem(new QListWidgetItem(QIcon(pix),QString::number(framePos)));
+    }
+    else {
+        QListWidgetItem* items = new QListWidgetItem(QIcon(pix),QString::number(framePos));
+        animationPreviewItems.push_back(items);
+        listArea->addItem(items);
+    }
     update();
     qDebug() << listArea->count();
 

@@ -47,13 +47,22 @@ void QWidgetPreview::paintEvent(QPaintEvent *event) {
 
 
     QPainter painter(this);
+    QPainterPath path;
+    path.addRoundRect(0,0,this->width()-1,this->height()-1,0);
 
-    if(currentImage != nullptr)
-        painter.drawImage(rect(), *currentImage, currentImage->rect());
+    QPen pen(Qt::lightGray, 1);
+    painter.setPen(pen);
+
+    painter.begin(this);
+
+        if(currentImage != nullptr) {
+            painter.drawImage(rect(), *currentImage, currentImage->rect());
+        }
+        painter.drawPath(path);
+
+    painter.end();
 
     QWidget::paintEvent(event);
-
-
 }
 
 

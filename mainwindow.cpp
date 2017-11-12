@@ -27,19 +27,34 @@ MainWindow::MainWindow(GifExporter& gifModel, QWidget *parent) : QMainWindow(par
 
     // Upon loading an image creates a new canvas
     connect(this,SIGNAL(loadImage(QImage*)),ui->Canvas,SLOT(load(QImage*)));
+
+    //this->ui->Right_horzLayout->setAlignment(this->ui->Preview, Qt::AlignHCenter);
+    //this->ui->Right_horzLayout->setSizeConstraint(QLayout::SetMaximumSize);
+
+    //this->ui->Preview->setSizePolicy(QSizePolicy::ExpandFlag);
+    //this->ui->Preview->
+            //setLayout(QLayout::SetMaximumSize);
+    this->ui->ExpandableScroller_1->WidgetToScroll = ui->scrollArea_2;
+    this->ui->ExpandableScroller_1->WidgetToProtect = ui->scrollArea;
+    //this->ui->ExpandableScroller_1->DefaultWidth = ui->scrollArea_2->width();
+
+
 }
 
 MainWindow::~MainWindow()
 {
-
+    // TODO: Make sure we are deleting every object we created in the heap.
     delete ui;
 }
 
+// TODO: MOVE TO MAIN WINDOW MODEL
+// TODO: SET FPS OF GIF.
 void MainWindow::exportGIF()
 {
-    // Gets the user's desired name for the file
-    const QString fileName = QFileDialog::getSaveFileName(this, tr("Save File"), "C:/Users/Sam/Documents", tr("Image Files (*.gif)"));
+    // Dialog to get gif export path.
+    const QString fileName = QFileDialog::getSaveFileName(this, tr("Export to GIF"), "C:/Users/Sam/Documents", tr("Image Files (*.gif)"));
 
+    // Grab all the Canvas images and push them into a vector.
     QVector<QImage*> temp;
     foreach (QImage *im, ui->Canvas->getAllCompositeImages()) {
         QImage* ima = new QImage;
@@ -55,6 +70,8 @@ void MainWindow::exportGIF()
 
 
 
+// TODO: MOVE TO MAIN WINDOW MODEL
+// TODO: CREATE ERROR HANDLING EXCEPTIONS
 void MainWindow::SaveFile(int width, int height, int frames, QVector<QImage*> images)
 {
     // Grabs the filename saved; forcing the filter to be the extension
@@ -74,12 +91,11 @@ void MainWindow::SaveFile(int width, int height, int frames, QVector<QImage*> im
     QString line;
 
     // Write height and width to file followed by the number of frames in project
-    line = QString::number(height) + " " + QString::number(width) + "\n";
-    out << line;
-
-    out << QString::number(frames) + "\n";
+    line = QString::number(height) + " " + QString::number(width);
+    out << line << endl << QString::number(frames) << endl;
 
     QColor pixel;
+
     // Loops through each images writing individual pixels to the file
     foreach(QImage* image, images)
     {
@@ -109,12 +125,18 @@ void MainWindow::SaveFile(int width, int height, int frames, QVector<QImage*> im
 
 }
 
+/*
+ * TODO: MOVE TO MODEL.
+ * TODO: CREATE ERROR HANDLING EXCEPTIONS
+ */
 void MainWindow::LoadFile()
 {
-    QFile file(QFileDialog::getOpenFileName(this,tr("Load Project"),"",tr("*.ssp")));
+    // Creates a dialog to select a project to load.
+    QFile file(QFileDialog::getOpenFileName(this, tr("Load Project"), "", tr("*.ssp")));
+
     if(!file.open(QFile::ReadOnly | QFile::Text))
     {
-        QMessageBox::warning(this,"Error","Couldn't Open File");
+        QMessageBox::warning(this, "Error", "Couldn't Open File");
         return;
     }
 
@@ -138,6 +160,8 @@ void MainWindow::LoadFile()
      QLabel* label;
      QPixmap tempPix;
     int row = 0, col = 0;
+
+
     for(int z = 0; z < frames; z++)
     {
         im = new QImage(width, height, QImage::Format_ARGB32);
@@ -190,8 +214,10 @@ void MainWindow::sendPreviewImages(QVector<QImage*> images)
  */
 void MainWindow::onCanvasIconClicked(QListWidgetItem *item)
 {
+
     for(int i = 0; i < ui->AnimationStrip->listArea->count(); i++){
         if (ui->AnimationStrip->listArea->item(i) == item)
+            // TODO: ERROR HANDLE FOR NULL CANVAS
             ui->Canvas->setActiveCanvas(ui->Canvas->composites.at(i));
     }
 
@@ -272,29 +298,53 @@ void MainWindow::on_dropperButton_clicked()
  */
 void MainWindow::on_addCanvasButton_clicked()
 {
-    // Add current canvas to animation strip
-    ui->AnimationStrip->addQImage(QPixmap::fromImage(*ui->Canvas->getActiveCanvasImage()),
-                                  ui->Canvas->getAllCompositeImages().indexOf(ui->Canvas->getActiveCanvasImage()));
-
     //Add new canvas and update display
     addCanvas();
     ui->Canvas->update();
 
+    // Add current canvas to animation strip
+    // TODO: MAKE THIS AN EMITTED RESPONSE.
+    ui->AnimationStrip->addQImage(QPixmap::fromImage(*ui->Canvas->getActiveCanvasImage()),
+                                  ui->Canvas->getAllCompositeImages().indexOf(ui->Canvas->getActiveCanvasImage()));
+
+    // TODO: ERROR CHECK
+
 }
 
-
+/*
+ *
+ */
 void MainWindow::on_fpsSpeedSlider_valueChanged(int value)
 {
     ui->sliderValueLabel->setText("FPS: " + QString::number(value));
     ui->Preview->setSpeed(value);
 }
 
+/*
+ *
+ */
 void MainWindow::on_actionSave_triggered()
 {
     QVector<QImage*> canvasVector = ui->Canvas->getAllCompositeImages();
     SaveFile((canvasVector[0])->width(), (canvasVector[0])->height(), canvasVector.count(), canvasVector);
 }
+
+/*
+ *
+ */
 void MainWindow::on_actionLoad_triggered()
 {
     LoadFile();
+}
+
+void MainWindow::resizeEvent(QResizeEvent *event)
+{
+    //MainWindow::resizeEvent(event);
+    if(this)
+    {
+        int deltaChange = event->oldSize().width() - event->size().width();
+        int oldMinimum = this->ui->scrollArea_2->minimumWidth();
+
+        //this->ui->scrollArea_2->setMinimumWidth(oldMinimum + deltaChange);
+    }
 }

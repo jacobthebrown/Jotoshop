@@ -34,9 +34,6 @@ bool GifExporter::exportToGIF(const QString& fileName, const QVector<QImage*>& i
 
         delete outputFrame;
         delete[] outputFrameBuffer;
-
-//        QByteArray alpha8((char *) image->bits(),image->byteCount());
-//        GifWriteFrame(&writer, (uint8_t *)alpha8.data(), width, height, 10);
     }
 
     GifEnd(&writer);
