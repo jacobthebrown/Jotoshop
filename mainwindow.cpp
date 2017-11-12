@@ -38,6 +38,7 @@ MainWindow::MainWindow(GifExporter& gifModel, QWidget *parent) : QMainWindow(par
     this->ui->ExpandableScroller_1->WidgetToProtect = ui->scrollArea;
     //this->ui->ExpandableScroller_1->DefaultWidth = ui->scrollArea_2->width();
 
+    //QWidgetToolbar* tool = new QWidgetToolbar();
 
 }
 
@@ -342,8 +343,8 @@ void MainWindow::resizeEvent(QResizeEvent *event)
     //MainWindow::resizeEvent(event);
     if(this)
     {
-        int deltaChange = event->oldSize().width() - event->size().width();
-        int oldMinimum = this->ui->scrollArea_2->minimumWidth();
+        //int deltaChange = event->oldSize().width() - event->size().width();
+        //int oldMinimum = this->ui->scrollArea_2->minimumWidth();
 
         //this->ui->scrollArea_2->setMinimumWidth(oldMinimum + deltaChange);
     }

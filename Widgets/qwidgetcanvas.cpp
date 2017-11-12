@@ -5,6 +5,7 @@
  */
 QWidgetCanvas::QWidgetCanvas(QWidget *parent) : QWidget(parent)
 {
+    this->ActiveCanvas = nullptr;
     //this->ActiveCanvas = new Canvas();
     //this->composites.push_front(ActiveCanvas);
     this->CurrentScale = 1.0;
@@ -25,7 +26,7 @@ Canvas* QWidgetCanvas::getActiveCanvas()
  */
 QImage* QWidgetCanvas::getActiveCanvasImage()
 {
-    if (this->ActiveCanvas != nullptr)
+    if (this->ActiveCanvas != nullptr && this->ActiveCanvas->GetImage() != nullptr)
         return this->ActiveCanvas->GetImage();
     else
         return nullptr;
