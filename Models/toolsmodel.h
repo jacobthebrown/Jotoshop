@@ -14,25 +14,32 @@ public:
     QString currentTool;
     qint32 Width();
 
+    void updateWidth(int);
+
+    void SetColor(QColor);
+    void setSecondaryColor(QColor);
+
+    QRgb currentColor;
+    QRgb backupColor;
 protected:
     void mouseMoveEvent(QMouseEvent* mouse_event);
 
 private:
-    QRgb currentColor;
-    qint32 toolWidth;
 
-    qint32 brushWidth;
-    qint32 penWidth;
-    qint32 eraserWidth;
+    int toolWidth;
 
-    void setWidth(qint32);
+    int brushWidth;
+    int penWidth;
+    int eraserWidth;
+
+    void setWidth(int);
     void determineTool(QString);
 
 public slots:
-    void SetColor(QColor);
     void UpdateTool(QString);
 signals:
     void HighlightToolIcon(QString);
+    void SignalDefaultWidth(int);
 
 };
 

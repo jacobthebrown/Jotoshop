@@ -7,7 +7,11 @@
     <x>0</x>
     <y>0</y>
     <width>1034</width>
+<<<<<<< HEAD
     <height>666</height>
+=======
+    <height>682</height>
+>>>>>>> c43124274bf1423412e605f42139e59d92a21ac5
    </rect>
   </property>
   <property name="mouseTracking">
@@ -1058,10 +1062,17 @@ border-radius: 4px;
           <widget class="QWidget" name="scrollAreaWidgetContents">
            <property name="geometry">
             <rect>
+<<<<<<< HEAD
              <x>-159</x>
              <y>0</y>
              <width>618</width>
              <height>618</height>
+=======
+             <x>0</x>
+             <y>0</y>
+             <width>624</width>
+             <height>624</height>
+>>>>>>> c43124274bf1423412e605f42139e59d92a21ac5
             </rect>
            </property>
            <layout class="QGridLayout" name="gridLayout">
@@ -1161,8 +1172,13 @@ border-radius: 4px;
              <rect>
               <x>0</x>
               <y>0</y>
+<<<<<<< HEAD
               <width>318</width>
               <height>318</height>
+=======
+              <width>324</width>
+              <height>324</height>
+>>>>>>> c43124274bf1423412e605f42139e59d92a21ac5
              </rect>
             </property>
             <property name="sizePolicy">
@@ -1388,7 +1404,7 @@ border-radius: 4px;
      <x>0</x>
      <y>0</y>
      <width>1034</width>
-     <height>21</height>
+     <height>22</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuFile">
