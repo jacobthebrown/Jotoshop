@@ -24,8 +24,8 @@ public:
 private:
     Ui::MainWindow *ui;
 
-    void SaveFile(int width, int height, int frames, QVector<QImage*> images);
-    void LoadFile();
+    QString SaveFile(int width, int height, int frames, QVector<QImage*> images);
+    void LoadFile(QString);
 
 
     //ToolsModel toolBar;

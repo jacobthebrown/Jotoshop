@@ -1062,6 +1062,8 @@ border-radius: 4px;
              <y>0</y>
              <width>310</width>
              <height>461</height>
+             <width>624</width>
+             <height>624</height>
             </rect>
            </property>
            <layout class="QGridLayout" name="gridLayout">
@@ -1421,9 +1423,11 @@ border-radius: 4px;
     <property name="title">
      <string>File</string>
     </property>
-    <addaction name="exportAction"/>
     <addaction name="actionSave"/>
     <addaction name="actionLoad"/>
+    <addaction name="actionNew"/>
+    <addaction name="separator"/>
+    <addaction name="exportAction"/>
    </widget>
    <addaction name="menuFile"/>
   </widget>
@@ -1440,15 +1444,32 @@ border-radius: 4px;
    <property name="text">
     <string>Export to GIF</string>
    </property>
+   <property name="toolTip">
+    <string>Export the current Sprite animation to a GIF</string>
+   </property>
   </action>
   <action name="actionSave">
    <property name="text">
     <string>Save</string>
    </property>
+   <property name="toolTip">
+    <string>Save the current project to a .ssp file</string>
+   </property>
   </action>
   <action name="actionLoad">
    <property name="text">
     <string>Load</string>
+   </property>
+   <property name="toolTip">
+    <string>Load a .ssp file into Jotoshop</string>
+   </property>
+  </action>
+  <action name="actionNew">
+   <property name="text">
+    <string>New...</string>
+   </property>
+   <property name="toolTip">
+    <string>Create a new Sprite!</string>
    </property>
   </action>
  </widget>

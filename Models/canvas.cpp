@@ -5,6 +5,13 @@ Canvas::Canvas(int width, int height)
     this->CanvasImage = new QImage(QSize(width, height), QImage::Format_ARGB32);
     this->CanvasImage->fill(QColor(203,203,203));
 }
+
+Canvas::Canvas(int width, int height)
+{
+    this->CanvasImage = new QImage(QSize(width, height), QImage::Format_ARGB32);
+    this->CanvasImage->fill(QColor(203,203,203));
+}
+
 /*
  * Copy constructor
  */
@@ -19,6 +26,7 @@ Canvas::Canvas(const Canvas& other)
 
 Canvas::~Canvas()
 {
+
 }
 
 QImage* Canvas::GetImage() const
