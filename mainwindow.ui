@@ -1315,7 +1315,7 @@ border-radius: 4px;
              </rect>
             </property>
             <property name="text">
-             <string>PushButton</string>
+             <string>Start Preview</string>
             </property>
            </widget>
            <widget class="QDoubleSpinBox" name="zoomSpinBox">
