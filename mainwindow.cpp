@@ -200,6 +200,8 @@ void MainWindow::LoadFile(QString fileName)
         //ui->AnimationStrip->layout()->addWidget(label);
         ui->AnimationStrip->addQImage(QPixmap::fromImage(t), ui->Canvas->getAllCompositeImages().indexOf(ui->Canvas->getActiveCanvasImage()));
 
+
+
         //Add new canvas and update display
         //addCanvas();
         emit(loadImage(im));
@@ -426,8 +428,8 @@ void MainWindow::on_previewButton_clicked()
     ui->Preview->setActiveStatus();
 }
 
-void MainWindow::on_zoomSpinBox_valueChanged(double val)
-{
-    ui->Preview->resize(val);
-}
 
+void MainWindow::on_fullPreviewButton_clicked()
+{
+    ui->Preview->fullPreview();
+}

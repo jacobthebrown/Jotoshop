@@ -81,7 +81,7 @@ void QWidgetCanvas::drawLineTo(const QPoint &endPoint)
 
         QPainter painter(this->getActiveCanvasImage());
 
-        painter.setPen(QPen(QColor("blue"), 10, Qt::SolidLine, Qt::RoundCap,
+        painter.setPen(QPen(QColor("orange"), 10, Qt::SolidLine, Qt::RoundCap,
                             Qt::RoundJoin));
         painter.drawPoint(endPoint);
 
@@ -108,7 +108,7 @@ void QWidgetCanvas::paintEvent(QPaintEvent *event) {
         QWidget::paintEvent(event);
 }
 
-// might be edgy
+//
 void QWidgetCanvas::setActiveCanvas(Canvas * can)
 {
     this->ActiveCanvas = can;

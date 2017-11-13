@@ -35,7 +35,6 @@ protected:
 private:
     void paintEvent(QPaintEvent *event);
     bool MouseDown;
-    //QVector<Canvas*> composites;
     Canvas* ActiveCanvas;
     void addCanvas(QImage*);
     double CurrentScale;

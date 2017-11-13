@@ -3,8 +3,13 @@
 
 #include <QWidget>
 #include <QPainter>
+#include <QImage>
+#include <QFormLayout>
+#include <QDialog>
+#include <QLabel>
 #include <QBasicTimer>
 #include <QTimerEvent>
+#include "../fullpreviewwindow.h"
 
 
 class QWidgetPreview : public QWidget
@@ -16,6 +21,7 @@ public:
     void setImages(QVector<QImage*> im);
     void setSpeed(int speed);
     void setActiveStatus();
+    void fullPreview();
 
     void resize(double newScale);
 private:
@@ -28,7 +34,8 @@ private:
     int originalWidth;
     int originalHeight;
     bool activeStatus;
-
+    QLabel *label;
+    FullPreviewWindow previewWindow;
     // Events
     void paintEvent(QPaintEvent *event);
     void timerEvent(QTimerEvent *event);

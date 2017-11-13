@@ -24,6 +24,7 @@ public:
 private:
     Ui::MainWindow *ui;
 
+
     QString SaveFile(int width, int height, int frames, QVector<QImage*> images);
     void LoadFile(QString);
 
@@ -75,7 +76,7 @@ private slots:
     void on_actionLoad_triggered();
     void on_actionNew_triggered();
     void on_previewButton_clicked();
-    void on_zoomSpinBox_valueChanged(double val);
+    void on_fullPreviewButton_clicked();
 };
 
 #endif // MAINWINDOW_H

@@ -13,6 +13,7 @@ QWidgetPreview::QWidgetPreview(QWidget *parent) : QWidget(parent)
     imagesPos = 0;
     currentImage = nullptr;
     scale = 1.0;
+    label = new QLabel;
 
 
 }
@@ -29,6 +30,7 @@ void QWidgetPreview::resize(double newScale) {
 void QWidgetPreview::setCurrentImage(QImage *image)
 {
     currentImage = image;
+    label->setPixmap(QPixmap::fromImage(*image));
     repaint();
 
 }
@@ -62,6 +64,16 @@ void QWidgetPreview::setActiveStatus()
 
     emit activityStatus(activeStatus);
 }
+/*
+ * Shows
+ */
+void QWidgetPreview::fullPreview()
+{
+    QFormLayout form(&previewWindow);
+    form.addWidget(label);
+    previewWindow.show();
+
+}
 
 /*
  *  Event for displaying preview widget and current image if exists.
@@ -79,13 +91,21 @@ void QWidgetPreview::paintEvent(QPaintEvent *event) {
 
     painter.begin(this);
 
-        if(currentImage != nullptr) {
+    if(currentImage != nullptr)
             painter.drawImage(rect(), *currentImage, currentImage->rect());
-        }
+
+//    else if(currentImage != nullptr && full == true)
+//            painter.drawImage(currentImage->rect(), *currentImage, currentImage->rect());
+
+
+
         painter.drawPath(path);
 
-    painter.end();
 
+
+
+
+    painter.end();
     QWidget::paintEvent(event);
 }
 
