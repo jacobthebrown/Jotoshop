@@ -15,15 +15,19 @@ public:
     void setCurrentImage(QImage* image);
     void setImages(QVector<QImage*> im);
     void setSpeed(int speed);
+    void setActiveStatus();
 
+    void resize(double newScale);
 private:
     QBasicTimer timer;
     QVector<QImage*> images;
     QImage* currentImage;
     int fps;
     int imagesPos;
-    int imageWidth;
-    int imageHeight;
+    double scale;
+    int originalWidth;
+    int originalHeight;
+    bool activeStatus;
 
     // Events
     void paintEvent(QPaintEvent *event);
@@ -31,6 +35,7 @@ private:
 
 
 signals:
+    void activityStatus(bool);
 
 public slots:
 };

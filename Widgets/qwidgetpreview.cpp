@@ -8,9 +8,19 @@
  */
 QWidgetPreview::QWidgetPreview(QWidget *parent) : QWidget(parent)
 {
+    activeStatus = false;
     timer.start(1000,this);
     imagesPos = 0;
     currentImage = nullptr;
+    scale = 1.0;
+
+
+}
+
+void QWidgetPreview::resize(double newScale) {
+
+    //this->setMinimumSize(originalWidth * scale, originalHeight * scale);
+    scale+= newScale;
 }
 
 /*
@@ -41,12 +51,26 @@ void QWidgetPreview::setSpeed(int speed)
 }
 
 /*
+ * Changes the activeStatus and emits back the current status
+ */
+void QWidgetPreview::setActiveStatus()
+{
+    if(activeStatus == true)
+        activeStatus = false;
+    else
+        activeStatus = true;
+
+    emit activityStatus(activeStatus);
+}
+
+/*
  *  Event for displaying preview widget and current image if exists.
  */
 void QWidgetPreview::paintEvent(QPaintEvent *event) {
 
 
     QPainter painter(this);
+    painter.scale(scale,scale);
     QPainterPath path;
     path.addRoundRect(0,0,this->width()-1,this->height()-1,0);
 
@@ -71,7 +95,7 @@ void QWidgetPreview::paintEvent(QPaintEvent *event) {
  */
 void QWidgetPreview::timerEvent(QTimerEvent *event)
 {
-    if (event->timerId() == timer.timerId() && images.count() > 0)
+    if (event->timerId() == timer.timerId() && images.count() > 0 && activeStatus == true)
     {
         imagesPos++;
         if(imagesPos >= images.count())
@@ -82,5 +106,7 @@ void QWidgetPreview::timerEvent(QTimerEvent *event)
     else
         QWidget::timerEvent(event);
 }
+
+
 
 
