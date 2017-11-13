@@ -3,7 +3,7 @@
 Canvas::Canvas(int width, int height)
 {
     this->CanvasImage = new QImage(QSize(width, height), QImage::Format_ARGB32);
-    this->CanvasImage->fill(QColor(203,203,203));
+    this->CanvasImage->fill(QColor(0,0,0,0));
 }
 
 

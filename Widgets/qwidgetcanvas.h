@@ -5,8 +5,10 @@
 #include <QPainter>
 #include <QImage>
 #include <QSlider>
+#include <QRect>
 #include "../Models/canvas.h"
 #include "../Models/basetoolclass.h"
+#include "../Models/paintbrushtool.h"
 
 class QWidgetCanvas : public QWidget
 {
@@ -18,6 +20,7 @@ public:
     Canvas* getActiveCanvas();
     QImage* getActiveCanvasImage();
     QVector<QImage *> getAllCompositeImages();
+    QImage* transparentBackground;
     void setActiveCanvas(Canvas *can);
 
     void drawLineTo(const QPoint &endPoint);

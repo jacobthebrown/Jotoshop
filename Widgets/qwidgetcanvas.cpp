@@ -8,11 +8,35 @@ QWidgetCanvas::QWidgetCanvas(QWidget *parent) : QWidget(parent)
     this->ActiveCanvas = nullptr;
     //this->ActiveCanvas = new Canvas();
     //this->composites.push_front(ActiveCanvas);
-    this->CurrentScale = 1.0;
+    this->CurrentScale = 5.0;
 
     // TODO: CHANGE TO SIZE SETTINGS
     this->imageHeight = 512;
     this->imageWidth = 512;
+    this->selectedTool = new paintbrushTool();
+    this->selectedTool->SetWidth(5);
+    this->resize(imageHeight * CurrentScale, imageWidth * CurrentScale);
+
+    this->transparentBackground = new QImage(QSize(imageWidth, imageHeight), QImage::Format_ARGB32);
+
+    QPainter painter(transparentBackground);
+
+    bool swap = false;
+    for (int i = 0; i < imageWidth; i++) {
+        for (int j = 0; j < imageHeight; j++) {
+            if (swap) {
+                QRect rect = QRect(16*i,16*j,16,16);
+                painter.fillRect(rect, QColor(255, 255, 255, 255));
+            }
+            else {
+                QRect rect = QRect(16*i,16*j,16,16);
+                painter.fillRect(rect, QColor(155, 155, 155, 255));
+            }
+            swap = !swap;
+        }
+        swap = !swap;
+    }
+
 
     emit sendImages(this->getAllCompositeImages());
 }
@@ -76,21 +100,24 @@ void QWidgetCanvas::addCanvas()
 void QWidgetCanvas::drawLineTo(const QPoint &endPoint)
 {
 
-        QPainter painter(this);
+        //QPainter painter(getActiveCanvasImage());
 
         emit RequestCurrentTool();
+
+        if (selectedTool == nullptr) {
+            qDebug() << "Null tool selected";
+            return;
+        }
         if (selectedTool->name == "dropper")
         {
 
         }
         else
             selectedTool->Paint(this->getActiveCanvasImage(),endPoint);
-//        if (this->getActiveCanvas() == nullptr)
-//            return;
 
-        painter.setPen(QPen(QColor("orange"), 10, Qt::SolidLine, Qt::RoundCap,
-                            Qt::RoundJoin));
-        painter.drawPoint(endPoint);
+        //painter.setPen(QPen(QColor("orange"), 10, Qt::SolidLine, Qt::RoundCap,
+        //                    Qt::RoundJoin));
+        //painter.drawPoint(endPoint);
 
         update();
 
@@ -103,16 +130,18 @@ void QWidgetCanvas::drawLineTo(const QPoint &endPoint)
 void QWidgetCanvas::paintEvent(QPaintEvent *event) {
 
     // Asks the ui to update the SelectedTool
-        emit RequestCurrentTool();
+        //emit RequestCurrentTool();
 
         QPainter painter(this);
         QRect dirtyRect = event->rect();
 
-        painter.scale(CurrentScale, CurrentScale);
+        //painter.scale(CurrentScale, CurrentScale);
 
-        if (getActiveCanvasImage() != nullptr)
+        if (getActiveCanvasImage() != nullptr && transparentBackground != nullptr) {
+            painter.drawImage(dirtyRect, *transparentBackground, dirtyRect);
             painter.drawImage(dirtyRect, *getActiveCanvasImage(), dirtyRect);
 
+        }
         QWidget::paintEvent(event);
 }
 
@@ -130,7 +159,10 @@ void QWidgetCanvas::setActiveCanvas(Canvas * can)
 void QWidgetCanvas::mouseMoveEvent(QMouseEvent *event)
 {
     if (this->MouseDown) {
-        drawLineTo(this->mapFromGlobal(event->globalPos()));
+
+        //QPoint point = event->pos().setX(event->pos->x()/2;)
+        //QPoint point = event->
+        drawLineTo(event->pos());
     }
 }
 
@@ -183,3 +215,8 @@ void QWidgetCanvas::addCanvas(QImage* im)
 
     emit sendImages(this->getAllCompositeImages());
 }
+
+//void QWidgetCanvas::ToolChange() {
+
+
+//}
