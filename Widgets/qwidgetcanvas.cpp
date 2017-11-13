@@ -6,24 +6,24 @@
 QWidgetCanvas::QWidgetCanvas(QWidget *parent) : QWidget(parent)
 {
     this->ActiveCanvas = nullptr;
-    //this->ActiveCanvas = new Canvas();
-    //this->composites.push_front(ActiveCanvas);
-    this->CurrentScale = 5.0;
+    this->CurrentScale = 1.0;
 
     // TODO: CHANGE TO SIZE SETTINGS
     this->imageHeight = 512;
     this->imageWidth = 512;
     this->selectedTool = new paintbrushTool();
     this->selectedTool->SetWidth(5);
-    this->resize(imageHeight * CurrentScale, imageWidth * CurrentScale);
+    this->setMinimumSize(imageHeight * CurrentScale, imageWidth * CurrentScale);
+    this->setMaximumSize(imageHeight * CurrentScale, imageWidth * CurrentScale);
+    //this->setSizePolicy(QSizePolicy::Maximum, QSizePolicy::);
 
     this->transparentBackground = new QImage(QSize(imageWidth, imageHeight), QImage::Format_ARGB32);
 
     QPainter painter(transparentBackground);
 
     bool swap = false;
-    for (int i = 0; i < imageWidth; i++) {
-        for (int j = 0; j < imageHeight; j++) {
+    for (int i = 0; i < imageWidth/8; i++) {
+        for (int j = 0; j < imageHeight/8; j++) {
             if (swap) {
                 QRect rect = QRect(16*i,16*j,16,16);
                 painter.fillRect(rect, QColor(255, 255, 255, 255));
@@ -133,15 +133,24 @@ void QWidgetCanvas::paintEvent(QPaintEvent *event) {
         //emit RequestCurrentTool();
 
         QPainter painter(this);
-        QRect dirtyRect = event->rect();
+        QRect dirtyRect = this->rect();
 
         //painter.scale(CurrentScale, CurrentScale);
 
         if (getActiveCanvasImage() != nullptr && transparentBackground != nullptr) {
-            painter.drawImage(dirtyRect, *transparentBackground, dirtyRect);
-            painter.drawImage(dirtyRect, *getActiveCanvasImage(), dirtyRect);
+            painter.drawImage(dirtyRect, *transparentBackground);
+            painter.drawImage(dirtyRect, *getActiveCanvasImage());
 
         }
+
+        QPainterPath path;
+        path.addRoundRect(0,0,this->width()-1,this->height()-1,0);
+
+        QPen pen(Qt::lightGray, 10);
+        painter.setPen(pen);
+        painter.drawPath(path);
+
+
         QWidget::paintEvent(event);
 }
 
@@ -204,19 +213,14 @@ void QWidgetCanvas::RecieveTool(BaseToolClass* tool)
  */
 void QWidgetCanvas::addCanvas(QImage* im)
 {
-    if (ActiveCanvas != nullptr)
+    if (ActiveCanvas != nullptr) {
         this->ActiveCanvas = new Canvas(*ActiveCanvas);
-    else
+    }
+    else {
         this->ActiveCanvas = new Canvas(this->imageWidth, this->imageHeight);
-
-    //this->ActiveCanvas->LoadImage(im);
+    }
 
     this->composites.push_back(this->ActiveCanvas);
 
     emit sendImages(this->getAllCompositeImages());
 }
-
-//void QWidgetCanvas::ToolChange() {
-
-
-//}
