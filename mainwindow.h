@@ -38,6 +38,8 @@ private:
 
     QWidget *wrap(QLayout *l);
     void resizeEvent(QResizeEvent *event);
+    void CurrentToolRequest();
+    void AquiredCurrentTool(BaseToolClass *tool);
 public slots:
     //void recieveSelectedColor(QColor);
     //void paintCanvas(QPoint&);
@@ -50,6 +52,10 @@ signals:
     void addToStrip(QImage*);
     void loadImage(QImage*);
 	void exportToGIF(const QString&, const QVector<QImage*>&, int, int);
+
+    //Signals to update tool info between canvas and toolbar
+    void GetcurrentToolFromBar();
+    void SendCanvasCurrentTool(BaseToolClass*);
 
 private slots:
     /*

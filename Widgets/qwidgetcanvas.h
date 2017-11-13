@@ -6,6 +6,7 @@
 #include <QImage>
 #include <QSlider>
 #include "../Models/canvas.h"
+#include "../Models/basetoolclass.h"
 
 class QWidgetCanvas : public QWidget
 {
@@ -13,7 +14,6 @@ class QWidgetCanvas : public QWidget
 public:
     explicit QWidgetCanvas(QWidget *parent = nullptr);
 
-    QPoint lastPoint;
 
     Canvas* getActiveCanvas();
     QImage* getActiveCanvasImage();
@@ -33,6 +33,8 @@ protected:
 
 
 private:
+    BaseToolClass* selectedTool;
+
     void paintEvent(QPaintEvent *event);
     bool MouseDown;
     Canvas* ActiveCanvas;
@@ -44,9 +46,12 @@ signals:
     void sendImages(QVector<QImage *>);
     void ImageUpdate(QImage*, int);
 
+    void RequestCurrentTool();
+
 private slots:
     void addCanvas();
     void load(QImage*);
+    void RecieveTool(BaseToolClass*);
 
 
 

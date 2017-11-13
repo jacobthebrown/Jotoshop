@@ -76,18 +76,23 @@ void QWidgetCanvas::addCanvas()
 void QWidgetCanvas::drawLineTo(const QPoint &endPoint)
 {
 
-        if (this->getActiveCanvas() == nullptr)
-            return;
+        QPainter painter(this);
 
-        QPainter painter(this->getActiveCanvasImage());
+        emit RequestCurrentTool();
+        if (selectedTool->name == "dropper")
+        {
+
+        }
+        else
+            selectedTool->Paint(this->getActiveCanvasImage(),endPoint);
+//        if (this->getActiveCanvas() == nullptr)
+//            return;
 
         painter.setPen(QPen(QColor("orange"), 10, Qt::SolidLine, Qt::RoundCap,
                             Qt::RoundJoin));
         painter.drawPoint(endPoint);
 
         update();
-
-        lastPoint = endPoint;
 
 
 }
@@ -96,6 +101,9 @@ void QWidgetCanvas::drawLineTo(const QPoint &endPoint)
  *  Triggered every tick, paints the canvas image on the Widget.
  */
 void QWidgetCanvas::paintEvent(QPaintEvent *event) {
+
+    // Asks the ui to update the SelectedTool
+        emit RequestCurrentTool();
 
         QPainter painter(this);
         QRect dirtyRect = event->rect();
@@ -151,6 +159,12 @@ void QWidgetCanvas::mouseReleaseEvent(QMouseEvent* event) {
 void QWidgetCanvas::load(QImage* im)
 {
     addCanvas(im);
+}
+
+// Updates the Tool
+void QWidgetCanvas::RecieveTool(BaseToolClass* tool)
+{
+    selectedTool = tool;
 }
 
 /*

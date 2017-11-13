@@ -44,6 +44,10 @@ MainWindow::MainWindow(GifExporter& gifModel, QWidget *parent) : QMainWindow(par
 
     //QWidgetToolbar* tool = new QWidgetToolbar();
 
+    connect(ui->Canvas,SIGNAL(RequestCurrentTool()),this,SLOT(CurrentToolRequest()));
+    connect(this,SIGNAL(GetcurrentToolFromBar()),ui->Toolbar,SLOT(CurrentToolRequested()));
+    connect(ui->Toolbar,SIGNAL(SendCurrentTool(BaseToolClass*)),this,SLOT(AquiredCurrentTool(BaseToolClass*)));
+    connect(this,SIGNAL(SendCanvasCurrentTool(BaseToolClass*)),ui->Canvas,SLOT(RecieveTool(BaseToolClass*)));
 }
 
 MainWindow::~MainWindow()
@@ -440,3 +444,14 @@ void MainWindow::on_fullPreviewButton_clicked()
 {
     ui->Preview->fullPreview();
 }
+
+void MainWindow::CurrentToolRequest()
+{
+    emit GetcurrentToolFromBar();
+}
+
+void MainWindow::AquiredCurrentTool(BaseToolClass * tool)
+{
+    emit SendCanvasCurrentTool(tool);
+}
+

@@ -38,7 +38,12 @@ SOURCES += \
     Models/gifexporter.cpp \
     Models/image.cpp \
     Models/pixel.cpp \
-    Widgets/qwidgetexpandablescroller.cpp
+    Widgets/qwidgetexpandablescroller.cpp \
+    Models/basetoolclass.cpp \
+    Models/paintbrushtool.cpp \
+    Models/eraser.cpp \
+    Models/broadbrush.cpp \
+    Models/dropper.cpp
 
 
 HEADERS += \
@@ -55,7 +60,12 @@ HEADERS += \
     Models/gifexporter.h \
     Models/image.h \
     Models/pixel.h \
-    Widgets/qwidgetexpandablescroller.h
+    Widgets/qwidgetexpandablescroller.h \
+    Models/basetoolclass.h \
+    Models/paintbrushtool.h \
+    Models/eraser.h \
+    Models/broadbrush.h \
+    Models/dropper.h
 
 
 FORMS += \
