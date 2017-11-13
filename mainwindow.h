@@ -61,6 +61,8 @@ private slots:
     //Canvas
     void sendPreviewImages(QVector<QImage*> images);
 
+    void updatePreviewButtonStatus(bool isActive);
+
     void onCanvasIconClicked(QListWidgetItem* item);
 
 	// Open a file dialog to export the current array of canvases into a gif format
@@ -71,6 +73,8 @@ private slots:
     void on_fpsSpeedSlider_valueChanged(int value);
     void on_actionSave_triggered();
     void on_actionLoad_triggered();
+    void on_previewButton_clicked();
+    void on_zoomSpinBox_valueChanged(double val);
 };
 
 #endif // MAINWINDOW_H

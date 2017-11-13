@@ -16,6 +16,7 @@ MainWindow::MainWindow(GifExporter& gifModel, QWidget *parent) : QMainWindow(par
     // Connects canvas widget images with preview widget images
     connect(this, SIGNAL(addCanvas()), ui->Canvas, SLOT(addCanvas()));
     connect(ui->Canvas, SIGNAL(sendImages(QVector<QImage*>)), this, SLOT(sendPreviewImages(QVector<QImage*>)));
+    connect(ui->Preview,SIGNAL(activityStatus(bool)),this,SLOT(updatePreviewButtonStatus(bool)));
 
     // Connects "Export to GIF" menu button to the gif exporting logic
     connect(ui->exportAction, &QAction::triggered, this, &MainWindow::exportGIF);
@@ -216,6 +217,16 @@ void MainWindow::sendPreviewImages(QVector<QImage*> images)
 /*
  *
  */
+void MainWindow::updatePreviewButtonStatus(bool isActive)
+{
+    if(isActive)
+        ui->previewButton->setText("Stop Preview");
+    else
+        ui->previewButton->setText("Start Preview");
+}
+/*
+ *
+ */
 void MainWindow::onCanvasIconClicked(QListWidgetItem *item)
 {
 
@@ -352,3 +363,14 @@ void MainWindow::resizeEvent(QResizeEvent *event)
         //this->ui->scrollArea_2->setMinimumWidth(oldMinimum + deltaChange);
     }
 }
+
+void MainWindow::on_previewButton_clicked()
+{
+    ui->Preview->setActiveStatus();
+}
+
+void MainWindow::on_zoomSpinBox_valueChanged(double val)
+{
+    ui->Preview->resize(val);
+}
+
