@@ -9,7 +9,6 @@
 #include <QLabel>
 #include <QBasicTimer>
 #include <QTimerEvent>
-#include "../fullpreviewwindow.h"
 
 
 class QWidgetPreview : public QWidget
@@ -35,7 +34,7 @@ private:
     int originalHeight;
     bool activeStatus;
     QLabel *label;
-    FullPreviewWindow previewWindow;
+    QDialog previewDialog;
     // Events
     void paintEvent(QPaintEvent *event);
     void timerEvent(QTimerEvent *event);

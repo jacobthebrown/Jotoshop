@@ -38,8 +38,7 @@ SOURCES += \
     Models/gifexporter.cpp \
     Models/image.cpp \
     Models/pixel.cpp \
-    Widgets/qwidgetexpandablescroller.cpp \
-    fullpreviewwindow.cpp
+    Widgets/qwidgetexpandablescroller.cpp
 
 
 HEADERS += \
@@ -56,13 +55,11 @@ HEADERS += \
     Models/gifexporter.h \
     Models/image.h \
     Models/pixel.h \
-    Widgets/qwidgetexpandablescroller.h \
-    fullpreviewwindow.h
+    Widgets/qwidgetexpandablescroller.h
 
 
 FORMS += \
-        mainwindow.ui \
-    fullpreviewwindow.ui
+        mainwindow.ui
 
 RESOURCES += \
     images.qrc

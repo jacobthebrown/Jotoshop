@@ -14,6 +14,7 @@ QWidgetPreview::QWidgetPreview(QWidget *parent) : QWidget(parent)
     currentImage = nullptr;
     scale = 1.0;
     label = new QLabel;
+    previewDialog.setWindowTitle("Preview Sprite");
 
 
 }
@@ -68,11 +69,10 @@ void QWidgetPreview::setActiveStatus()
  * Shows
  */
 void QWidgetPreview::fullPreview()
-{
-    QFormLayout form(&previewWindow);
+{ 
+    QFormLayout form(&previewDialog);
     form.addWidget(label);
-    previewWindow.show();
-
+    previewDialog.show();
 }
 
 /*
