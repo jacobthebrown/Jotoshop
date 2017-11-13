@@ -73,6 +73,7 @@ private slots:
     void on_fpsSpeedSlider_valueChanged(int value);
     void on_actionSave_triggered();
     void on_actionLoad_triggered();
+    void on_actionNew_triggered();
     void on_previewButton_clicked();
     void on_zoomSpinBox_valueChanged(double val);
 };
