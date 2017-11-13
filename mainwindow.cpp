@@ -219,7 +219,7 @@ void MainWindow::sendPreviewImages(QVector<QImage*> images)
 }
 
 /*
- *
+ * Update text of previewButton to the active status of the Preview window
  */
 void MainWindow::updatePreviewButtonStatus(bool isActive)
 {
@@ -410,7 +410,9 @@ void MainWindow::on_actionLoad_triggered()
 
     LoadFile(fileName);
 }
-
+/*
+ *
+ */
 void MainWindow::resizeEvent(QResizeEvent *event)
 {
     //MainWindow::resizeEvent(event);
@@ -423,12 +425,17 @@ void MainWindow::resizeEvent(QResizeEvent *event)
     }
 }
 
+/*
+ * Calls setActiveStatus in QWidgetPreview when previewButton clicked
+ */
 void MainWindow::on_previewButton_clicked()
 {
     ui->Preview->setActiveStatus();
 }
 
-
+/*
+ * Calls fullPreview in QWidgetPreview when fullPreviewButton clicked
+ */
 void MainWindow::on_fullPreviewButton_clicked()
 {
     ui->Preview->fullPreview();

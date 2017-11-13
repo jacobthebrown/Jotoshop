@@ -22,7 +22,6 @@ public:
     void setActiveStatus();
     void fullPreview();
 
-    void resize(double newScale);
 private:
     QBasicTimer timer;
     QVector<QImage*> images;

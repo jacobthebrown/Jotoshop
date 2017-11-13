@@ -19,12 +19,6 @@ QWidgetPreview::QWidgetPreview(QWidget *parent) : QWidget(parent)
 
 }
 
-void QWidgetPreview::resize(double newScale) {
-
-    //this->setMinimumSize(originalWidth * scale, originalHeight * scale);
-    scale+= newScale;
-}
-
 /*
  *  Sets a new image to be displayed and updates the display.
  */
@@ -66,7 +60,7 @@ void QWidgetPreview::setActiveStatus()
     emit activityStatus(activeStatus);
 }
 /*
- * Shows
+ * Shows dialog window of actual size sprite preview
  */
 void QWidgetPreview::fullPreview()
 { 
@@ -85,25 +79,14 @@ void QWidgetPreview::paintEvent(QPaintEvent *event) {
     painter.scale(scale,scale);
     QPainterPath path;
     path.addRoundRect(0,0,this->width()-1,this->height()-1,0);
-
     QPen pen(Qt::lightGray, 1);
     painter.setPen(pen);
-
     painter.begin(this);
 
     if(currentImage != nullptr)
             painter.drawImage(rect(), *currentImage, currentImage->rect());
 
-//    else if(currentImage != nullptr && full == true)
-//            painter.drawImage(currentImage->rect(), *currentImage, currentImage->rect());
-
-
-
-        painter.drawPath(path);
-
-
-
-
+    painter.drawPath(path);
 
     painter.end();
     QWidget::paintEvent(event);
