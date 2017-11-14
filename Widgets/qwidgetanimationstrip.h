@@ -13,20 +13,20 @@
 class QWidgetAnimationStrip : public QWidget
 {
     Q_OBJECT
-    void paintEvent(QPaintEvent *e);
-    void itemClicked(QListWidgetItem *item);
 public:
     explicit QWidgetAnimationStrip(QWidget *parent = nullptr);
+    ~QWidgetAnimationStrip();
     QListWidget* listArea;
     QVector<QListWidgetItem*> animationPreviewItems;
     void clear();
 
 private:
     QScrollArea* scrollArea;
-
+    void paintEvent(QPaintEvent *e);
+    void itemClicked(QListWidgetItem *item);
 
 signals:
-    void sendClickedCanvas(QListWidgetItem *); // needs to be emitted
+    void sendClickedCanvas(QListWidgetItem *);
 public slots:
     void addQImage(QPixmap pix, int framePos);
     void canvasClicked(QListWidgetItem *);

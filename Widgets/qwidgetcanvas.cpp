@@ -9,16 +9,23 @@ QWidgetCanvas::QWidgetCanvas(QWidget *parent) : QWidget(parent)
     this->CurrentScale = 1.0;
     this->transparentBackground = nullptr;
 
-
-
-    // TODO: CHANGE TO SIZE SETTINGS
     this->selectedTool = new paintbrushTool();
     this->selectedTool->SetWidth(5);
     this->setMinimumSize(imageHeight * CurrentScale, imageWidth * CurrentScale);
     this->setMaximumSize(imageHeight * CurrentScale, imageWidth * CurrentScale);
-    //this->setSizePolicy(QSizePolicy::Maximum, QSizePolicy::);
 
     emit sendImages(this->getAllCompositeImages());
+}
+
+/*
+ *  Deconstructor for the QWidgetCanvas to free memory
+ */
+QWidgetCanvas::~QWidgetCanvas()
+{
+    foreach (Canvas* c, composites)
+    {
+        delete c;
+    }
 }
 
 /*
@@ -46,13 +53,15 @@ QImage* QWidgetCanvas::getActiveCanvasImage()
 QVector<QImage*> QWidgetCanvas::getAllCompositeImages()
 {
     QVector<QImage*> canvasImages;
-    foreach (Canvas* c, this->composites) {
+    foreach (Canvas* c, this->composites)
+    {
         if (c != nullptr)
             canvasImages.push_back(c->GetImage());
     }
 
     // TODO: EXCEPTION CATCH FOR EMPTY VECTORS
-    //if ()
+    //if (canvasImages.count() == 0)
+
 
     return canvasImages;
 }
@@ -65,9 +74,7 @@ void QWidgetCanvas::addCanvas(QSize size)
     if (ActiveCanvas != nullptr)
         this->ActiveCanvas = new Canvas(*ActiveCanvas);
     else
-    {
         this->ActiveCanvas = new Canvas(size.width(), size.height());
-    }
 
     this->composites.push_back(this->ActiveCanvas);
 
@@ -102,27 +109,27 @@ void QWidgetCanvas::drawLineTo(const QPoint &endPoint)
         //painter.drawPoint(endPoint);
 
         update();
-
-
 }
 
 /*
  *  Triggered every tick, paints the canvas image on the Widget.
  */
-void QWidgetCanvas::paintEvent(QPaintEvent *event) {
+void QWidgetCanvas::paintEvent(QPaintEvent *event)
+{
 
-    // Asks the ui to update the SelectedTool
+        // Asks the ui to update the SelectedTool
         emit RequestCurrentTool();
 
         QPainter painter(this);
         QRect dirtyRect = this->rect();
 
-        if (transparentBackground != nullptr && this->getAllCompositeImages().size() != 0) {
+        if (transparentBackground != nullptr && this->getAllCompositeImages().size() != 0)
+        {
             painter.drawImage(dirtyRect, *transparentBackground);
         }
-        if (getActiveCanvasImage() != nullptr) {
+        if (getActiveCanvasImage() != nullptr)
+        {
             painter.drawImage(dirtyRect, *getActiveCanvasImage());
-
         }
 
         QPainterPath path;
@@ -131,11 +138,12 @@ void QWidgetCanvas::paintEvent(QPaintEvent *event) {
         painter.drawRect(0,0,this->width()-1, this->height()-1);
         painter.drawPath(path);
 
-
         QWidget::paintEvent(event);
 }
 
-//
+/*
+ *  Method for changing the active cavas to a different canvas
+ */
 void QWidgetCanvas::setActiveCanvas(Canvas * can)
 {
     this->ActiveCanvas = can;
@@ -143,71 +151,77 @@ void QWidgetCanvas::setActiveCanvas(Canvas * can)
 }
 
 /*
- *  TODO: Comment, refactor to make generic execution.
+ *  Event handler for event of mouse moved
  */
 void QWidgetCanvas::mouseMoveEvent(QMouseEvent *event)
 {
-    if (this->MouseDown) {
-
-        //QPoint point = event->pos().setX(event->pos->x()/2;)
-        //QPoint point = event->
+    if (this->MouseDown)
+    {
         drawLineTo(event->pos()/CurrentScale);
     }
 }
 
 /*
- *  TODO: Refactor to remove boolean, and refactor for more mouse types.
+ *  Event handler for event of mouse pressed
  */
 void QWidgetCanvas::mousePressEvent(QMouseEvent *event)
 {
-    if (event->button() == Qt::LeftButton) {
+    if (event->button() == Qt::LeftButton)
+    {
         this->MouseDown = true;
         drawLineTo(event->pos()/CurrentScale);
     }
 }
 
 /*
- *  TODO: See mousePressEvent todo.
+ *  Event handler for event of mouse released
  */
-void QWidgetCanvas::mouseReleaseEvent(QMouseEvent* event) {
-
-    if (event->button() == Qt::LeftButton) {
+void QWidgetCanvas::mouseReleaseEvent(QMouseEvent* event)
+{
+    if (event->button() == Qt::LeftButton)
+    {
         this->MouseDown = false;
         emit ImageUpdate(getActiveCanvasImage(), this->composites.indexOf(getActiveCanvas(),0));
     }
 
 }
 
-// Updates the Tool
+/*
+ *  Updates selected tool
+ */
 void QWidgetCanvas::RecieveTool(BaseToolClass* tool)
 {
     selectedTool = tool;
 }
 
+/*
+ * TODO::
+ * GAITLAN whats the diff between this and the one above??
+ */
 void QWidgetCanvas::CurrentTool(BaseToolClass * tool)
 {
     selectedTool = tool;
 }
 
 /*
- *  This function is used to load images onto canvases
+ *  Function for adding new canvases
  */
 void QWidgetCanvas::addCanvas()
 {
-
     this->ActiveCanvas = new Canvas(imageWidth, imageHeight);
     this->composites.push_back(this->ActiveCanvas);
     emit sendImages(this->getAllCompositeImages());
 }
 
 /*
- *  This function is used to load images onto canvases
+ *  Method used add canves and load given image onto canvas
  */
 void QWidgetCanvas::addCanvas(QImage* im)
 {
-    if (im != nullptr) {
+    if (im != nullptr)
+    {
         this->ActiveCanvas = new Canvas(this->imageWidth, this->imageHeight);
-        ActiveCanvas->LoadImageW(im);
+        ActiveCanvas->LoadImage(im);
     }
 
     this->composites.push_back(this->ActiveCanvas);
@@ -215,15 +229,23 @@ void QWidgetCanvas::addCanvas(QImage* im)
     emit sendImages(this->getAllCompositeImages());
 }
 
-void QWidgetCanvas::shiftScale(double Scale) {
-    this->setScale(this->CurrentScale + Scale);
+/*
+ * Shifts current scale using given scale
+ */
+void QWidgetCanvas::shiftScale(double scale)
+{
+    this->setScale(this->CurrentScale + scale);
 }
 
-void QWidgetCanvas::setScale(double Scale) {
-    this->CurrentScale = Scale;
+/*
+ * Sets and adjusts canvas according to scale
+ */
+void QWidgetCanvas::setScale(double scale)
+{
+    this->CurrentScale = scale;
 
-    int widthScaled = imageWidth * Scale;
-    int heightScaled = imageHeight * Scale;
+    int widthScaled = imageWidth * scale;
+    int heightScaled = imageHeight * scale;
 
     this->setFixedSize(widthScaled, heightScaled);
 
@@ -234,11 +256,12 @@ void QWidgetCanvas::setScale(double Scale) {
 
     QPainter painter(transparentBackground);
 
-    //bool newline = false;
     int offset = 0;
 
-    for (int row = 0; row <= widthScaled/4; row++) {
-        for (int col = 0; col <= heightScaled/4; col += 2) {
+    for (int row = 0; row <= widthScaled/4; row++)
+    {
+        for (int col = 0; col <= heightScaled/4; col += 2)
+        {
 
             bool swap = false;
 
@@ -249,32 +272,37 @@ void QWidgetCanvas::setScale(double Scale) {
         }
         if (offset <= 0)
             offset += widthScaled/8;
-        else {
+        else
             offset = 0;
-        }
+
     }
 
     update();
 
 }
 
-// Clear the Canvas Widget
+/*
+ *  Method to clear Canvas Widget
+ */
 void QWidgetCanvas::clear()
 {
     ActiveCanvas = nullptr;
 
-    foreach (auto canvasPtr, composites) {
+    foreach (auto canvasPtr, composites)
+    {
         delete canvasPtr;
     }
-
     composites.clear();
 }
 
-void QWidgetCanvas::resize(int width, int height, double scale) {
-
+/*
+ *  Method for resizing canvas, zoom feature
+ */
+void QWidgetCanvas::resize(int width, int height, double scale)
+{
     this->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
     this->setFixedSize(width, height);
     this->imageHeight = height;
     this->imageWidth = width;
-    this->setScale(1.0);
+    this->setScale(scale);
 };

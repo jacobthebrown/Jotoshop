@@ -1,7 +1,7 @@
 #include "qwidgetslidercombo.h"
 
 /*
- *  TODO: Insert documentation.
+ *  Creates new Slider Combo widget
  */
 QWidgetSliderCombo::QWidgetSliderCombo(QWidget *parent, QString sliderLabel, int xPos, int yPos, int width, int height) : QWidget(parent)
 {
@@ -33,5 +33,9 @@ QWidgetSliderCombo::QWidgetSliderCombo(QWidget *parent, QString sliderLabel, int
 }
 
 /*
- *  TODO: ADD DESTRUCTOR, ADD WAY TO GET VALUE OF SLIDER in function
+ *  Destructor for Slider Combo widget
  */
+QWidgetSliderCombo::~QWidgetSliderCombo()
+{
+    //delete this;
+}

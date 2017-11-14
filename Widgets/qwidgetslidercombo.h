@@ -10,15 +10,13 @@ class QWidgetSliderCombo : public QWidget
     Q_OBJECT
 public:
     explicit QWidgetSliderCombo(QWidget *parent = nullptr);
+    ~QWidgetSliderCombo();
     QWidgetSliderCombo(QWidget *parent, QString sliderLabel, int xPos, int yPos, int width, int height);
     QSlider* Slider;
 
 private:
     QLabel* SliderLabel;
 
-signals:
-
-public slots:
 };
 
 #endif // QWIDGETSLIDERCOMBO_H

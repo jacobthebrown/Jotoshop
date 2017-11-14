@@ -16,7 +16,6 @@ class MainWindow;
 class MainWindow : public QMainWindow
 {
     Q_OBJECT
-
 public:
     explicit MainWindow(GifExporter&, QWidget *parent = 0);
     QSize canvasSize;

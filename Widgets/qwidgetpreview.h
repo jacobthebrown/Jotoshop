@@ -16,6 +16,7 @@ class QWidgetPreview : public QWidget
     Q_OBJECT
 public:
     explicit QWidgetPreview(QWidget *parent = nullptr);
+    ~QWidgetPreview();
     void setCurrentImage(QImage* image);
     void setImages(QVector<QImage*> im);
     void setSpeed(int speed);
@@ -35,7 +36,8 @@ private:
     bool activeStatus;
     QLabel *label;
     QDialog previewDialog;
-    // Events
+
+protected:
     void paintEvent(QPaintEvent *event);
     void timerEvent(QTimerEvent *event);
 
@@ -43,7 +45,6 @@ private:
 signals:
     void activityStatus(bool);
 
-public slots:
 };
 
 #endif // QWIDGETPREVIEW_H

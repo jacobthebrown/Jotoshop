@@ -1,19 +1,28 @@
 #include "qwidgetexpandablescroller.h"
 
+/*
+ *  Constructor for new Expandable Scroller widget
+ */
 QWidgetExpandableScroller::QWidgetExpandableScroller(QWidget *parent) : QWidget(parent)
 {
 
 }
 
 /*
- *  Event for displaying preview widget and current image if exists.
+ *  Destructor for Expandable Scroller widget
  */
-void QWidgetExpandableScroller::paintEvent(QPaintEvent *event) {
+QWidgetExpandableScroller::~QWidgetExpandableScroller()
+{
 
+}
 
+/*
+ *  Event handler for drawing scrollers
+ */
+void QWidgetExpandableScroller::paintEvent(QPaintEvent *event)
+{
     QPainter painter(this);
     QPainterPath path;
-    //path.addRoundRect(this->width()/2, -1,(this->width()/2) + 1, this->height() + 1, 0);
     path.addRoundRect(3,-1,this->width()-4, this->height() + 1, 0);
 
     QPen pen(Qt::lightGray, 1);
@@ -21,7 +30,7 @@ void QWidgetExpandableScroller::paintEvent(QPaintEvent *event) {
 
     painter.begin(this);
 
-        painter.drawPath(path);
+    painter.drawPath(path);
 
     painter.end();
 
@@ -29,45 +38,33 @@ void QWidgetExpandableScroller::paintEvent(QPaintEvent *event) {
 }
 
 /*
- *  TODO: Comment, refactor to make generic execution.
+ *  Event handler for mouse move events
  */
 void QWidgetExpandableScroller::mouseMoveEvent(QMouseEvent *event)
 {
-    //if (event->x() >= this->x() && event->x() <= this->x() + this->width()) {
-    //    if (event->y() >= this->y() && event->y() <= this->y() + this->height()) {
-            setCursor(Qt::IBeamCursor);
-    //    }
-    //}
+    setCursor(Qt::IBeamCursor);
 
-    if (this->MouseDown && this->WidgetToProtect->width() > 128) { //&& WidgetToScroll->() < WidgetToScroll->height() ) {
-        //event->DragEnter
-        //qDebug() << this->mapFromGlobal(event->globalPos());
-        //WidgetToScroll->resize(DefaultWidth - event->x(), WidgetToScroll->height());
-        WidgetToScroll->setMinimumWidth(WidgetToScroll->width() - event->x());//this->x() - event->x());
-
-    }
-    else {
-        this->WidgetToProtect->resize(this->WidgetToProtect->width() + 2, this->WidgetToProtect->height());
-    }
+    if (this->MouseDown && this->WidgetToProtect->width() > 128)
+        WidgetToScroll->setMinimumWidth(WidgetToScroll->width() - event->x());
+    else
+        this->WidgetToProtect->resize(this->WidgetToProtect->width() + 2, this->WidgetToProtect->height());    
 }
 
 /*
- *  TODO: Refactor to remove boolean, and refactor for more mouse types.
+ *  Event handler for mouse press events
  */
 void QWidgetExpandableScroller::mousePressEvent(QMouseEvent *event)
 {
-    if (event->button() == Qt::LeftButton) {
-        this->MouseDown = true;
-    }
+    if (event->button() == Qt::LeftButton)
+        this->MouseDown = true;   
 }
 
 /*
- *  TODO: See mousePressEvent todo.
+ *  Event handler for mouse release events
  */
-void QWidgetExpandableScroller::mouseReleaseEvent(QMouseEvent* event) {
-
-    if (event->button() == Qt::LeftButton) {
+void QWidgetExpandableScroller::mouseReleaseEvent(QMouseEvent* event)
+{
+    if (event->button() == Qt::LeftButton)
         this->MouseDown = false;
-    }
 
 }

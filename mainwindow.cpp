@@ -11,11 +11,12 @@
 
 MainWindow::MainWindow(GifExporter& gifModel, QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWindow) {
 
+    // Initial set up of ui
     ui->setupUi(this);
+    this->setWindowTitle("JotoShop");
     this->canvasSize = QSize(0,0);
 
     // Connects canvas widget images with preview widget images
-    connect(this, SIGNAL(addCanvas(QSize)), ui->Canvas, SLOT(addCanvas(QSize)));
     connect(this, SIGNAL(addToStrip(QPixmap, int)), ui->AnimationStrip, SLOT(addQImage(QPixmap,int)));
     connect(ui->Canvas, SIGNAL(sendImages(QVector<QImage*>)), this, SLOT(sendPreviewImages(QVector<QImage*>)));
     connect(ui->Preview,SIGNAL(activityStatus(bool)),this,SLOT(updatePreviewButtonStatus(bool)));
@@ -26,8 +27,6 @@ MainWindow::MainWindow(GifExporter& gifModel, QWidget *parent) : QMainWindow(par
 
     // Connects canvas widget images with animation strip
 	connect(ui->AnimationStrip, SIGNAL(sendClickedCanvas(QListWidgetItem*)), this, SLOT(onCanvasIconClicked(QListWidgetItem*)));
-    //connect(this, SIGNAL(addToStrip(QLabel*)), ui->AnimationStrip, SLOT(addQImage(QLabel*)));
-
 
     // Connects canvas and animation strip
     connect(ui->Canvas, SIGNAL(ImageUpdate(QImage*,int)), ui->AnimationStrip, SLOT(refreshImage(QImage*,int)) );
@@ -36,7 +35,7 @@ MainWindow::MainWindow(GifExporter& gifModel, QWidget *parent) : QMainWindow(par
     this->ui->ExpandableScroller_1->WidgetToScroll = ui->scrollArea_2;
     this->ui->ExpandableScroller_1->WidgetToProtect = ui->scrollArea;
 
-    //
+    // TODO
     connect(ui->Canvas,SIGNAL(GrabTool()),ui->Toolbar,SLOT(GiveTool()));
     connect(ui->Toolbar, SIGNAL(Tool(BaseToolClass*)),ui->Canvas, SLOT(CurrentTool(BaseToolClass*)));
     
@@ -47,18 +46,22 @@ MainWindow::MainWindow(GifExporter& gifModel, QWidget *parent) : QMainWindow(par
     // Begin setup with a add new action
     emit ui->actionNew->triggered();
 
-    //
+    //TODO
     connect(ui->Canvas,SIGNAL(ReturnDropperColor(QColor)),ui->Toolbar,SLOT(SetDropperColor(QColor)));
 }
 
+/*
+ * Destructor for main window
+ */
 MainWindow::~MainWindow()
 {
-    // TODO: Make sure we are deleting every object we created in the heap.
     delete ui;
 }
 
-// TODO: MOVE TO MAIN WINDOW MODEL
-// TODO: SET FPS OF GIF.
+/*
+ * TODO: MOVE TO MAIN WINDOW MODEL
+ * TODO: SET FPS OF GIF.
+ */
 void MainWindow::exportGIF()
 {
     // Dialog to get gif export path.
@@ -66,7 +69,8 @@ void MainWindow::exportGIF()
 
     // Grab all the Canvas images and push them into a vector.
     QVector<QImage*> temp;
-    foreach (QImage *im, ui->Canvas->getAllCompositeImages()) {
+    foreach (QImage *im, ui->Canvas->getAllCompositeImages())
+    {
         QImage* ima = new QImage;
         *ima = *im;
         temp.push_back(ima);
@@ -81,8 +85,10 @@ void MainWindow::exportGIF()
 
 
 
-// TODO: MOVE TO MAIN WINDOW MODEL
-// TODO: CREATE ERROR HANDLING EXCEPTIONS
+/*
+ * TODO: MOVE TO MAIN WINDOW MODEL
+ * TODO: CREATE ERROR HANDLING EXCEPTIONS
+ */
 QString MainWindow::SaveFile(int width, int height, int frames, QVector<QImage*> images)
 {
     // Grabs the filename saved; forcing the filter to be the extension
@@ -139,7 +145,6 @@ QString MainWindow::SaveFile(int width, int height, int frames, QVector<QImage*>
     file.close();
     file.flush();
 
-
     return fileName;
 
 }
@@ -172,10 +177,8 @@ void MainWindow::LoadFile(QString fileName)
     line = in.readLine();
     frames = line.toInt();
 
-     QString temp;
-     QImage *im;
-     QLabel* label;
-     QPixmap tempPix;
+    QImage *im;
+
     int row = 0, col = 0;
 
     canvasSize.setHeight(height);
@@ -192,7 +195,6 @@ void MainWindow::LoadFile(QString fileName)
             lineSplit = line.split(' ');
             for(int x = 0; x < lineSplit.size(); x += 4)
             {
-//                temp += lineSplit[x] + " " +lineSplit[x + 1] +  " " + lineSplit[x + 2] + " " + lineSplit[x + 3] + " ";
                 im->setPixel(col,row,qRgba(lineSplit[x].toInt(),lineSplit[x + 1].toInt(),lineSplit[x + 2].toInt(),lineSplit[x + 3].toInt()));
                 col++;
                 if(col == width)
@@ -214,7 +216,6 @@ void MainWindow::LoadFile(QString fileName)
         emit addToStrip(QPixmap::fromImage(*canvas->GetImage()), iteration);
         iteration++;
     }
-
 
     file.close();
 }
@@ -238,13 +239,15 @@ void MainWindow::updatePreviewButtonStatus(bool isActive)
         ui->previewButton->setText("Start Preview");
 }
 /*
- *
+ * Handler for when an icon is clicked on the animation strip
  */
 void MainWindow::onCanvasIconClicked(QListWidgetItem *item)
 {
 
-    for(int i = 0; i < ui->AnimationStrip->listArea->count(); i++){
-        if (ui->AnimationStrip->listArea->item(i) == item) {
+    for(int i = 0; i < ui->AnimationStrip->listArea->count(); i++)
+    {
+        if (ui->AnimationStrip->listArea->item(i) == item)
+        {
             ui->Canvas->setActiveCanvas(ui->Canvas->composites.at(i));
             ui->Canvas->update();
         }
@@ -261,7 +264,7 @@ void MainWindow::on_fpsSpeedSlider_valueChanged(int value)
 }
 
 /*
- *
+ * TODO
  */
 void MainWindow::on_actionSave_triggered()
 {
@@ -301,8 +304,7 @@ void MainWindow::on_actionNew_triggered()
     }
 
     // Add some standard buttons (Cancel/Ok) at the bottom of the dialog
-    QDialogButtonBox buttonBox(QDialogButtonBox::Ok | QDialogButtonBox::Cancel,
-                               Qt::Horizontal, &dialog);
+    QDialogButtonBox buttonBox(QDialogButtonBox::Ok | QDialogButtonBox::Cancel, Qt::Horizontal, &dialog);
     form.addRow(&buttonBox);
     QObject::connect(&buttonBox, SIGNAL(accepted()), &dialog, SLOT(accept()));
     QObject::connect(&buttonBox, SIGNAL(rejected()), &dialog, SLOT(reject()));
@@ -310,7 +312,8 @@ void MainWindow::on_actionNew_triggered()
 
 
     // Show the dialog as modal
-    if (dialog.exec() == QDialog::Accepted) {
+    if (dialog.exec() == QDialog::Accepted)
+    {
         // restore ui to its default state
         restoreDefaultUI();
 
@@ -318,7 +321,8 @@ void MainWindow::on_actionNew_triggered()
         int width = fields[0]->text().toInt();
         int height = fields[1]->text().toInt();
 
-        if (width == 0 || height == 0) {
+        if (width == 0 || height == 0)
+        {
             on_actionNew_triggered();
             return;
         }
@@ -326,10 +330,12 @@ void MainWindow::on_actionNew_triggered()
         // Reset, canvas size.
         canvasSize = QSize(width, height);
         this->ui->Canvas->resize(this->canvasSize.width(),this->canvasSize.height(),1.0);
-
     }
-    else {
-        if (canvasSize.height() == 0 && canvasSize.width() == 0) {
+
+    else
+    {
+        if (canvasSize.height() == 0 && canvasSize.width() == 0)
+        {
             on_actionNew_triggered();
             return;
         }
@@ -347,7 +353,7 @@ void MainWindow::restoreDefaultUI()
 }
 
 /*
- *
+ * TODO
  */
 void MainWindow::on_actionLoad_triggered()
 {
@@ -377,7 +383,7 @@ void MainWindow::on_fullPreviewButton_clicked()
 }
 
 /*
- *
+ * TODO: COMMENT
  */
 void MainWindow::CurrentToolRequest()
 {
@@ -385,7 +391,7 @@ void MainWindow::CurrentToolRequest()
 }
 
 /*
- *
+ * TODO: COMMENT
  */
 void MainWindow::AquiredCurrentTool(BaseToolClass * tool)
 {
@@ -393,7 +399,8 @@ void MainWindow::AquiredCurrentTool(BaseToolClass * tool)
 }
 
 /*
- *
+ * Handler for grow button
+ * For increasing canvas zoom view
  */
 void MainWindow::on_canvas_GrowButton_clicked()
 {
@@ -401,13 +408,19 @@ void MainWindow::on_canvas_GrowButton_clicked()
 }
 
 /*
- *
+ * Handler for shrink button
+ * For decreasing canvas zoom view
  */
 void MainWindow::on_canvas_ShrinkButton_clicked()
 {
     ui->Canvas->shiftScale(-0.25);
 }
 
+/*
+ * Handler for clone last button
+ * Takes the last canvas on animation strip
+ * and makes a copy to canvas list
+ */
 void MainWindow::on_animationstrip_CloneButton_clicked()
 {
     if (ui->Canvas->composites.length() == 0)
@@ -423,6 +436,11 @@ void MainWindow::on_animationstrip_CloneButton_clicked()
     }
 }
 
+/*
+ * Handler for clone current button
+ * Takes the selected canvas on animation strip
+ * and makes a copy to canvas list
+ */
 void MainWindow::on_animationstrip_CloneCurrentButton_clicked()
 {
     if (ui->Canvas->getActiveCanvas() == nullptr)
@@ -438,6 +456,11 @@ void MainWindow::on_animationstrip_CloneCurrentButton_clicked()
     }
 }
 
+/*
+ * Handler for new canvas button
+ * adds a new canvas to animation strip
+ * and canvas editing area
+ */
 void MainWindow::on_animationstrip_NewButton_clicked()
 {
     ui->Canvas->addCanvas();
@@ -450,6 +473,11 @@ void MainWindow::on_animationstrip_NewButton_clicked()
     }
 }
 
+/*
+ * Handler for delete button
+ * Deletes the selected canvas item from animation strip
+ * Makes sure all aspects using deleted canvas are updated
+ */
 void MainWindow::on_animationstrip_DeleteCurrentButton_clicked()
 {
 
@@ -481,8 +509,14 @@ void MainWindow::on_animationstrip_DeleteCurrentButton_clicked()
         ui->AnimationStrip->listArea->item(0)->setSelected(true);
     }
 
+    // Make sure preview is up to date
+    sendPreviewImages(ui->Canvas->getAllCompositeImages());
+
 }
 
+/*
+ * Handler for scale slider, adjusts scale of canvas
+ */
 void MainWindow::on_canvas_scaleSlider_sliderMoved(int position)
 {
    this->ui->Canvas->setScale(1.0 * (position/100));

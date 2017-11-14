@@ -16,7 +16,14 @@ QWidgetPreview::QWidgetPreview(QWidget *parent) : QWidget(parent)
     label = new QLabel;
     previewDialog.setWindowTitle("Preview Sprite");
 
+}
 
+/*
+ * Destructor for Preiview widget to free up memory
+ */
+QWidgetPreview::~QWidgetPreview()
+{
+    delete label;
 }
 
 /*
@@ -28,6 +35,7 @@ void QWidgetPreview::clear()
     imagesPos = 0;
     currentImage = nullptr;
     scale = 1.0;
+    delete label;
     label = new QLabel;
     images.clear();
 }
@@ -40,7 +48,6 @@ void QWidgetPreview::setCurrentImage(QImage *image)
     currentImage = image;
     label->setPixmap(QPixmap::fromImage(*image));
     repaint();
-
 }
 
 /*

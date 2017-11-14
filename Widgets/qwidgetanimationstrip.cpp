@@ -2,7 +2,9 @@
 #include <QDebug>
 
 
-
+/*
+ * Constructs new Animation Strip widget
+ */
 QWidgetAnimationStrip::QWidgetAnimationStrip(QWidget *parent) : QWidget(parent)
 {
 
@@ -27,34 +29,56 @@ QWidgetAnimationStrip::QWidgetAnimationStrip(QWidget *parent) : QWidget(parent)
 
     connect(listArea, SIGNAL(itemClicked(QListWidgetItem*)), this, SLOT(canvasClicked(QListWidgetItem*)));
 }
+/*
+ * Destructor to free memory
+ */
+QWidgetAnimationStrip::~QWidgetAnimationStrip()
+{
+    for(int i=0; i<listArea->count(); i++)
+    {
+        delete listArea->item(i);
+    }
+    delete listArea;
+    delete this->layout();
+}
 
 /*
  * Slot for adding/updating a widget to the animation strip.
  */
 void QWidgetAnimationStrip::addQImage(QPixmap pix, int framePos)
 {
-    qDebug() << listArea->count();
-    if(listArea->item(framePos) != 0) { // if item exists, update
+    // if item exists, update
+    if(listArea->item(framePos) != 0)
+    {
         listArea->item(framePos)->operator =(QListWidgetItem(QIcon(pix),QString::number(framePos)));
     }
-    else {
+    else
+    {
         QListWidgetItem* items = new QListWidgetItem(QIcon(pix),QString::number(framePos));
         animationPreviewItems.push_back(items);
         listArea->addItem(items);
     }
     update();
-    qDebug() << listArea->count();
-
 }
 
-// Clear the Animation Strip of frames
+/*
+ * Clear the Animation Strip of frames
+ */
 void QWidgetAnimationStrip::clear()
 {
+    for(int i=0; i<listArea->count(); i++)
+    {
+        delete listArea->item(i);
+    }
+
     animationPreviewItems.clear();
     listArea->clear();
     update();
 }
 
+/*
+ * Event handler for drawing out animation strip
+ */
 void QWidgetAnimationStrip::paintEvent(QPaintEvent *e)
 {
 
@@ -69,18 +93,24 @@ void QWidgetAnimationStrip::paintEvent(QPaintEvent *e)
     painter.drawPath(path);
     painter.end();
     QWidget::paintEvent(e);
-
 }
 
-// when icon is clicked return that icons position
+/*
+ * When icon is clicked return that icons position
+ */
 void QWidgetAnimationStrip::canvasClicked(QListWidgetItem *item)
 {
     emit sendClickedCanvas(item);
 }
 
+/*
+ * Method for reflecting changes to animation strip icons
+ */
 void QWidgetAnimationStrip::refreshImage(QImage * targetImage, int position)
 {
-    if(listArea->item(position) != 0) { // if item exists, update
+    // if item exists, update
+    if(listArea->item(position) != 0)
+    {
         listArea->item(position)->operator =(QListWidgetItem(QIcon(QPixmap::fromImage(*targetImage)),QString::number(position)));
         listArea->update();
     }

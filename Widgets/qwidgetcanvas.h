@@ -15,6 +15,7 @@ class QWidgetCanvas : public QWidget
     Q_OBJECT
 public:
     explicit QWidgetCanvas(QWidget *parent = nullptr);
+    ~QWidgetCanvas();
 
     void addCanvas(QImage*);
     Canvas* getActiveCanvas();
@@ -22,36 +23,29 @@ public:
     QVector<QImage *> getAllCompositeImages();
     QImage* transparentBackground;
     void setActiveCanvas(Canvas *can);
-
     void drawLineTo(const QPoint &endPoint);
     void clear();
 
-    QVector<Canvas*> composites; //PUBLIC FOR TESTING
+    QVector<Canvas*> composites;
     int imageWidth;
     int imageHeight;
     void resize(int width, int height, double scale);
-
-    void shiftScale(double Scale);
-    void setScale(double Scale);
+    void shiftScale(double scale);
+    void setScale(double scale);
     void addCanvas();
     void addCanvas(QSize);
+
 protected:
     void mouseMoveEvent(QMouseEvent *mouse_event);
     void mousePressEvent(QMouseEvent *mouse_event);
+    void paintEvent(QPaintEvent *event);
 
 
 private:
     BaseToolClass* selectedTool;
-
-    void paintEvent(QPaintEvent *event);
     bool MouseDown;
     Canvas* ActiveCanvas;
-
-
     double CurrentScale;
-
-
-public slots:
 
 
 signals:
@@ -64,14 +58,10 @@ signals:
     void ReturnDropperColor(QColor);
 
 private slots:
-    //void load(QImage*);
     void RecieveTool(BaseToolClass*);
 
     // Temp widget comunictaion
     void CurrentTool(BaseToolClass*);
-
-
-
 
     void mouseReleaseEvent(QMouseEvent *event);
 };
