@@ -29,7 +29,6 @@ private:
     QPushButton* canvas_ShrinkScale;
     QPushButton* canvas_GrowScale;
     QWidget *wrap(QLayout *l);
-    void resizeEvent(QResizeEvent *event);
     void CurrentToolRequest();
     void AquiredCurrentTool(BaseToolClass *tool);
     void restoreDefaultUI();

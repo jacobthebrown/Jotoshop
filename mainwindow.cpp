@@ -299,7 +299,8 @@ void MainWindow::on_actionSave_triggered()
 }
 
 /*
- *
+ * Prompts the user to enter a new size for the sprite. This size will be used for later canvas creation.
+ * Restores the UI back to its default state (only now with a different sized QCanvasWidget)
  */
 void MainWindow::on_actionNew_triggered()
 {
@@ -308,9 +309,9 @@ void MainWindow::on_actionNew_triggered()
     QFormLayout form(&dialog);
 
     // Add some text above the fields
-    form.addRow(new QLabel("Please select an initial size for the Canvas:"));
+    form.addRow(new QLabel("Please select an initial non-zero size for the Canvas:"));
 
-    QList<QLineEdit *> fields;
+    QList<QLineEdit*> fields;
     for(int i = 0; i < 2; ++i) {
         QLineEdit *lineEdit = new QLineEdit(&dialog);
         QString label;
@@ -332,6 +333,8 @@ void MainWindow::on_actionNew_triggered()
     QDialogButtonBox buttonBox(QDialogButtonBox::Ok | QDialogButtonBox::Cancel,
                                Qt::Horizontal, &dialog);
     form.addRow(&buttonBox);
+
+    //
     QObject::connect(&buttonBox, SIGNAL(accepted()), &dialog, SLOT(accept()));
     QObject::connect(&buttonBox, SIGNAL(rejected()), &dialog, SLOT(reject()));
 
@@ -371,6 +374,8 @@ void MainWindow::on_actionLoad_triggered()
 {
     // Creates a dialog to select a project to load.
     QString fileName = QFileDialog::getOpenFileName(this, tr("Load Project"), "", tr("*.ssp"));
+
+    restoreDefaultUI();
 
     LoadFile(fileName);
 }
