@@ -291,6 +291,8 @@ void QWidgetToolbar::registerDropperButton()
     toggleColorButtons();
     colorButtons[0]->setEnabled(false);
     colorButtons[1]->setEnabled(false);
+    colorButtons[2]->setEnabled(false);
+
 }
 
 /*
@@ -327,10 +329,11 @@ void QWidgetToolbar::registerEraserButton()
     currentButtonIndex = 3;
     updateButtonsView(currentButtonIndex);
     currentTool = eraser;
-    currentTool->setColor(QColor(203,203,203));
+    currentTool->setColor(primarySelectedColor);
     currentTool->setWidth(sizeSlider->Slider->value());
     colorButtons[0]->setEnabled(false);
     colorButtons[1]->setEnabled(false);
+    colorButtons[2]->setEnabled(false);
 }
 
 /*
@@ -493,6 +496,7 @@ void QWidgetToolbar::toggleColorButtons()
     {
         colorButtons[0]->setEnabled(true);
         colorButtons[1]->setEnabled(true);
+        colorButtons[2]->setEnabled(true);
     }
 
 }

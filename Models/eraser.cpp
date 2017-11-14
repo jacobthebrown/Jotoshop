@@ -48,8 +48,22 @@ void Eraser::paint(QImage* activeCanvas, QPoint endPoint)
 
     QPainter painter(activeCanvas);
 
-    painter.setPen(QPen(this->color, this->width, Qt::SolidLine, Qt::SquareCap));
-    painter.drawPoint(endPoint);
+
+    this->color.setAlpha(this->color.alpha()/255);
+    int offet = width/2;
+    for(int x = endPoint.x() - offet; x < endPoint.x() + offet; x++)
+    {
+        for(int y = endPoint.y() - offet; y < endPoint.y() + offet; y++)
+        {
+            if (x >= 0 && x < activeCanvas->width() && y >= 0 && y < activeCanvas->height())
+            {
+                    activeCanvas->setPixelColor(QPoint(x,y),this->color);
+            }
+        }
+    }
+
+//    painter.setPen(QPen(this->color, this->width, Qt::SolidLine, Qt::SquareCap));
+//    painter.drawPoint(endPoint);
 
 }
 

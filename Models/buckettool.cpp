@@ -64,6 +64,11 @@ void bucketTool::paint(QImage* activeCanvas, QPoint mouse_pos)
     breadthFirst(activeCanvas,mouse_pos);
 }
 
+/*
+ * Starts the point click, saves the color clicked. Checks the neighbors on the point.
+ * If they are the same color it paints them and enques them repeating this until the Queue is empty
+ *
+ */
 void bucketTool::breadthFirst(QImage* activeCanvas, QPoint mouse_pos)
 {
 
@@ -79,27 +84,27 @@ void bucketTool::breadthFirst(QImage* activeCanvas, QPoint mouse_pos)
         std::queue<QPoint> q;
         q.push(mouse_pos);
 
+        // Goes through points: above, left,right,bottom if they are the same color that needs to be removed it fills them and enques them
         while(!q.empty())
         {
-            //qDebug() << "X: " + QString::number(current.x()) +" Y: " + QString::number(current.y());
             current = q.front();
             q.pop();
-            if(current.y() - 1 >= 0 && (activeCanvas->pixelColor(current.x(),current.y()-1) == removeColor))
+            if(current.y() - 1 >= 0 && (activeCanvas->pixelColor(current.x(),current.y()-1).alpha() == removeColor.alpha() ))
             {
                 activeCanvas->setPixel(current.x(), current.y() - 1,color.rgba());
                 q.push(QPoint(current.x(), current.y() - 1));
             }
-            if(current.y() + 1 < activeCanvas->height() && (activeCanvas->pixelColor(current.x(),current.y()+1) == removeColor))
+            if(current.y() + 1 < activeCanvas->height() && (activeCanvas->pixelColor(current.x(),current.y()+1).alpha()  == removeColor.alpha() ))
             {
                 activeCanvas->setPixel(current.x(), current.y() + 1,color.rgba());
                 q.push(QPoint(current.x(), current.y() + 1));
             }
-            if(current.x() - 1 >= 0  && (activeCanvas->pixelColor(current.x() - 1,current.y()) == removeColor))
+            if(current.x() - 1 >= 0  && (activeCanvas->pixelColor(current.x() - 1,current.y()).alpha()  == removeColor.alpha()))
             {
                 activeCanvas->setPixel(current.x() - 1, current.y(),color.rgba());
                 q.push(QPoint(current.x() - 1, current.y()));
             }
-            if(current.x() + 1 < activeCanvas->width()  && (activeCanvas->pixelColor(current.x() + 1,current.y()) == removeColor))
+            if(current.x() + 1 < activeCanvas->width()  && (activeCanvas->pixelColor(current.x() + 1,current.y()).alpha() == removeColor.alpha()))
             {
                 activeCanvas->setPixel(current.x() + 1, current.y(),color.rgba());
                 q.push(QPoint(current.x() + 1, current.y()));

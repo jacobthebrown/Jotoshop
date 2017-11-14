@@ -43,9 +43,9 @@ protected:
 
 private:
     BaseToolClass* selectedTool;
-    bool MouseDown;
-    Canvas* ActiveCanvas;
-    double CurrentScale;
+    bool mouseDown;
+    Canvas* activeCanvas;
+    double currentScale;
 
 
 signals:
@@ -54,14 +54,13 @@ signals:
 
     // Temp widget communication for tool
     void grabTool();
-    void RequestCurrentTool();
-    void ReturnDropperColor(QColor);
+    void requestCurrentTool();
+    void returnDropperColor(QColor);
 
 private slots:
-    void RecieveTool(BaseToolClass*);
 
     // Temp widget comunictaion
-    void CurrentTool(BaseToolClass*);
+    void currentTool(BaseToolClass*);
 
     void mouseReleaseEvent(QMouseEvent *event);
 };
