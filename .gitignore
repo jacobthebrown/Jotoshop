@@ -1,3 +1,4 @@
+==== BASE ====
 
 mainwindow_BASE_3087.ui
 
@@ -14,8 +15,6 @@ Models/canvas_LOCAL_3028.h
 Models/canvas_REMOTE_3028.h
 
 SpriteEditor.pro.user.961f054
-
-*.user
 
 *.user
 

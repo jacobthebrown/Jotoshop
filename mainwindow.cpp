@@ -44,12 +44,18 @@ MainWindow::MainWindow(GifExporter& gifModel, QWidget *parent) : QMainWindow(par
 
     //QWidgetToolbar* tool = new QWidgetToolbar();
 
-    connect(ui->Canvas,SIGNAL(RequestCurrentTool()),this,SLOT(CurrentToolRequest()));
-    connect(this,SIGNAL(GetcurrentToolFromBar()),ui->Toolbar,SLOT(CurrentToolRequested()));
-    connect(ui->Toolbar,SIGNAL(SendCurrentTool(BaseToolClass*)),this,SLOT(AquiredCurrentTool(BaseToolClass*)));
-    connect(this,SIGNAL(SendCanvasCurrentTool(BaseToolClass*)),ui->Canvas,SLOT(RecieveTool(BaseToolClass*)));
+    //connect(ui->Canvas,SIGNAL(RequestCurrentTool()),this,SLOT(CurrentToolRequest()));
+    //connect(this,SIGNAL(GetcurrentToolFromBar()),ui->Toolbar,SLOT(CurrentToolRequested()));
+    //connect(ui->Toolbar,SIGNAL(SendCurrentTool(BaseToolClass*)),this,SLOT(AquiredCurrentTool(BaseToolClass*)));
+    //connect(this,SIGNAL(SendCanvasCurrentTool(BaseToolClass*)),ui->Canvas,SLOT(RecieveTool(BaseToolClass*)));
 
     emit ui->actionNew->triggered();
+
+    this->ui->Canvas->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
+    this->ui->Canvas->setFixedSize(canvasSize.width(), canvasSize.height());
+    this->ui->Canvas->imageHeight = canvasSize.height();
+    this->ui->Canvas->imageWidth = canvasSize.width();
+    this->ui->Canvas->setScale(1.0);
 }
 
 MainWindow::~MainWindow()
@@ -75,6 +81,7 @@ void MainWindow::exportGIF()
 
     int width = ui->Canvas->width();
     int height = ui->Canvas->height();
+
 
     emit exportToGIF(fileName, temp, width, height);
 }
@@ -477,3 +484,12 @@ void MainWindow::AquiredCurrentTool(BaseToolClass * tool)
     emit SendCanvasCurrentTool(tool);
 }
 
+void MainWindow::on_canvas_GrowButton_clicked()
+{
+    ui->Canvas->shiftScale(+0.05);
+}
+
+void MainWindow::on_canvas_ShrinkButton_clicked()
+{
+    ui->Canvas->shiftScale(-0.05);
+}
