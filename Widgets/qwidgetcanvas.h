@@ -49,12 +49,18 @@ signals:
     void sendImages(QVector<QImage *>);
     void ImageUpdate(QImage*, int);
 
+    // Temp widget communication for tool
+    void GrabTool();
     void RequestCurrentTool();
+    void ReturnDropperColor(QColor);
 
 private slots:
     void addCanvas();
     void load(QImage*);
     void RecieveTool(BaseToolClass*);
+
+    // Temp widget comunictaion
+    void CurrentTool(BaseToolClass*);
 
 
 

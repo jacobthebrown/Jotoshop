@@ -14,7 +14,7 @@
    <bool>false</bool>
   </property>
   <property name="windowTitle">
-   <string>MainWindow</string>
+   <string>JotoShop</string>
   </property>
   <property name="styleSheet">
    <string notr="true">
@@ -1066,8 +1066,8 @@ border-radius: 4px;
             <rect>
              <x>0</x>
              <y>0</y>
-             <width>28</width>
-             <height>464</height>
+             <width>34</width>
+             <height>461</height>
             </rect>
            </property>
            <property name="sizePolicy">
@@ -1173,8 +1173,8 @@ border-radius: 4px;
              <rect>
               <x>0</x>
               <y>0</y>
-              <width>318</width>
-              <height>318</height>
+              <width>324</width>
+              <height>324</height>
              </rect>
             </property>
             <property name="sizePolicy">
@@ -1426,7 +1426,7 @@ border-radius: 4px;
      <x>0</x>
      <y>0</y>
      <width>1034</width>
-     <height>21</height>
+     <height>22</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuFile">

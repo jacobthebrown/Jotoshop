@@ -5,6 +5,7 @@ BroadBrush::BroadBrush()
 
 }
 
+
 QColor BroadBrush::GetColor()
 {
     return color;

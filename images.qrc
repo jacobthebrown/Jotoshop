@@ -4,5 +4,18 @@
         <file>Resources/Images/dropper.png</file>
         <file>Resources/Images/eraser.png</file>
         <file>Resources/Images/paintBrush.png</file>
+        <file>Resources/UnclickedBucket.png</file>
+        <file>Resources/unclickedPen.png</file>
+        <file>Resources/UnclickedBrush.png</file>
+        <file>Resources/unclickedDropper.png</file>
+        <file>Resources/unclickedEraser.png</file>
+        <file>Resources/UnclickedMouse.png</file>
+        <file>Resources/clickedMouse.png</file>
+        <file>Resources/clickedPen.png</file>
+        <file>Resources/clickedEraser.png</file>
+        <file>Resources/clickedBrush.png</file>
+        <file>Resources/clickedDropper.png</file>
+        <file>Resources/ClickedBucket.png</file>
+        <file>Resources/SwapArray.png</file>
     </qresource>
 </RCC>

@@ -11,8 +11,8 @@ QWidgetCanvas::QWidgetCanvas(QWidget *parent) : QWidget(parent)
     // TODO: CHANGE TO SIZE SETTINGS
     this->imageHeight = 512;
     this->imageWidth = 512;
-    this->selectedTool = new paintbrushTool();
-    this->selectedTool->SetWidth(5);
+//    this->selectedTool = new paintbrushTool();
+//    this->selectedTool->SetWidth(5);
     this->setMinimumSize(imageHeight * CurrentScale, imageWidth * CurrentScale);
     this->setMaximumSize(imageHeight * CurrentScale, imageWidth * CurrentScale);
     //this->setSizePolicy(QSizePolicy::Maximum, QSizePolicy::);
@@ -102,15 +102,16 @@ void QWidgetCanvas::drawLineTo(const QPoint &endPoint)
 
         //QPainter painter(getActiveCanvasImage());
 
-        emit RequestCurrentTool();
-
-        if (selectedTool == nullptr) {
-            qDebug() << "Null tool selected";
-            return;
-        }
-        if (selectedTool->name == "dropper")
+        emit GrabTool();
+        //emit RequestCurrentTool();
+        if (QString::compare(selectedTool->name,"mouse") == 0)
         {
-
+            qDebug() << "mouse";
+        }
+        else if (QString::compare(selectedTool->name,"dropper") == 0)
+        {
+            qDebug() << "null painter";
+            emit ReturnDropperColor(this->getActiveCanvasImage()->pixelColor(endPoint));
         }
         else
             selectedTool->Paint(this->getActiveCanvasImage(),endPoint);
@@ -130,7 +131,7 @@ void QWidgetCanvas::drawLineTo(const QPoint &endPoint)
 void QWidgetCanvas::paintEvent(QPaintEvent *event) {
 
     // Asks the ui to update the SelectedTool
-        //emit RequestCurrentTool();
+        emit RequestCurrentTool();
 
         QPainter painter(this);
         QRect dirtyRect = this->rect();
@@ -204,6 +205,11 @@ void QWidgetCanvas::load(QImage* im)
 
 // Updates the Tool
 void QWidgetCanvas::RecieveTool(BaseToolClass* tool)
+{
+    selectedTool = tool;
+}
+
+void QWidgetCanvas::CurrentTool(BaseToolClass * tool)
 {
     selectedTool = tool;
 }

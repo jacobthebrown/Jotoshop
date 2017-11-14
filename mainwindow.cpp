@@ -44,10 +44,14 @@ MainWindow::MainWindow(GifExporter& gifModel, QWidget *parent) : QMainWindow(par
 
     //QWidgetToolbar* tool = new QWidgetToolbar();
 
-    connect(ui->Canvas,SIGNAL(RequestCurrentTool()),this,SLOT(CurrentToolRequest()));
-    connect(this,SIGNAL(GetcurrentToolFromBar()),ui->Toolbar,SLOT(CurrentToolRequested()));
-    connect(ui->Toolbar,SIGNAL(SendCurrentTool(BaseToolClass*)),this,SLOT(AquiredCurrentTool(BaseToolClass*)));
-    connect(this,SIGNAL(SendCanvasCurrentTool(BaseToolClass*)),ui->Canvas,SLOT(RecieveTool(BaseToolClass*)));
+    connect(ui->Canvas,SIGNAL(GrabTool()),ui->Toolbar,SLOT(GiveTool()));
+    connect(ui->Toolbar, SIGNAL(Tool(BaseToolClass*)),ui->Canvas, SLOT(CurrentTool(BaseToolClass*)));
+
+//    connect(ui->Canvas,SIGNAL(RequestCurrentTool()),this,SLOT(CurrentToolRequest()));
+//    connect(this,SIGNAL(GetcurrentToolFromBar()),ui->Toolbar,SLOT(CurrentToolRequested()));
+//    connect(ui->Toolbar,SIGNAL(SendCurrentTool(BaseToolClass*)),this,SLOT(AquiredCurrentTool(BaseToolClass*)));
+//    connect(this,SIGNAL(SendCanvasCurrentTool(BaseToolClass*)),ui->Canvas,SLOT(RecieveTool(BaseToolClass*)));
+    connect(ui->Canvas,SIGNAL(ReturnDropperColor(QColor)),ui->Toolbar,SLOT(SetDropperColor(QColor)));
 }
 
 MainWindow::~MainWindow()
@@ -447,6 +451,7 @@ void MainWindow::on_fullPreviewButton_clicked()
 
 void MainWindow::CurrentToolRequest()
 {
+    qDebug() <<" we in" ;
     emit GetcurrentToolFromBar();
 }
 
