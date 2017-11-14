@@ -54,5 +54,5 @@ QImage* Canvas::GetImage() const
  */
 void Canvas::LoadImage(QImage* im)
 {
-    this->CanvasImage = im;
+    this->CanvasImage = new QImage(im->copy());
 }

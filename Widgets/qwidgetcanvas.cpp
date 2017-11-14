@@ -142,7 +142,6 @@ void QWidgetCanvas::setActiveCanvas(Canvas * can)
     update();
 }
 
-
 /*
  *  TODO: Comment, refactor to make generic execution.
  */
@@ -195,15 +194,9 @@ void QWidgetCanvas::CurrentTool(BaseToolClass * tool)
  */
 void QWidgetCanvas::addCanvas()
 {
-    if (ActiveCanvas != nullptr) {
-        this->ActiveCanvas = new Canvas(*ActiveCanvas);
-    }
-    else {
-        this->ActiveCanvas = new Canvas(this->imageWidth, this->imageHeight);
-    }
 
+    this->ActiveCanvas = new Canvas(imageWidth, imageHeight);
     this->composites.push_back(this->ActiveCanvas);
-
     emit sendImages(this->getAllCompositeImages());
 }
 
@@ -269,6 +262,11 @@ void QWidgetCanvas::setScale(double Scale) {
 void QWidgetCanvas::clear()
 {
     ActiveCanvas = nullptr;
+
+    foreach (auto canvasPtr, composites) {
+        delete canvasPtr;
+    }
+
     composites.clear();
 }
 

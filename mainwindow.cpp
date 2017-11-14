@@ -12,6 +12,7 @@
 MainWindow::MainWindow(GifExporter& gifModel, QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWindow) {
 
     ui->setupUi(this);
+    this->canvasSize = QSize(0,0);
 
     // Connects canvas widget images with preview widget images
     connect(this, SIGNAL(addCanvas(QSize)), ui->Canvas, SLOT(addCanvas(QSize)));
@@ -27,24 +28,15 @@ MainWindow::MainWindow(GifExporter& gifModel, QWidget *parent) : QMainWindow(par
 	connect(ui->AnimationStrip, SIGNAL(sendClickedCanvas(QListWidgetItem*)), this, SLOT(onCanvasIconClicked(QListWidgetItem*)));
     //connect(this, SIGNAL(addToStrip(QLabel*)), ui->AnimationStrip, SLOT(addQImage(QLabel*)));
 
-    // Upon loading an image creates a new canvas
-    //connect(this,SIGNAL(loadImage(QImage*)),ui->Canvas,SLOT(load(QImage*)));
 
     // Connects canvas and animation strip
     connect(ui->Canvas, SIGNAL(ImageUpdate(QImage*,int)), ui->AnimationStrip, SLOT(refreshImage(QImage*,int)) );
 
-    //this->ui->Right_horzLayout->setAlignment(this->ui->Preview, Qt::AlignHCenter);
-    //this->ui->Right_horzLayout->setSizeConstraint(QLayout::SetMaximumSize);
-
-    //this->ui->Preview->setSizePolicy(QSizePolicy::ExpandFlag);
-    //this->ui->Preview->
-            //setLayout(QLayout::SetMaximumSize);
+    // Assigning scroller children.
     this->ui->ExpandableScroller_1->WidgetToScroll = ui->scrollArea_2;
     this->ui->ExpandableScroller_1->WidgetToProtect = ui->scrollArea;
-    //this->ui->ExpandableScroller_1->DefaultWidth = ui->scrollArea_2->width();
 
-    //QWidgetToolbar* tool = new QWidgetToolbar();
-
+    //
     connect(ui->Canvas,SIGNAL(GrabTool()),ui->Toolbar,SLOT(GiveTool()));
     connect(ui->Toolbar, SIGNAL(Tool(BaseToolClass*)),ui->Canvas, SLOT(CurrentTool(BaseToolClass*)));
     
@@ -55,10 +47,7 @@ MainWindow::MainWindow(GifExporter& gifModel, QWidget *parent) : QMainWindow(par
     // Begin setup with a add new action
     emit ui->actionNew->triggered();
 
-//    connect(ui->Canvas,SIGNAL(RequestCurrentTool()),this,SLOT(CurrentToolRequest()));
-//    connect(this,SIGNAL(GetcurrentToolFromBar()),ui->Toolbar,SLOT(CurrentToolRequested()));
-//    connect(ui->Toolbar,SIGNAL(SendCurrentTool(BaseToolClass*)),this,SLOT(AquiredCurrentTool(BaseToolClass*)));
-//    connect(this,SIGNAL(SendCanvasCurrentTool(BaseToolClass*)),ui->Canvas,SLOT(RecieveTool(BaseToolClass*)));
+    //
     connect(ui->Canvas,SIGNAL(ReturnDropperColor(QColor)),ui->Toolbar,SLOT(SetDropperColor(QColor)));
 }
 
@@ -99,13 +88,18 @@ QString MainWindow::SaveFile(int width, int height, int frames, QVector<QImage*>
     // Grabs the filename saved; forcing the filter to be the extension
     const QString filter = "(*.ssp)";
     QString fileName = QFileDialog::getSaveFileName(this,tr("Save File"),tr(".ssp"),filter);
+
+    if (fileName.length() <= 0) {
+        return "";
+    }
+
     QFile file(fileName);
 
     // Throws a warning dialog box if the file won't open
     if(!file.open(QFile::WriteOnly | QFile::Text))
     {
-        QMessageBox::warning(this,"Save Error","Error saving file!");
-        return NULL;
+        QMessageBox::warning(this,"Save Error","Error saving file! No permissions to read.");
+        return "";
     }
 
     // Creates a textstream handler
@@ -210,25 +204,8 @@ void MainWindow::LoadFile(QString fileName)
 
         }
 
-        //label = new QLabel;
-        //im->scaled(80,80,Qt::KeepAspectRatio);
-        //QImage tempImage = ui->Canvas->getActiveCanvasImage()->scaled(80,80,Qt::KeepAspectRatio);
-        //tempPix= QPixmap::fromImage(*im);
-        //QImage t = im->scaled(80,80,Qt::KeepAspectRatio);
-        //tempPix.scaled(80,80,Qt::KeepAspectRatio);
-        //label->setPixmap(QPixmap::fromImage(t));
-        //label->setFixedSize(80,80);
-        //ui->AnimationStrip->layout()->addWidget(label);
-        //if(ui->Canvas->getAllCompositeImages().count() > 0)
-        //{
-        //    ui->AnimationStrip->addQImage(QPixmap::fromImage(t), ui->Canvas->getAllCompositeImages().indexOf(ui->Canvas->getActiveCanvasImage()));
-        //}
-
         this->ui->Canvas->addCanvas(im);
 
-        //Add new canvas and update display
-        //addCanvas();
-        //emit(loadImage(im));
     }
 
     int iteration = 1;
@@ -272,31 +249,6 @@ void MainWindow::onCanvasIconClicked(QListWidgetItem *item)
             ui->Canvas->update();
         }
     }
-
-}
-
-}
-
-/*
- * TODO
- */
-void MainWindow::on_addCanvasButton_clicked()
-{
-    qDebug() << "Canvas button pressed";
-    //Add new canvas and update display
-    //addCanvas(canvasSize);
-    ui->Canvas->addCanvas();
-    ui->Canvas->update();
-
-    int framePos = 0;
-
-    if(ui->Canvas->getAllCompositeImages().count() > 0)
-    {
-        framePos = ui->Canvas->composites.length() - 1;
-        emit addToStrip(QPixmap::fromImage(*(ui->Canvas->composites.last()->GetImage())), framePos);
-    }
-
-
 }
 
 /*
@@ -366,14 +318,21 @@ void MainWindow::on_actionNew_triggered()
         int width = fields[0]->text().toInt();
         int height = fields[1]->text().toInt();
 
+        if (width == 0 || height == 0) {
+            on_actionNew_triggered();
+            return;
+        }
+
+        // Reset, canvas size.
         canvasSize = QSize(width, height);
-            this->ui->Canvas->resize(this->canvasSize.width(),this->canvasSize.height(),1.0);
+        this->ui->Canvas->resize(this->canvasSize.width(),this->canvasSize.height(),1.0);
 
-        //QVector<QImage*> canvasVector;
-
-        //QString fileName = SaveFile(width, height, 0, canvasVector);
-        //LoadFile(fileName);
-
+    }
+    else {
+        if (canvasSize.height() == 0 && canvasSize.width() == 0) {
+            on_actionNew_triggered();
+            return;
+        }
     }
 }
 /*
@@ -384,6 +343,7 @@ void MainWindow::restoreDefaultUI()
     ui->Canvas->clear();
     ui->AnimationStrip->clear();
     ui->Preview->clear();
+    ui->previewButton->setText("Start Preview");
 }
 
 /*
@@ -394,14 +354,10 @@ void MainWindow::on_actionLoad_triggered()
     // Creates a dialog to select a project to load.
     QString fileName = QFileDialog::getOpenFileName(this, tr("Load Project"), "", tr("*.ssp"));
 
-    this->restoreDefaultUI();
-    LoadFile(fileName);
-}
-/*
- *
- */
-void MainWindow::resizeEvent(QResizeEvent *event)
-{
+    if (fileName.length() > 0) {
+        this->restoreDefaultUI();
+        LoadFile(fileName);
+    }
 }
 
 /*
@@ -450,4 +406,84 @@ void MainWindow::on_canvas_GrowButton_clicked()
 void MainWindow::on_canvas_ShrinkButton_clicked()
 {
     ui->Canvas->shiftScale(-0.25);
+}
+
+void MainWindow::on_animationstrip_CloneButton_clicked()
+{
+    if (ui->Canvas->composites.length() == 0)
+        return;
+
+    ui->Canvas->addCanvas(ui->Canvas->composites.last()->GetImage());
+    ui->Canvas->update();
+
+    if(ui->Canvas->getAllCompositeImages().count() > 0)
+    {
+        int framePos = ui->Canvas->composites.length() - 1;
+        emit addToStrip(QPixmap::fromImage(*(ui->Canvas->composites.last()->GetImage())), framePos);
+    }
+}
+
+void MainWindow::on_animationstrip_CloneCurrentButton_clicked()
+{
+    if (ui->Canvas->getActiveCanvas() == nullptr)
+        return;
+
+    ui->Canvas->addCanvas(ui->Canvas->getActiveCanvas()->GetImage());
+    ui->Canvas->update();
+
+    if(ui->Canvas->getAllCompositeImages().count() > 0)
+    {
+        int framePos = ui->Canvas->composites.length() - 1;
+        emit addToStrip(QPixmap::fromImage(*(ui->Canvas->getActiveCanvas()->GetImage())), framePos);
+    }
+}
+
+void MainWindow::on_animationstrip_NewButton_clicked()
+{
+    ui->Canvas->addCanvas();
+    ui->Canvas->update();
+
+    if(ui->Canvas->getAllCompositeImages().count() > 0)
+    {
+        int framePos = ui->Canvas->composites.length() - 1;
+        emit addToStrip(QPixmap::fromImage(*(ui->Canvas->getActiveCanvas()->GetImage())), framePos);
+    }
+}
+
+void MainWindow::on_animationstrip_DeleteCurrentButton_clicked()
+{
+
+    if (ui->Canvas->getActiveCanvas() == nullptr)
+        return;
+
+    int indexOfDeletion = ui->Canvas->composites.indexOf(ui->Canvas->getActiveCanvas());
+
+    ui->Canvas->composites.removeOne(ui->Canvas->getActiveCanvas());
+
+    delete ui->Canvas->getActiveCanvas();
+    ui->Canvas->setActiveCanvas(nullptr);
+
+    ui->AnimationStrip->clear();
+    int iteration = 1;
+
+    foreach (Canvas* canvas, ui->Canvas->composites)
+    {
+        emit addToStrip(QPixmap::fromImage(*canvas->GetImage()), iteration);
+        iteration++;
+    }
+
+    if (ui->Canvas->composites.length() > indexOfDeletion - 1 && indexOfDeletion - 1 >= 0) {
+        ui->Canvas->setActiveCanvas(ui->Canvas->composites.at(indexOfDeletion - 1));
+        ui->AnimationStrip->listArea->item(indexOfDeletion - 1)->setSelected(true);
+    }
+    else if (indexOfDeletion == 0 && ui->Canvas->composites.length() > 0) {
+        ui->Canvas->setActiveCanvas(ui->Canvas->composites.at(0));
+        ui->AnimationStrip->listArea->item(0)->setSelected(true);
+    }
+
+}
+
+void MainWindow::on_canvas_scaleSlider_sliderMoved(int position)
+{
+   this->ui->Canvas->setScale(1.0 * (position/100));
 }

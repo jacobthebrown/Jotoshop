@@ -25,7 +25,6 @@ QWidgetAnimationStrip::QWidgetAnimationStrip(QWidget *parent) : QWidget(parent)
     layout->addWidget(listArea);
     this->setLayout(layout);
 
-    // TODO: RECONNECT IN MMAIN WINDOW?
     connect(listArea, SIGNAL(itemClicked(QListWidgetItem*)), this, SLOT(canvasClicked(QListWidgetItem*)));
 }
 
@@ -83,5 +82,6 @@ void QWidgetAnimationStrip::refreshImage(QImage * targetImage, int position)
 {
     if(listArea->item(position) != 0) { // if item exists, update
         listArea->item(position)->operator =(QListWidgetItem(QIcon(QPixmap::fromImage(*targetImage)),QString::number(position)));
+        listArea->update();
     }
 }

@@ -48,7 +48,6 @@ private slots:
     void updatePreviewButtonStatus(bool isActive);
     void onCanvasIconClicked(QListWidgetItem* item);
     void exportGIF();
-    void on_addCanvasButton_clicked();
     void on_fpsSpeedSlider_valueChanged(int value);
     void on_actionSave_triggered();
     void on_actionLoad_triggered();
@@ -57,6 +56,11 @@ private slots:
     void on_fullPreviewButton_clicked();
     void on_canvas_ShrinkButton_clicked();
     void on_canvas_GrowButton_clicked();
+    void on_animationstrip_CloneButton_clicked();
+    void on_animationstrip_CloneCurrentButton_clicked();
+    void on_animationstrip_NewButton_clicked();
+    void on_animationstrip_DeleteCurrentButton_clicked();
+    void on_canvas_scaleSlider_sliderMoved(int position);
 };
 
 #endif // MAINWINDOW_H
