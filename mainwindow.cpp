@@ -48,6 +48,7 @@ MainWindow::MainWindow(GifExporter& gifModel, QWidget *parent) : QMainWindow(par
 
     //TODO
     connect(ui->Canvas,SIGNAL(ReturnDropperColor(QColor)),ui->Toolbar,SLOT(SetDropperColor(QColor)));
+
 }
 
 /*
@@ -233,10 +234,16 @@ void MainWindow::sendPreviewImages(QVector<QImage*> images)
  */
 void MainWindow::updatePreviewButtonStatus(bool isActive)
 {
-    if(isActive)
+    if(isActive) {
         ui->previewButton->setText("Stop Preview");
-    else
+        ui->previewButton->setStyleSheet(QString("color: orange;"));
+        ui->fullPreviewButton->setEnabled(true);
+    }
+    else {
         ui->previewButton->setText("Start Preview");
+        ui->previewButton->setStyleSheet(QString("color: silver;"));
+        ui->fullPreviewButton->setEnabled(false);
+    }
 }
 /*
  * Handler for when an icon is clicked on the animation strip
@@ -350,6 +357,8 @@ void MainWindow::restoreDefaultUI()
     ui->AnimationStrip->clear();
     ui->Preview->clear();
     ui->previewButton->setText("Start Preview");
+    ui->fullPreviewButton->setEnabled(false);
+    ui->previewButton->setStyleSheet(QString("color: silver;"));
     ui->canvas_scaleSlider->setValue(100);
 }
 

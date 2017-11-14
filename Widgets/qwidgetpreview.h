@@ -6,6 +6,7 @@
 #include <QImage>
 #include <QFormLayout>
 #include <QDialog>
+#include <QIcon>
 #include <QLabel>
 #include <QBasicTimer>
 #include <QTimerEvent>

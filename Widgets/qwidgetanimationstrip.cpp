@@ -47,6 +47,16 @@ QWidgetAnimationStrip::~QWidgetAnimationStrip()
  */
 void QWidgetAnimationStrip::addQImage(QPixmap pix, int framePos)
 {
+
+    // Draws a rectangle around item image.
+    QPainter painter(&pix);
+    QPen pen;
+    pen.setWidth(1);
+    pen.setColor(Qt::black);
+    painter.setPen(pen);
+    painter.drawRect(0,0,pix.width() - 1, pix.height() - 1);
+    painter.end();
+
     // if item exists, update
     if(listArea->item(framePos) != 0)
     {
@@ -108,10 +118,23 @@ void QWidgetAnimationStrip::canvasClicked(QListWidgetItem *item)
  */
 void QWidgetAnimationStrip::refreshImage(QImage * targetImage, int position)
 {
+
+
     // if item exists, update
     if(listArea->item(position) != 0)
     {
-        listArea->item(position)->operator =(QListWidgetItem(QIcon(QPixmap::fromImage(*targetImage)),QString::number(position)));
+
+        // Draws rectangle around image icon.
+        QImage cloneImage = targetImage->copy();
+        QPainter painter(&cloneImage);
+        QPen pen;
+        pen.setWidth(1);
+        pen.setColor(Qt::black);
+        painter.setPen(pen);
+        painter.drawRect(0,0,cloneImage.width() - 1, cloneImage.height() - 1);
+        painter.end();
+
+        listArea->item(position)->operator =(QListWidgetItem(QIcon(QPixmap::fromImage(cloneImage)),QString::number(position)));
         listArea->update();
     }
 }

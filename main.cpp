@@ -9,6 +9,7 @@ int main(int argc, char *argv[])
     GifExporter gifModel;
 
     MainWindow w(gifModel);
+    a.setWindowIcon(QIcon(":/Images/icons/Resources/application_icon.ico"));
     w.show();
     return a.exec();
 }

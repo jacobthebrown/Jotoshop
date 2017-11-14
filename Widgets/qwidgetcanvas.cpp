@@ -8,6 +8,7 @@ QWidgetCanvas::QWidgetCanvas(QWidget *parent) : QWidget(parent)
     this->activeCanvas = nullptr;
     this->currentScale = 1.0;
     this->transparentBackground = nullptr;
+    this->currentTool(nullptr);
 
     this->setMinimumSize(imageHeight * currentScale, imageWidth * currentScale);
     this->setMaximumSize(imageHeight * currentScale, imageWidth * currentScale);
@@ -89,6 +90,11 @@ void QWidgetCanvas::drawLineTo(const QPoint &endPoint)
     {
 
         emit grabTool();
+
+        // Error check.
+        if (selectedTool == nullptr)
+            return;
+
         if (QString::compare(selectedTool->name,"mouse") == 0)
         {
             qDebug() << "mouse";

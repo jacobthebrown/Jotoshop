@@ -18,4 +18,7 @@
         <file>Resources/ClickedBucket.png</file>
         <file>Resources/SwapArray.png</file>
     </qresource>
+    <qresource prefix="/Images/icons">
+        <file>Resources/application_icon.ico</file>
+    </qresource>
 </RCC>

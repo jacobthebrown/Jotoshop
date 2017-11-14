@@ -1,5 +1,4 @@
 #include "qwidgetpreview.h"
-#include <QDebug>
 /*
  *  Prview widget allows for the animation of qimages.
  *  The current displayed image is initialized to nullptr
@@ -89,6 +88,7 @@ void QWidgetPreview::fullPreview()
     {
         QFormLayout form(&previewDialog);
         form.addWidget(label);
+        previewDialog.setWindowIcon(QIcon(":/Images/icons/Resources/application_icon.ico"));
         previewDialog.show();
     }
 }
