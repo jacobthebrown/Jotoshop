@@ -8,13 +8,15 @@ QWidgetCanvas::QWidgetCanvas(QWidget *parent) : QWidget(parent)
     this->ActiveCanvas = nullptr;
     this->CurrentScale = 1.0;
 
+
     // TODO: CHANGE TO SIZE SETTINGS
     this->imageHeight = 512;
     this->imageWidth = 512;
     this->selectedTool = new paintbrushTool();
     this->selectedTool->SetWidth(5);
-    this->setMinimumSize(imageHeight * CurrentScale, imageWidth * CurrentScale);
-    this->setMaximumSize(imageHeight * CurrentScale, imageWidth * CurrentScale);
+    //this->setMinimumSize(imageHeight * CurrentScale, imageWidth * CurrentScale);
+    //
+    //this->setMaximumSize(imageHeight * CurrentScale, imageWidth * CurrentScale);
     //this->setSizePolicy(QSizePolicy::Maximum, QSizePolicy::);
 
     this->transparentBackground = new QImage(QSize(imageWidth, imageHeight), QImage::Format_ARGB32);
@@ -138,8 +140,8 @@ void QWidgetCanvas::paintEvent(QPaintEvent *event) {
         //painter.scale(CurrentScale, CurrentScale);
 
         if (getActiveCanvasImage() != nullptr && transparentBackground != nullptr) {
-            painter.drawImage(dirtyRect, *transparentBackground);
-            painter.drawImage(dirtyRect, *getActiveCanvasImage());
+            painter.drawImage(QRect(0,0,this->width(), this->height()), *transparentBackground);
+            painter.drawImage(QRect(0,0,this->width(), this->height()), *getActiveCanvasImage());
 
         }
 
