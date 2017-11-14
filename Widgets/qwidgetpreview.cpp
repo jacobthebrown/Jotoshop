@@ -74,9 +74,13 @@ void QWidgetPreview::setActiveStatus()
  */
 void QWidgetPreview::fullPreview()
 { 
-    QFormLayout form(&previewDialog);
-    form.addWidget(label);
-    previewDialog.show();
+    // checks if image can be displayed
+    if(currentImage != nullptr)
+    {
+        QFormLayout form(&previewDialog);
+        form.addWidget(label);
+        previewDialog.show();
+    }
 }
 
 /*
