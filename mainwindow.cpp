@@ -12,6 +12,7 @@
 MainWindow::MainWindow(GifExporter& gifModel, QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWindow) {
 
     ui->setupUi(this);
+
     // Connects canvas widget images with preview widget images
     connect(this, SIGNAL(addCanvas(QSize)), ui->Canvas, SLOT(addCanvas(QSize)));
     connect(this, SIGNAL(addToStrip(QPixmap, int)), ui->AnimationStrip, SLOT(addQImage(QPixmap,int)));
