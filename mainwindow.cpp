@@ -46,6 +46,12 @@ MainWindow::MainWindow(GifExporter& gifModel, QWidget *parent) : QMainWindow(par
 
     connect(ui->Canvas,SIGNAL(GrabTool()),ui->Toolbar,SLOT(GiveTool()));
     connect(ui->Toolbar, SIGNAL(Tool(BaseToolClass*)),ui->Canvas, SLOT(CurrentTool(BaseToolClass*)));
+    
+    this->ui->Canvas->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
+    this->ui->Canvas->setFixedSize(1000,1000);
+    this->ui->Canvas->imageHeight = 1000;
+    this->ui->Canvas->imageWidth = 1000;
+    this->ui->Canvas->setScale(1.0);
 
 //    connect(ui->Canvas,SIGNAL(RequestCurrentTool()),this,SLOT(CurrentToolRequest()));
 //    connect(this,SIGNAL(GetcurrentToolFromBar()),ui->Toolbar,SLOT(CurrentToolRequested()));
@@ -77,6 +83,7 @@ void MainWindow::exportGIF()
 
     int width = ui->Canvas->width();
     int height = ui->Canvas->height();
+
 
     emit exportToGIF(fileName, temp, width, height);
 }
@@ -460,3 +467,12 @@ void MainWindow::AquiredCurrentTool(BaseToolClass * tool)
     emit SendCanvasCurrentTool(tool);
 }
 
+void MainWindow::on_canvas_GrowButton_clicked()
+{
+    ui->Canvas->shiftScale(+0.05);
+}
+
+void MainWindow::on_canvas_ShrinkButton_clicked()
+{
+    ui->Canvas->shiftScale(-0.05);
+}

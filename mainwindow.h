@@ -36,10 +36,13 @@ private:
     //Temp function to test brush width
     //void paint(QPoint,QImage&,QRgb,int);
 
+    QPushButton* canvas_ShrinkScale;
+    QPushButton* canvas_GrowScale;
     QWidget *wrap(QLayout *l);
     void resizeEvent(QResizeEvent *event);
     void CurrentToolRequest();
     void AquiredCurrentTool(BaseToolClass *tool);
+
 public slots:
     //void recieveSelectedColor(QColor);
     //void paintCanvas(QPoint&);
@@ -83,6 +86,8 @@ private slots:
     void on_actionNew_triggered();
     void on_previewButton_clicked();
     void on_fullPreviewButton_clicked();
+    void on_canvas_ShrinkButton_clicked();
+    void on_canvas_GrowButton_clicked();
 };
 
 #endif // MAINWINDOW_H
