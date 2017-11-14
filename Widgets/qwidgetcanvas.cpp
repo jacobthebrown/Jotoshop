@@ -89,19 +89,22 @@ void QWidgetCanvas::drawLineTo(const QPoint &endPoint)
     {
 
         emit grabTool();
-        if (QString::compare(selectedTool->name,"mouse") == 0)
+        if(selectedTool != nullptr)
         {
-            qDebug() << "mouse";
-        }
-        else if (QString::compare(selectedTool->name,"dropper") == 0)
-        {
-            qDebug() << "null painter";
-            emit returnDropperColor(this->getActiveCanvasImage()->pixelColor(endPoint));
-        }
-        else
-            selectedTool->paint(this->getActiveCanvasImage(),endPoint);
+            if (QString::compare(selectedTool->name,"mouse") == 0)
+            {
+                //qDebug() << "mouse";
+            }
+            else if (QString::compare(selectedTool->name,"dropper") == 0)
+            {
+                //qDebug() << "null painter";
+                emit returnDropperColor(this->getActiveCanvasImage()->pixelColor(endPoint));
+            }
+            else
+                selectedTool->paint(this->getActiveCanvasImage(),endPoint);
 
-        update();
+            update();
+        }
     }
 }
 

@@ -58,8 +58,6 @@ signals:
     void returnDropperColor(QColor);
 
 private slots:
-
-    // Temp widget comunictaion
     void currentTool(BaseToolClass*);
 
     void mouseReleaseEvent(QMouseEvent *event);

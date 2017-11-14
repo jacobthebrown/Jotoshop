@@ -88,8 +88,10 @@ void QWidgetPreview::fullPreview()
     if(currentImage != nullptr)
     {
         QFormLayout form(&previewDialog);
+        previewDialog.setStyleSheet("background-color:#323232");
         form.addWidget(label);
         previewDialog.show();
+
     }
 }
 
