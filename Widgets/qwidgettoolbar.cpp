@@ -12,48 +12,29 @@
  */
 QWidgetToolbar::QWidgetToolbar(QWidget *parent) : QWidget(parent)
 {
-    // Instantiates the tools and sets the default to the paintBrush
-    paintBrush = new paintbrushTool;
-    paintBrush->SetName("paintBrush");
-    eraser = new Eraser;
-    eraser->SetName("eraser");
-    broadBrush = new BroadBrush;
-    broadBrush->SetName("broadBrush");
-    dropper = new Dropper;
-    dropper->SetName("dropper");
+    // Set The Initial tools and state of the tool bar
+    SetInitialState();
 
-    currentTool = paintBrush;
-    primarySelectedColor = QColor(255,158,73);
-    selectedWidth = 10;
-    UpdateToolColor(primarySelectedColor);
-    UpdateToolWidth(selectedWidth);
+    SetButtonPadding();
 
-    // Styling for the border and placement of children QObjects.
-    this->leftPadding = 8;
-    this->upPadding = 8;
-    this->rightPadding = 8;
-    this->bottomPadding = 8;
-
-    // Current button corresponds to a tool,
+    // Current button corresponds to a tool index for image getting and setting,
     //set up button paths sets the images at the array index of current button
-    currentButton = 0;
-    setUpButtonPaths();
-    ToolButtons = new QButtonGroup();
-    AddButtons(ToolButtons);
+    currentButtonIndex = 0;
+    SetUpUnclickedButtonPaths();
+    AddButtons();
     AddColorButtons();
 
-    int numOfTools = this->ToolButtons->buttons().length();
-    sizeSlider = new QWidgetSliderCombo(this, "Size", 1, 32*numOfTools/2 + 25, this->width()-10, 64);
+    CreateSlider();
     connect(sizeSlider->Slider,SIGNAL(valueChanged(int)),this,SLOT(UpdateToolWidth(int)));
-    sizeSlider->Slider->setValue(selectedWidth);
+
 
 }
 
 QWidgetToolbar::~QWidgetToolbar()
 {
-    delete paintBrush;
-    delete eraser;
-    delete broadBrush;
+   // delete paintBrush;
+   // delete eraser;
+    //delete broadBrush;
     //delete dropper;
 
     delete ToolButtons;
@@ -103,26 +84,6 @@ QPushButton* QWidgetToolbar::createToolButton() {
 
 
 /*
- * TODO
- */
-//void QWidgetToolbar::paintEvent(QPaintEvent *e)
-//{
-//    int numOfTools = this->ToolButtons->buttons().length();
-
-//    QPainter painter;
-//    QPainterPath path;
-//    path.addRoundRect(leftPadding, upPadding, 80, 16 + 32*(numOfTools / 2), 0);
-//    path.addRoundRect(0,0,this->width()-1,this->height()-1,0);
-
-//    QPen pen(Qt::lightGray, 10);
-//    painter.setPen(pen);
-
-//    painter.begin(this);
-//        painter.drawPath(path);
-//    painter.end();
-//}
-
-/*
  * Returns width from the tool currently assigned
  */
 
@@ -131,8 +92,10 @@ int QWidgetToolbar::GetToolWidth() {
 }
 
 // Manually Creates the tool button's and hooks up their clicked events to corresponding slots
-void QWidgetToolbar::AddButtons(QButtonGroup *ToolButtons)
+void QWidgetToolbar::AddButtons()
 {
+    ToolButtons = new QButtonGroup();
+
     QPushButton* paintBrushButton = createToolButton();
     ToolButtons->addButton(paintBrushButton);
     connect(paintBrushButton, SIGNAL(clicked(bool)),this,SLOT(RegisterPaintBrushButton()));
@@ -149,6 +112,14 @@ void QWidgetToolbar::AddButtons(QButtonGroup *ToolButtons)
     QPushButton* eraserButton = createToolButton();
     ToolButtons->addButton(eraserButton);
     connect(eraserButton,SIGNAL(clicked(bool)),this,SLOT(RegisterEraserButton()));
+
+    QPushButton* bucketFillButton = createToolButton();
+    ToolButtons->addButton(bucketFillButton);
+    connect(bucketFillButton,SIGNAL(clicked(bool)),this,SLOT(RegisterBucketFillButton()));
+
+    QPushButton* mouseButton = createToolButton();
+    ToolButtons->addButton(mouseButton);
+    connect(mouseButton,SIGNAL(clicked(bool)),this,SLOT(RegisterMouseButton()));
 }
 
 /*
@@ -193,19 +164,16 @@ void QWidgetToolbar::AddColorButtons()
     ColorButtons[1] = secondaryColorButton;
 
     secondaryColorImage = new QImage(40,40,QImage::Format_ARGB32);
+
     QPushButton* swapColorButton = new QPushButton("", this);
-    //connect(secondaryColorButton,SIGNAL(clicked(bool)),this,SLOT(UpdateSecondary()));
-
-    swapColorButton->setMaximumSize(50,50);
-    swapColorButton->setMinimumSize(50,50);
-    swapColorButton->setText(QString(""));
-    swapColorButton->move(30, 300);
-
-    //swapColorButton->fill(QColor(0, 0, 250));
-    //swapColorButton->setIcon(QPixmap::fromImage(QImage(":/Images/Buttons/../../swapColorsSmall.png")));
-    swapColorButton->setIconSize(QSize(35,35));
-
+    QPixmap buttonPixMap(":Images/Buttons/Resources/SwapArray.png");
+    QIcon brushIcon(buttonPixMap);
+    swapColorButton->setIcon(brushIcon);;
+    swapColorButton->move(0, 250);
+    swapColorButton->setStyleSheet("background-color:#323232; border-style:none");
+    connect(swapColorButton,SIGNAL(clicked(bool)),this,SLOT(SwapPrimaryAndSecondaryColors()));
     swapColorButton->show();
+
 
     ColorButtons[2] = swapColorButton;
 }
@@ -218,23 +186,61 @@ void QWidgetToolbar::AddIcon(QPushButton * pb)
 {
     // Do fill bucket
 
-    QPixmap buttonPixMap(buttonPaths[currentButton]);
+
+    QPixmap buttonPixMap(buttonPaths[currentButtonIndex]);
     QIcon brushIcon(buttonPixMap);
     pb->setIcon(brushIcon);
-    pb->setIconSize(QSize(15,15));
+    pb->setIconSize(QSize(18,18));
 
-    buttons[currentButton] = pb;
+    buttons[currentButtonIndex] = pb;
 
-    currentButton++;
+    currentButtonIndex++;
+}
+
+void QWidgetToolbar::UpdateButtonsView(int clicked)
+{
+    for(int i = 0; i < 6; i++)
+    {
+        // mouse
+//        if()
+//        {
+
+//        }
+        if(i == clicked)
+        {
+            QPixmap buttonPixMap(buttonPathsClicked[i]);
+            QIcon brushIcon(buttonPixMap);
+            buttons[i]->setIcon(brushIcon);
+            buttons[i]->setIconSize(QSize(18,18));
+        }
+        else
+        {
+            QPixmap buttonPixMap(buttonPaths[i]);
+            QIcon brushIcon(buttonPixMap);
+            buttons[i]->setIcon(brushIcon);
+            buttons[i]->setIconSize(QSize(18,18));
+        }
+
+    }
 }
 
 // Puts the images files from the resource into an array to be use for icons
-void QWidgetToolbar::setUpButtonPaths()
+void QWidgetToolbar::SetUpUnclickedButtonPaths()
 {
-    buttonPaths[0] = ":Images/Buttons/Resources/Images/paintBrush.png";
-    buttonPaths[1] = ":Images/Buttons/Resources/Images/broadBrush.png";
-    buttonPaths[2] = ":Images/Buttons/Resources/Images/dropper.png";
-    buttonPaths[3] = ":Images/Buttons/Resources/Images/eraser.png";
+    buttonPaths[0] = ":Images/Buttons/Resources/unclickedPen.png";
+    buttonPaths[1] = ":Images/Buttons/Resources/UnclickedBrush.png";
+    buttonPaths[2] = ":Images/Buttons/Resources/unclickedDropper.png";
+    buttonPaths[3] = ":Images/Buttons/Resources/unclickedEraser.png";
+    buttonPaths[4] = ":Images/Buttons/Resources/UnclickedBucket.png";
+    buttonPaths[5] = ":Images/Buttons/Resources/UnclickedMouse.png";
+
+    buttonPathsClicked[0] = ":Images/Buttons/Resources/clickedPen.png";
+    buttonPathsClicked[1] = ":Images/Buttons/Resources/clickedBrush.png";
+    buttonPathsClicked[2] = ":Images/Buttons/Resources/clickedDropper.png";
+    buttonPathsClicked[3] = ":Images/Buttons/Resources/clickedEraser.png";
+    buttonPathsClicked[4] = ":Images/Buttons/Resources/ClickedBucket.png";
+    buttonPathsClicked[5] = ":Images/Buttons/Resources/clickedMouse.png";
+
 }
 
 /*
@@ -242,9 +248,10 @@ void QWidgetToolbar::setUpButtonPaths()
 */
 void QWidgetToolbar::RegisterPaintBrushButton()
 {
-        qDebug() << "PaintBrush";
         // Figure out a way to keep track visually of which button is clicked <------
-        currentButton = 0;
+        currentButtonIndex = 0;
+
+        UpdateButtonsView(currentButtonIndex);
 
         currentTool = paintBrush;
         UpdateToolColor(primarySelectedColor);
@@ -259,7 +266,9 @@ void QWidgetToolbar::RegisterPaintBrushButton()
 void QWidgetToolbar::RegisterBroadBrushButton()
 {
         qDebug() << "BroadBrush";
-        currentButton = 1;
+        currentButtonIndex = 1;
+        UpdateButtonsView(currentButtonIndex);
+
         currentTool = broadBrush;
 
         UpdateToolColor(primarySelectedColor);
@@ -273,14 +282,35 @@ void QWidgetToolbar::RegisterBroadBrushButton()
 */
 void QWidgetToolbar::RegisterDropperButton()
 {
-    currentButton = 2;
+    currentTool = dropper;
+    currentButtonIndex = 2;
+    UpdateButtonsView(currentButtonIndex);
 
     UpdateToolColor(primarySelectedColor);
     UpdateToolWidth(sizeSlider->Slider->value());
-
     ToggleColorButtons();
     ColorButtons[0]->setEnabled(false);
     ColorButtons[1]->setEnabled(false);
+}
+
+void QWidgetToolbar::RegisterBucketFillButton()
+{
+    currentTool = Bucket;
+    currentButtonIndex = 4;
+    UpdateButtonsView(currentButtonIndex);
+
+    UpdateToolColor(primarySelectedColor);
+    UpdateToolWidth(sizeSlider->Slider->value());
+    ToggleColorButtons();
+}
+
+void QWidgetToolbar::RegisterMouseButton()
+{
+    qDebug() << "mouse";
+    currentTool = mouse;
+    currentButtonIndex = 5;
+    UpdateButtonsView(currentButtonIndex);
+    ToggleColorButtons();
 }
 
 /*
@@ -288,7 +318,8 @@ void QWidgetToolbar::RegisterDropperButton()
 */
 void QWidgetToolbar::RegisterEraserButton()
 {
-    currentButton = 3;
+    currentButtonIndex = 3;
+    UpdateButtonsView(currentButtonIndex);
     currentTool = eraser;
     currentTool->SetColor(QColor(203,203,203));
     currentTool->SetWidth(sizeSlider->Slider->value());
@@ -336,14 +367,20 @@ bool QWidgetToolbar::UpdateSecondaryColor()
     return false;
 }
 
+
 // Launches a choosecolor Dialog sending which button pressed it
 void QWidgetToolbar::UpdatePrimaryColorImage()
 {
     if(UpdateColorPrimaryColor())
     {
-        primaryColorImage->fill(primarySelectedColor);
-        ColorButtons[0]->setIcon(QIcon(QPixmap::fromImage(*primaryColorImage)));
+        ChangePrimaryColorButtonImage();
     }
+}
+
+void QWidgetToolbar::ChangePrimaryColorButtonImage()
+{
+    primaryColorImage->fill(primarySelectedColor);
+    ColorButtons[0]->setIcon(QIcon(QPixmap::fromImage(*primaryColorImage)));
 }
 
 // When the secondary color is pressed it updates the secondary color and image
@@ -351,9 +388,15 @@ void QWidgetToolbar::UpdateSecondaryColorImage()
 {
     if(UpdateSecondaryColor())
     {
-        secondaryColorImage->fill(secondarySelectedColor);
-        ColorButtons[1]->setIcon(QIcon(QPixmap::fromImage(*secondaryColorImage)));
+        ChangeSecondaryColorButtonImage();
     }
+}
+
+
+void QWidgetToolbar::ChangeSecondaryColorButtonImage()
+{
+    secondaryColorImage->fill(secondarySelectedColor);
+    ColorButtons[1]->setIcon(QIcon(QPixmap::fromImage(*secondaryColorImage)));
 }
 
 // Emits a signal that holds the currently selected tool
@@ -367,7 +410,32 @@ void QWidgetToolbar::CurrentToolRequested()
 void QWidgetToolbar::UpdateDropperReturn(QColor dropperColor)
 {
     primarySelectedColor = dropperColor;
-    UpdatePrimaryColorImage();
+    ChangePrimaryColorButtonImage();
+}
+
+void QWidgetToolbar::SetDropperColor(QColor dropperColor)
+{
+    primarySelectedColor = dropperColor;
+    UpdateToolColor(dropperColor);
+    ChangePrimaryColorButtonImage();
+
+}
+
+void QWidgetToolbar::GiveTool()
+{
+    emit Tool(currentTool);
+}
+
+void QWidgetToolbar::SwapPrimaryAndSecondaryColors()
+{
+    QColor tempPrimary = primarySelectedColor;
+
+    primarySelectedColor = secondarySelectedColor;
+    secondarySelectedColor = tempPrimary;
+    UpdateToolColor(primarySelectedColor);
+
+    ChangePrimaryColorButtonImage();
+    ChangeSecondaryColorButtonImage();
 }
 
 // Updates the tools color
@@ -391,4 +459,51 @@ void QWidgetToolbar::ToggleColorButtons()
         ColorButtons[1]->setEnabled(true);
     }
 
+}
+
+// Sets style padding for buttons
+void QWidgetToolbar::SetButtonPadding()
+{
+    // Styling for the border and placement of children QObjects.
+    this->leftPadding = 8;
+    this->upPadding = 8;
+    this->rightPadding = 8;
+    this->bottomPadding = 8;
+}
+
+
+
+/* Instantiates the tools to their default values
+ * Sets the initial tool to the paintbrush, orange, width 10
+ * */
+void QWidgetToolbar::SetInitialState()
+{
+    // Instantiates the tools and sets the default to the paintBrush
+    paintBrush = new paintbrushTool;
+    paintBrush->SetName("paintBrush");
+    eraser = new Eraser;
+    eraser->SetName("eraser");
+    broadBrush = new BroadBrush;
+    broadBrush->SetName("broadBrush");
+    dropper = new Dropper;
+    dropper->SetName("dropper");
+    Bucket = new bucketTool;
+    Bucket->SetName("bucket");
+
+    mouse = new MouseTool;
+    mouse->SetName("mouse");
+
+    currentTool = mouse;
+    primarySelectedColor = QColor(255,158,73);
+    secondarySelectedColor = QColor(203,203,203);
+    selectedWidth = 10;
+    UpdateToolColor(primarySelectedColor);
+    UpdateToolWidth(selectedWidth);
+}
+
+void QWidgetToolbar::CreateSlider()
+{
+    int numOfTools = this->ToolButtons->buttons().length();
+    sizeSlider = new QWidgetSliderCombo(this, "Size", 1, 32*numOfTools/2 + 25, this->width()-10, 64);
+    sizeSlider->Slider->setValue(selectedWidth);
 }

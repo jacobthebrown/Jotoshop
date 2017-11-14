@@ -7,12 +7,14 @@
 #include <QPainter>
 #include <QPen>
 #include <QObject>
-#include <Qstring>
+#include <QString>
+#include <QColor>
 
 class BaseToolClass
 {
 public:
     BaseToolClass();
+
 
     QColor color;
     int width;

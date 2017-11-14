@@ -1,11 +1,11 @@
-#ifndef BROADBRUSH_H
-#define BROADBRUSH_H
+#ifndef MOUSETOOL_H
+#define MOUSETOOL_H
 #include "basetoolclass.h"
 
-class BroadBrush : public BaseToolClass
+class MouseTool : public BaseToolClass
 {
 public:
-    BroadBrush();
+    MouseTool();
 
     QColor GetColor();
     int GetWidth();
@@ -16,8 +16,6 @@ public:
 
     virtual QString GetName();
     virtual void SetName(QString ToolName);
-
-
 };
 
-#endif // BROADBRUSH_H
+#endif // MOUSETOOL_H

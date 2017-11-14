@@ -43,7 +43,9 @@ SOURCES += \
     Models/paintbrushtool.cpp \
     Models/eraser.cpp \
     Models/broadbrush.cpp \
-    Models/dropper.cpp
+    Models/dropper.cpp \
+    Models/buckettool.cpp \
+    Models/mousetool.cpp
 
 
 HEADERS += \
@@ -65,7 +67,9 @@ HEADERS += \
     Models/paintbrushtool.h \
     Models/eraser.h \
     Models/broadbrush.h \
-    Models/dropper.h
+    Models/dropper.h \
+    Models/buckettool.h \
+    Models/mousetool.h
 
 
 FORMS += \
