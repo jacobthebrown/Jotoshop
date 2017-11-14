@@ -331,6 +331,11 @@ void MainWindow::on_addCanvasButton_clicked()
     ui->Canvas->update();
 
     int framePos = 0;
+
+    if(ui->Canvas->getActiveCanvas() != nullptr)
+    {
+
+    }
     if(ui->Canvas->getAllCompositeImages().count() > 0)
     {
         framePos = ui->Canvas->getAllCompositeImages().indexOf(ui->Canvas->getActiveCanvasImage());
