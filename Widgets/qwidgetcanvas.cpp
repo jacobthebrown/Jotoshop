@@ -262,6 +262,9 @@ void QWidgetCanvas::setScale(double Scale) {
 void QWidgetCanvas::clear()
 {
     ActiveCanvas = nullptr;
+    this->CurrentScale = 1.0;
+    this->transparentBackground = nullptr;
+
 
     foreach (auto canvasPtr, composites) {
         delete canvasPtr;

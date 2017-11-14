@@ -344,6 +344,7 @@ void MainWindow::restoreDefaultUI()
     ui->AnimationStrip->clear();
     ui->Preview->clear();
     ui->previewButton->setText("Start Preview");
+    ui->canvas_scaleSlider->setValue(100);
 }
 
 /*
@@ -485,5 +486,5 @@ void MainWindow::on_animationstrip_DeleteCurrentButton_clicked()
 
 void MainWindow::on_canvas_scaleSlider_sliderMoved(int position)
 {
-   this->ui->Canvas->setScale(1.0 * (position/100));
+   this->ui->Canvas->setScale(1.0 * ((position + 0.0)/100.0));
 }
