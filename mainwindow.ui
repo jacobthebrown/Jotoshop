@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>1034</width>
-    <height>682</height>
+    <height>716</height>
    </rect>
   </property>
   <property name="mouseTracking">
@@ -1051,10 +1051,8 @@ border-radius: 4px;
             <rect>
              <x>0</x>
              <y>0</y>
-==== BASE ====
-             <width>28</width>
-             <height>464</height>
-==== BASE ====
+             <width>317</width>
+             <height>502</height>
             </rect>
            </property>
            <property name="sizePolicy">
@@ -1470,9 +1468,12 @@ border-radius: 4px;
     <property name="title">
      <string>File</string>
     </property>
+    <property name="toolTipsVisible">
+     <bool>true</bool>
+    </property>
+    <addaction name="actionNew"/>
     <addaction name="actionSave"/>
     <addaction name="actionLoad"/>
-    <addaction name="actionNew"/>
     <addaction name="separator"/>
     <addaction name="exportAction"/>
    </widget>
@@ -1497,7 +1498,7 @@ border-radius: 4px;
   </action>
   <action name="actionSave">
    <property name="text">
-    <string>Save</string>
+    <string>Save As...</string>
    </property>
    <property name="toolTip">
     <string>Save the current project to a .ssp file</string>
@@ -1505,7 +1506,7 @@ border-radius: 4px;
   </action>
   <action name="actionLoad">
    <property name="text">
-    <string>Load</string>
+    <string>Load...</string>
    </property>
    <property name="toolTip">
     <string>Load a .ssp file into Jotoshop</string>

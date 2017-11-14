@@ -24,19 +24,8 @@ public:
 
 private:
     Ui::MainWindow *ui;
-
-
     QString SaveFile(int width, int height, int frames, QVector<QImage*> images);
     void LoadFile(QString);
-
-
-    //ToolsModel toolBar;
-    //QImage canvasImage;
-
-    //void SetToolBarPics();
-    //Temp function to test brush width
-    //void paint(QPoint,QImage&,QRgb,int);
-
     QPushButton* canvas_ShrinkScale;
     QPushButton* canvas_GrowScale;
     QWidget *wrap(QLayout *l);
@@ -44,14 +33,8 @@ private:
     void CurrentToolRequest();
     void AquiredCurrentTool(BaseToolClass *tool);
     void restoreDefaultUI();
-public slots:
-    //void recieveSelectedColor(QColor);
-    //void paintCanvas(QPoint&);
 
 signals:
-    //void updateToolBar(QColor);
-    //void ToolClicked(QString);
-
     void addCanvas(QSize);
     void addToStrip(QPixmap, int);
     void loadImage(QImage*);
@@ -62,24 +45,10 @@ signals:
     void SendCanvasCurrentTool(BaseToolClass*);
 
 private slots:
-    /*
-    void UpdateButtonBorder(QString);
-    void on_paintBrushButton_clicked();
-    void on_broadBrushButton_clicked();
-    void on_eraserButton_clicked();
-    void on_dropperButton_clicked();
-*/
-    //Canvas
     void sendPreviewImages(QVector<QImage*> images);
-
     void updatePreviewButtonStatus(bool isActive);
-
     void onCanvasIconClicked(QListWidgetItem* item);
-
-	// Open a file dialog to export the current array of canvases into a gif format
     void exportGIF();
-
-    //
     void on_addCanvasButton_clicked();
     void on_fpsSpeedSlider_valueChanged(int value);
     void on_actionSave_triggered();

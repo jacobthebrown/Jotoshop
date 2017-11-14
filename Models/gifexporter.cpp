@@ -3,11 +3,19 @@
 
 #include <QImage>
 
+/*
+ * GIF Exporter which uses the gif-h and Image libraries created by
+ * Charlie Tangora and Marco Aurélio G. da Silva respectively to export a
+ * vector of QImage* frames to a GIF format
+ */
 GifExporter::GifExporter()
 {
-    QString test;
 }
 
+/*
+ * Slot for an exportToGIF signal from the main window. Loops through each QImage* in images, converts it into
+ * a frame for of the gif, combines the frames and cleans up
+ */
 bool GifExporter::exportToGIF(const QString& fileName, const QVector<QImage*>& images, int width, int height)
 {
     QVector<uint8_t*> bufferVector;
