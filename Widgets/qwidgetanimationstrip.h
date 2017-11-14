@@ -19,6 +19,7 @@ public:
     explicit QWidgetAnimationStrip(QWidget *parent = nullptr);
     QListWidget* listArea;
     QVector<QListWidgetItem*> animationPreviewItems;
+    void clear();
 
 private:
     QScrollArea* scrollArea;

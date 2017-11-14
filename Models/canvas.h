@@ -19,6 +19,7 @@ public:
     void LoadImage(QImage* im);
 private:
     QImage* CanvasImage;
+    QSize canvasSize;
 
 protected:
 

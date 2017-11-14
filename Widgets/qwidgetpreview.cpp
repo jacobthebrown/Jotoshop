@@ -19,6 +19,16 @@ QWidgetPreview::QWidgetPreview(QWidget *parent) : QWidget(parent)
 
 }
 
+void QWidgetPreview::clear()
+{
+    activeStatus = false;
+    imagesPos = 0;
+    currentImage = nullptr;
+    scale = 1.0;
+    label = new QLabel;
+    images.clear();
+}
+
 /*
  *  Sets a new image to be displayed and updates the display.
  */

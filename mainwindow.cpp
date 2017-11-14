@@ -12,9 +12,9 @@
 MainWindow::MainWindow(GifExporter& gifModel, QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWindow) {
 
     ui->setupUi(this);
-
     // Connects canvas widget images with preview widget images
-    connect(this, SIGNAL(addCanvas()), ui->Canvas, SLOT(addCanvas()));
+    connect(this, SIGNAL(addCanvas(QSize)), ui->Canvas, SLOT(addCanvas(QSize)));
+    connect(this, SIGNAL(addToStrip(QPixmap, int)), ui->AnimationStrip, SLOT(addQImage(QPixmap,int)));
     connect(ui->Canvas, SIGNAL(sendImages(QVector<QImage*>)), this, SLOT(sendPreviewImages(QVector<QImage*>)));
     connect(ui->Preview,SIGNAL(activityStatus(bool)),this,SLOT(updatePreviewButtonStatus(bool)));
 
@@ -48,6 +48,8 @@ MainWindow::MainWindow(GifExporter& gifModel, QWidget *parent) : QMainWindow(par
     connect(this,SIGNAL(GetcurrentToolFromBar()),ui->Toolbar,SLOT(CurrentToolRequested()));
     connect(ui->Toolbar,SIGNAL(SendCurrentTool(BaseToolClass*)),this,SLOT(AquiredCurrentTool(BaseToolClass*)));
     connect(this,SIGNAL(SendCanvasCurrentTool(BaseToolClass*)),ui->Canvas,SLOT(RecieveTool(BaseToolClass*)));
+
+    emit ui->actionNew->triggered();
 }
 
 MainWindow::~MainWindow()
@@ -202,8 +204,11 @@ void MainWindow::LoadFile(QString fileName)
         label->setPixmap(QPixmap::fromImage(t));
         label->setFixedSize(80,80);
         //ui->AnimationStrip->layout()->addWidget(label);
-        ui->AnimationStrip->addQImage(QPixmap::fromImage(t), ui->Canvas->getAllCompositeImages().indexOf(ui->Canvas->getActiveCanvasImage()));
 
+        if(ui->Canvas->getAllCompositeImages().count() > 0)
+        {
+            ui->AnimationStrip->addQImage(QPixmap::fromImage(t), ui->Canvas->getAllCompositeImages().indexOf(ui->Canvas->getActiveCanvasImage()));
+        }
 
 
         //Add new canvas and update display
@@ -322,15 +327,15 @@ void MainWindow::on_dropperButton_clicked()
 void MainWindow::on_addCanvasButton_clicked()
 {
     //Add new canvas and update display
-    addCanvas();
+    emit addCanvas(canvasSize);
     ui->Canvas->update();
 
-    // Add current canvas to animation strip
-    // TODO: MAKE THIS AN EMITTED RESPONSE.
-    ui->AnimationStrip->addQImage(QPixmap::fromImage(*ui->Canvas->getActiveCanvasImage()),
-                                  ui->Canvas->getAllCompositeImages().indexOf(ui->Canvas->getActiveCanvasImage()));
-
-    // TODO: ERROR CHECK
+    int framePos = 0;
+    if(ui->Canvas->getAllCompositeImages().count() > 0)
+    {
+        framePos = ui->Canvas->getAllCompositeImages().indexOf(ui->Canvas->getActiveCanvasImage());
+    }
+    emit addToStrip(QPixmap::fromImage(*(ui->Canvas->getActiveCanvasImage())), framePos);
 
 }
 
@@ -391,17 +396,29 @@ void MainWindow::on_actionNew_triggered()
 
     // Show the dialog as modal
     if (dialog.exec() == QDialog::Accepted) {
-        // If the user didn't dismiss the dialog, do something with the fields
+        // restore ui to its default state
+        restoreDefaultUI();
 
+        // If the user didn't dismiss the dialog, do something with the fields
         int width = fields[0]->text().toInt();
         int height = fields[1]->text().toInt();
+
+        canvasSize = QSize(width, height);
+
         QVector<QImage*> canvasVector;
-        Canvas* defaultCanvas = new Canvas(width, height);
-        canvasVector.push_back(defaultCanvas->GetImage());
-        QString fileName = SaveFile(width, height, 1, canvasVector);
+
+        QString fileName = SaveFile(width, height, 0, canvasVector);
         LoadFile(fileName);
 
     }
+}
+
+// Restores the ui to its default state. (i.e., an empty canvas widget, empty frame viewer, and empty preview window)
+void MainWindow::restoreDefaultUI()
+{
+    ui->Canvas->clear();
+    ui->AnimationStrip->clear();
+    ui->Preview->clear();
 }
 
 /*

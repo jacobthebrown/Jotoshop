@@ -48,6 +48,14 @@ void QWidgetAnimationStrip::addQImage(QPixmap pix, int framePos)
 
 }
 
+// Clear the Animation Strip of frames
+void QWidgetAnimationStrip::clear()
+{
+    animationPreviewItems.clear();
+    listArea->clear();
+    update();
+}
+
 void QWidgetAnimationStrip::paintEvent(QPaintEvent *e)
 {
 

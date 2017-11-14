@@ -15,7 +15,6 @@ bool GifExporter::exportToGIF(const QString& fileName, const QVector<QImage*>& i
     GifWriter writer;
     GifBegin(&writer, fileName.toStdString().c_str(), width, height, 10);
 
-
     foreach (QImage* image, images)
     {
         Image* outputFrame = new Image(image);
@@ -36,6 +35,6 @@ bool GifExporter::exportToGIF(const QString& fileName, const QVector<QImage*>& i
         delete[] outputFrameBuffer;
     }
 
-    GifEnd(&writer);
+    return GifEnd(&writer);
 
 }

@@ -19,6 +19,7 @@ class MainWindow : public QMainWindow
 
 public:
     explicit MainWindow(GifExporter&, QWidget *parent = 0);
+    QSize canvasSize;
     ~MainWindow();
 
 private:
@@ -40,6 +41,7 @@ private:
     void resizeEvent(QResizeEvent *event);
     void CurrentToolRequest();
     void AquiredCurrentTool(BaseToolClass *tool);
+    void restoreDefaultUI();
 public slots:
     //void recieveSelectedColor(QColor);
     //void paintCanvas(QPoint&);
@@ -48,8 +50,8 @@ signals:
     //void updateToolBar(QColor);
     //void ToolClicked(QString);
 
-    void addCanvas();
-    void addToStrip(QImage*);
+    void addCanvas(QSize);
+    void addToStrip(QPixmap, int);
     void loadImage(QImage*);
 	void exportToGIF(const QString&, const QVector<QImage*>&, int, int);
 

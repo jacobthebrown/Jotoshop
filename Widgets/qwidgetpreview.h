@@ -21,6 +21,7 @@ public:
     void setSpeed(int speed);
     void setActiveStatus();
     void fullPreview();
+    void clear();
 
 private:
     QBasicTimer timer;

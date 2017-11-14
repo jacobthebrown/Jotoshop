@@ -24,6 +24,7 @@ public:
     void setActiveCanvas(Canvas *can);
 
     void drawLineTo(const QPoint &endPoint);
+    void clear();
 
     QVector<Canvas*> composites; //PUBLIC FOR TESTING
     int imageWidth;
@@ -42,8 +43,11 @@ private:
     bool MouseDown;
     Canvas* ActiveCanvas;
     void addCanvas(QImage*);
+
     double CurrentScale;
 
+public slots:
+    void addCanvas(QSize);
 
 signals:
     void sendImages(QVector<QImage *>);
@@ -52,7 +56,6 @@ signals:
     void RequestCurrentTool();
 
 private slots:
-    void addCanvas();
     void load(QImage*);
     void RecieveTool(BaseToolClass*);
 

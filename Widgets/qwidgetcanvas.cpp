@@ -8,6 +8,7 @@ QWidgetCanvas::QWidgetCanvas(QWidget *parent) : QWidget(parent)
     this->ActiveCanvas = nullptr;
     this->CurrentScale = 1.0;
 
+
     // TODO: CHANGE TO SIZE SETTINGS
     this->imageHeight = 512;
     this->imageWidth = 512;
@@ -80,13 +81,14 @@ QVector<QImage*> QWidgetCanvas::getAllCompositeImages()
 /*
  *  Adds a new copied canvas to the composite.
  */
-void QWidgetCanvas::addCanvas()
+void QWidgetCanvas::addCanvas(QSize size)
 {
-
     if (ActiveCanvas != nullptr)
         this->ActiveCanvas = new Canvas(*ActiveCanvas);
     else
-        this->ActiveCanvas = new Canvas(this->imageWidth, this->imageHeight);
+    {
+        this->ActiveCanvas = new Canvas(size.width(), size.height());
+    }
 
     this->composites.push_back(this->ActiveCanvas);
 
@@ -223,4 +225,11 @@ void QWidgetCanvas::addCanvas(QImage* im)
     this->composites.push_back(this->ActiveCanvas);
 
     emit sendImages(this->getAllCompositeImages());
+}
+
+// Clear the Canvas Widget
+void QWidgetCanvas::clear()
+{
+    ActiveCanvas = nullptr;
+    composites.clear();
 }
