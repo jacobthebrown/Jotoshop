@@ -179,11 +179,6 @@ void QWidgetCanvas::mouseReleaseEvent(QMouseEvent* event) {
 
 }
 
-void QWidgetCanvas::load(QImage* im)
-{
-    addCanvas(im);
-}
-
 // Updates the Tool
 void QWidgetCanvas::RecieveTool(BaseToolClass* tool)
 {
@@ -198,13 +193,28 @@ void QWidgetCanvas::CurrentTool(BaseToolClass * tool)
 /*
  *  This function is used to load images onto canvases
  */
-void QWidgetCanvas::addCanvas(QImage* im)
+void QWidgetCanvas::addCanvas()
 {
     if (ActiveCanvas != nullptr) {
         this->ActiveCanvas = new Canvas(*ActiveCanvas);
     }
     else {
         this->ActiveCanvas = new Canvas(this->imageWidth, this->imageHeight);
+    }
+
+    this->composites.push_back(this->ActiveCanvas);
+
+    emit sendImages(this->getAllCompositeImages());
+}
+
+/*
+ *  This function is used to load images onto canvases
+ */
+void QWidgetCanvas::addCanvas(QImage* im)
+{
+    if (im != nullptr) {
+        this->ActiveCanvas = new Canvas(this->imageWidth, this->imageHeight);
+        ActiveCanvas->LoadImageW(im);
     }
 
     this->composites.push_back(this->ActiveCanvas);
@@ -261,3 +271,12 @@ void QWidgetCanvas::clear()
     ActiveCanvas = nullptr;
     composites.clear();
 }
+
+void QWidgetCanvas::resize(int width, int height, double scale) {
+
+    this->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
+    this->setFixedSize(width, height);
+    this->imageHeight = height;
+    this->imageWidth = width;
+    this->setScale(1.0);
+};
