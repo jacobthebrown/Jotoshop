@@ -19,6 +19,9 @@ QWidgetPreview::QWidgetPreview(QWidget *parent) : QWidget(parent)
 
 }
 
+/*
+ * Method for clearing qwidgetpreview
+ */
 void QWidgetPreview::clear()
 {
     activeStatus = false;
@@ -74,9 +77,13 @@ void QWidgetPreview::setActiveStatus()
  */
 void QWidgetPreview::fullPreview()
 { 
-    QFormLayout form(&previewDialog);
-    form.addWidget(label);
-    previewDialog.show();
+    // checks if image can be displayed
+    if(currentImage != nullptr)
+    {
+        QFormLayout form(&previewDialog);
+        form.addWidget(label);
+        previewDialog.show();
+    }
 }
 
 /*

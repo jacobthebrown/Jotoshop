@@ -25,28 +25,14 @@ public:
     Image( QImage* qImage );
     Image( const char* fileName );
     ~Image();
-    bool save();
-    bool load();
-    void resize( float factor , bool isSmooth = false );
-    Pixel& getPixel( u_int x, u_int y );
-    void setPixel( u_int x, u_int y, Pixel pixel );
-    void setPixel( u_int index, Pixel pixel );
     u_int getSize();
     u_int getWidth();
     u_int getHeight();
-    u_int getWidthStep();
     QImage* getQImage();
     QImage* getQImageFromBuffer();
-    Pixel* getBuffer();
     void getBufferRGBA8( uint8_t* buffer);
-    inline u_char pixel( u_int x, u_int y );
     void fillBufferRGB();
-    void fillQImageRGB();
-    void convertBufferToRGB565( uint16_t* outputBuffer );
-    void createTest();
-    void getInterpolatedPixel( float i, float j, Pixel& interpolatedPixel );
-    void interpolatePixels( const Pixel& a, const Pixel& b, float fraction,
-                            Pixel& interpolatedPixel );
+
 
 private:
 

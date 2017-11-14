@@ -30,7 +30,7 @@ MainWindow::MainWindow(GifExporter& gifModel, QWidget *parent) : QMainWindow(par
     // Upon loading an image creates a new canvas
     //connect(this,SIGNAL(loadImage(QImage*)),ui->Canvas,SLOT(load(QImage*)));
 
-    //
+    // Connects canvas and animation strip
     connect(ui->Canvas, SIGNAL(ImageUpdate(QImage*,int)), ui->AnimationStrip, SLOT(refreshImage(QImage*,int)) );
 
     //this->ui->Right_horzLayout->setAlignment(this->ui->Preview, Qt::AlignHCenter);
@@ -48,6 +48,11 @@ MainWindow::MainWindow(GifExporter& gifModel, QWidget *parent) : QMainWindow(par
     connect(ui->Canvas,SIGNAL(GrabTool()),ui->Toolbar,SLOT(GiveTool()));
     connect(ui->Toolbar, SIGNAL(Tool(BaseToolClass*)),ui->Canvas, SLOT(CurrentTool(BaseToolClass*)));
     
+    // Scroll set up
+    this->ui->ExpandableScroller_1->WidgetToScroll = ui->scrollArea_2;
+    this->ui->ExpandableScroller_1->WidgetToProtect = ui->scrollArea;
+
+    // Begin setup with a add new action
     emit ui->actionNew->triggered();
 
 //    connect(ui->Canvas,SIGNAL(RequestCurrentTool()),this,SLOT(CurrentToolRequest()));
@@ -270,6 +275,8 @@ void MainWindow::onCanvasIconClicked(QListWidgetItem *item)
 
 }
 
+}
+
 /*
  * TODO
  */
@@ -293,7 +300,7 @@ void MainWindow::on_addCanvasButton_clicked()
 }
 
 /*
- *
+ * Updates the speed in preview window when slider value is adjusted
  */
 void MainWindow::on_fpsSpeedSlider_valueChanged(int value)
 {
@@ -310,7 +317,10 @@ void MainWindow::on_actionSave_triggered()
     SaveFile((canvasVector[0])->width(), (canvasVector[0])->height(), canvasVector.count(), canvasVector);
 }
 
-
+/*
+ * Prompts the user to enter a new size for the sprite. This size will be used for later canvas creation.
+ * Restores the UI back to its default state (only now with a different sized QCanvasWidget)
+ */
 void MainWindow::on_actionNew_triggered()
 {
     QDialog dialog(this);
@@ -318,9 +328,9 @@ void MainWindow::on_actionNew_triggered()
     QFormLayout form(&dialog);
 
     // Add some text above the fields
-    form.addRow(new QLabel("Please select an initial size for the Canvas:"));
+    form.addRow(new QLabel("Please select an initial non-zero size for the Canvas:"));
 
-    QList<QLineEdit *> fields;
+    QList<QLineEdit*> fields;
     for(int i = 0; i < 2; ++i) {
         QLineEdit *lineEdit = new QLineEdit(&dialog);
         QString label;
@@ -366,8 +376,9 @@ void MainWindow::on_actionNew_triggered()
 
     }
 }
-
-// Restores the ui to its default state. (i.e., an empty canvas widget, empty frame viewer, and empty preview window)
+/*
+ * Restores the ui to its default state. (i.e., an empty canvas widget, empty frame viewer, and empty preview window)
+ */
 void MainWindow::restoreDefaultUI()
 {
     ui->Canvas->clear();
@@ -385,7 +396,6 @@ void MainWindow::on_actionLoad_triggered()
 
     this->restoreDefaultUI();
     LoadFile(fileName);
-    this->ui->Canvas->resize(this->canvasSize.width(),this->canvasSize.height(),1.0);
 }
 /*
  *
@@ -410,22 +420,33 @@ void MainWindow::on_fullPreviewButton_clicked()
     ui->Preview->fullPreview();
 }
 
+/*
+ *
+ */
 void MainWindow::CurrentToolRequest()
 {
-    qDebug() <<" we in" ;
     emit GetcurrentToolFromBar();
 }
 
+/*
+ *
+ */
 void MainWindow::AquiredCurrentTool(BaseToolClass * tool)
 {
     emit SendCanvasCurrentTool(tool);
 }
 
+/*
+ *
+ */
 void MainWindow::on_canvas_GrowButton_clicked()
 {
     ui->Canvas->shiftScale(+0.25);
 }
 
+/*
+ *
+ */
 void MainWindow::on_canvas_ShrinkButton_clicked()
 {
     ui->Canvas->shiftScale(-0.25);

@@ -20,10 +20,6 @@ public:
 private:
     QImage* CanvasImage;
     QSize canvasSize;
-
-protected:
-
-signals:
 };
 
 #endif // CANVAS_H

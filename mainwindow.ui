@@ -1506,9 +1506,12 @@ border-radius: 4px;
     <property name="title">
      <string>File</string>
     </property>
+    <property name="toolTipsVisible">
+     <bool>true</bool>
+    </property>
+    <addaction name="actionNew"/>
     <addaction name="actionSave"/>
     <addaction name="actionLoad"/>
-    <addaction name="actionNew"/>
     <addaction name="separator"/>
     <addaction name="exportAction"/>
    </widget>
@@ -1533,7 +1536,7 @@ border-radius: 4px;
   </action>
   <action name="actionSave">
    <property name="text">
-    <string>Save</string>
+    <string>Save As...</string>
    </property>
    <property name="toolTip">
     <string>Save the current project to a .ssp file</string>
@@ -1541,7 +1544,7 @@ border-radius: 4px;
   </action>
   <action name="actionLoad">
    <property name="text">
-    <string>Load</string>
+    <string>Load...</string>
    </property>
    <property name="toolTip">
     <string>Load a .ssp file into Jotoshop</string>
