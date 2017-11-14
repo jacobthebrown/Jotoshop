@@ -9,8 +9,6 @@ QWidgetCanvas::QWidgetCanvas(QWidget *parent) : QWidget(parent)
     this->CurrentScale = 1.0;
     this->transparentBackground = nullptr;
 
-    this->selectedTool = new paintbrushTool();
-    this->selectedTool->SetWidth(5);
     this->setMinimumSize(imageHeight * CurrentScale, imageWidth * CurrentScale);
     this->setMaximumSize(imageHeight * CurrentScale, imageWidth * CurrentScale);
 
@@ -87,11 +85,10 @@ void QWidgetCanvas::addCanvas(QSize size)
  */
 void QWidgetCanvas::drawLineTo(const QPoint &endPoint)
 {
+    if(endPoint.x() > 0 && endPoint.x() < this->getActiveCanvasImage()->width() && endPoint.y() > 0 && endPoint.y() < this->getActiveCanvasImage()->height())
+    {
 
-        //QPainter painter(getActiveCanvasImage());
-
-        emit GrabTool();
-        //emit RequestCurrentTool();
+        emit grabTool();
         if (QString::compare(selectedTool->name,"mouse") == 0)
         {
             qDebug() << "mouse";
@@ -102,13 +99,10 @@ void QWidgetCanvas::drawLineTo(const QPoint &endPoint)
             emit ReturnDropperColor(this->getActiveCanvasImage()->pixelColor(endPoint));
         }
         else
-            selectedTool->Paint(this->getActiveCanvasImage(),endPoint);
-
-        //painter.setPen(QPen(QColor("orange"), 10, Qt::SolidLine, Qt::RoundCap,
-        //                    Qt::RoundJoin));
-        //painter.drawPoint(endPoint);
+            selectedTool->paint(this->getActiveCanvasImage(),endPoint);
 
         update();
+    }
 }
 
 /*
@@ -155,7 +149,7 @@ void QWidgetCanvas::setActiveCanvas(Canvas * can)
  */
 void QWidgetCanvas::mouseMoveEvent(QMouseEvent *event)
 {
-    if (this->MouseDown)
+    if (this->MouseDown && this->getActiveCanvasImage() != nullptr)
     {
         drawLineTo(event->pos()/CurrentScale);
     }
@@ -166,7 +160,7 @@ void QWidgetCanvas::mouseMoveEvent(QMouseEvent *event)
  */
 void QWidgetCanvas::mousePressEvent(QMouseEvent *event)
 {
-    if (event->button() == Qt::LeftButton)
+    if (event->button() == Qt::LeftButton&& this->getActiveCanvasImage() != nullptr)
     {
         this->MouseDown = true;
         drawLineTo(event->pos()/CurrentScale);

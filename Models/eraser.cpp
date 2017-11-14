@@ -5,27 +5,42 @@ Eraser::Eraser()
 
 }
 
-QColor Eraser::GetColor()
+/*
+ * provides the current selected color
+ */
+QColor Eraser::getColor()
 {
     return color;
 }
 
-int Eraser::GetWidth()
+/*
+ * Provides the user with the width of the tool
+ */
+int Eraser::getWidth()
 {
     return width;
 }
 
-void Eraser::SetWidth(int newWidth)
+/*
+ * sets tool width with the value passed
+ */
+void Eraser::setWidth(int newWidth)
 {
     width = newWidth;
 }
 
-void Eraser::SetColor(QColor newColor)
+/*
+ * sets the tool color to value passed
+ */
+void Eraser::setColor(QColor newColor)
 {
     color = newColor;
 }
 
-void Eraser::Paint(QImage* activeCanvas, QPoint endPoint)
+/*
+ * Changes the alpha channel to erase
+ */
+void Eraser::paint(QImage* activeCanvas, QPoint endPoint)
 {
 
     if (activeCanvas == nullptr)
@@ -38,12 +53,19 @@ void Eraser::Paint(QImage* activeCanvas, QPoint endPoint)
 
 }
 
-QString Eraser::GetName()
+/*
+ * Gives a string representation of the tools' name
+ */
+QString Eraser::getName()
 {
     return name;
 }
 
-void Eraser::SetName(QString ToolName)
+
+/*
+ * Sets the tools name
+ */
+void Eraser::setName(QString ToolName)
 {
     name = ToolName;
 }

@@ -5,28 +5,42 @@ BroadBrush::BroadBrush()
 
 }
 
-
-QColor BroadBrush::GetColor()
+/*
+ * provides the current selected color
+ */
+QColor BroadBrush::getColor()
 {
     return color;
 }
 
-int BroadBrush::GetWidth()
+/*
+ * Provides the user with the width of the tool
+ */
+int BroadBrush::getWidth()
 {
     return width;
 }
 
-void BroadBrush::SetWidth(int newWidth)
+/*
+ * sets tool width with the value passed
+ */
+void BroadBrush::setWidth(int newWidth)
 {
     width = newWidth;
 }
 
-void BroadBrush::SetColor(QColor newColor)
+/*
+ * sets the tool color to value passed
+ */
+void BroadBrush::setColor(QColor newColor)
 {
     color = newColor;
 }
 
-void BroadBrush::Paint(QImage* activeCanvas, QPoint endPoint)
+/*
+ * Uses a painter to change the pixes on the image at the point specified
+ */
+void BroadBrush::paint(QImage* activeCanvas, QPoint endPoint)
 {
 
     if (activeCanvas == nullptr)
@@ -40,12 +54,18 @@ void BroadBrush::Paint(QImage* activeCanvas, QPoint endPoint)
 
 }
 
-QString BroadBrush::GetName()
+/*
+ * Gives a string representation of the tools' name
+ */
+QString BroadBrush::getName()
 {
     return name;
 }
 
-void BroadBrush::SetName(QString ToolName)
+/*
+ * Sets the tools name
+ */
+void BroadBrush::setName(QString toolName)
 {
-    name = ToolName;
+    name = toolName;
 }

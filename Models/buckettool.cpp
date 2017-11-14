@@ -6,60 +6,71 @@ bucketTool::bucketTool()
 
 }
 
-QColor bucketTool::GetColor()
+/*
+ * provides the current selected color
+ */
+QColor bucketTool::getColor()
 {
     return color;
 }
 
-int bucketTool::GetWidth()
+/*
+ * Provides the user with the width of the tool
+ */
+int bucketTool::getWidth()
 {
     return width;
 }
 
-void bucketTool::SetWidth(int newWidth)
+/*
+ * sets tool width with the value passed
+ */
+void bucketTool::setWidth(int newWidth)
 {
     width = newWidth;
 }
 
-void bucketTool::SetColor(QColor newColor)
+/*
+ * sets the tool color to value passed
+ */
+void bucketTool::setColor(QColor newColor)
 {
     color = newColor;
 }
 
 
-QString bucketTool::GetName()
+/*
+ * Gives a string representation of the tools' name
+ */
+QString bucketTool::getName()
 {
     return name;
 }
 
-void bucketTool::SetName(QString ToolName)
+/*
+ * Sets the tools name
+ */
+void bucketTool::setName(QString ToolName)
 {
     name = ToolName;
 }
 
-void bucketTool::Paint(QImage* activeCanvas, QPoint mouse_pos)
+
+/*
+ * Uses a painter to change the pixes on the image at the point specified, using a breadth first search to fill
+ */
+void bucketTool::paint(QImage* activeCanvas, QPoint mouse_pos)
 {
-    BreadthFirst(activeCanvas,mouse_pos);
+    breadthFirst(activeCanvas,mouse_pos);
 }
 
-void bucketTool::BreadthFirst(QImage* activeCanvas, QPoint mouse_pos)
+void bucketTool::breadthFirst(QImage* activeCanvas, QPoint mouse_pos)
 {
-//    if(color.pixelColor(pos->x(),pos->y())!= t)
-//    {
-//        std::queue<QPoint> pointsToFill;
-//        pointsToFill.push(QPoint(pos->x(),pos->y()));
-//        color.setPixel(pos->x(), pos->y() + 1,t.rgba());
-//        BreadthSearch(pointsToFill, color.pixelColor(pos->x(),pos->y()),color.width(),color.height());
-//    }
-//    QPainter painter(activeCanvas);
-//    painter.setPen(QPen(Color);
-//    painter.drawPoint(endPoint);
-
 
     QColor removeColor = activeCanvas->pixelColor(mouse_pos);
 
 
-    if(removeColor != color)
+    if(removeColor.isValid() && removeColor.rgba() != color.rgba())
     {
         QPoint current;
         //QImage* newImage = new QImage(activeCanvas->copy());
@@ -70,7 +81,7 @@ void bucketTool::BreadthFirst(QImage* activeCanvas, QPoint mouse_pos)
 
         while(!q.empty())
         {
-            qDebug() << "X: " + QString::number(current.x()) +" Y: " + QString::number(current.y());
+            //qDebug() << "X: " + QString::number(current.x()) +" Y: " + QString::number(current.y());
             current = q.front();
             q.pop();
             if(current.y() - 1 >= 0 && (activeCanvas->pixelColor(current.x(),current.y()-1) == removeColor))

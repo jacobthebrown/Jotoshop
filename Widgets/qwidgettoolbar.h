@@ -25,8 +25,8 @@ class QWidgetToolbar : public QWidget
 public:
     explicit QWidgetToolbar(QWidget *parent = nullptr);
     ~QWidgetToolbar();
-    // Might not be right
-    BaseToolClass* GetCurrentTool();
+    //  Returns the current tool
+    BaseToolClass* getCurrentTool();
 private:
     // Rename to currentTool
     BaseToolClass *currentTool;
@@ -37,7 +37,7 @@ private:
     Eraser* eraser;
     BroadBrush* broadBrush;
     Dropper* dropper;
-    bucketTool* Bucket;
+    bucketTool* bucket;
     MouseTool* mouse;
 
     // Tool dimensions
@@ -51,7 +51,7 @@ private:
     int upPadding, rightPadding, bottomPadding, leftPadding;
 
     //Group of pushbuttons
-    QButtonGroup* ToolButtons;
+    QButtonGroup* toolButtons;
 
     // Images & pixmaps for primary color and secondary color buttons
     QImage* primaryColorImage;
@@ -63,17 +63,17 @@ private:
     QString buttonPaths[6];
     QString buttonPathsClicked[6];
     QPushButton* buttons[6];
-    QPushButton* ColorButtons[3];
+    QPushButton* colorButtons[3];
 
     // Helper Methods to set up the Ui
-    void AddButtons();
-    void AddColorButtons();
+    void addButtons();
+    void addColorButtons();
 
     // Slaps an icon on each button
-    void AddIcon(QPushButton*);
+    void addIcon(QPushButton*);
 
     // instantiate arrays with strings
-    void SetUpUnclickedButtonPaths();
+    void setUpUnclickedButtonPaths();
 
     // creats a button
     QPushButton* createToolButton();
@@ -82,55 +82,58 @@ private:
     QWidgetSliderCombo* sizeSlider;
 
     // Helper functions in setting up the tol bar ui
-    void ToggleColorButtons();
-    void SetInitialState();
-    void CreateSlider();
-    void SetButtonPadding();
+    void toggleColorButtons();
+    void setInitialState();
+    void createSlider();
+    void setButtonPadding();
 
-    void UpdateButtonsView(int);
+    void updateButtonsView(int);
 
     // Helper functions to instantiate Tools value
-    void UpdateToolColor(QColor);
+    void updateToolColor(QColor);
 
     // Getters for width and color
-    int GetToolWidth();
+    int getToolWidth();
 
     // Launches QColorDialog to pick a color, parameter is to represent
     // Either the primary or secondary color was clicked
-    bool UpdateColorPrimaryColor();
-    bool UpdateSecondaryColor();
+    bool updateColorPrimaryColor();
+    bool updateSecondaryColor();
 
-    void ChangePrimaryColorButtonImage();
-    void ChangeSecondaryColorButtonImage();
+    void changePrimaryColorButtonImage();
+    void changeSecondaryColorButtonImage();
 
 signals:
 
-    void SendCurrentTool(BaseToolClass*);
+    void sendCurrentTool(BaseToolClass*);
 
-    // Temp
-    void Tool(BaseToolClass*);
+    // Sends the tool out of the widget
+    void tool(BaseToolClass*);
 
 public slots:
-    void RegisterPaintBrushButton();
-    void RegisterBroadBrushButton();
-    void RegisterDropperButton();
-    void RegisterEraserButton();
-    void RegisterBucketFillButton();
-    void RegisterMouseButton();
+    // Registers the button events for the tools
+    void registerPaintBrushButton();
+    void registerBroadBrushButton();
+    void registerDropperButton();
+    void registerEraserButton();
+    void registerBucketFillButton();
+    void registerMouseButton();
 
-    void UpdateToolWidth(int);
-    void UpdatePrimaryColorImage();
-    void UpdateSecondaryColorImage();
+    // Updates tool width and ui
+    void updateToolWidth(int);
+    void updatePrimaryColorImage();
+    void updateSecondaryColorImage();
 
-    void CurrentToolRequested();
-    void UpdateDropperReturn(QColor);
-    void SetDropperColor(QColor);
+    // Regarding passing the tool around and info about it
+    void currentToolRequested();
+    void updateDropperReturn(QColor);
+    void setDropperColor(QColor);
 
 
-    // Temp between widget
-    void GiveTool();
-
-    void SwapPrimaryAndSecondaryColors();
+    // trigger slot to signify a tool is coming
+    void giveTool();
+    // Swaps the primary and secondary colors and updates visuals
+    void swapPrimaryAndSecondaryColors();
 
 
 };

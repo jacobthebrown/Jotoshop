@@ -36,8 +36,8 @@ MainWindow::MainWindow(GifExporter& gifModel, QWidget *parent) : QMainWindow(par
     this->ui->ExpandableScroller_1->WidgetToProtect = ui->scrollArea;
 
     // TODO
-    connect(ui->Canvas,SIGNAL(GrabTool()),ui->Toolbar,SLOT(GiveTool()));
-    connect(ui->Toolbar, SIGNAL(Tool(BaseToolClass*)),ui->Canvas, SLOT(CurrentTool(BaseToolClass*)));
+    connect(ui->Canvas,SIGNAL(grabTool()),ui->Toolbar,SLOT(giveTool()));
+    connect(ui->Toolbar, SIGNAL(tool(BaseToolClass*)),ui->Canvas, SLOT(CurrentTool(BaseToolClass*)));
     
     // Scroll set up
     this->ui->ExpandableScroller_1->WidgetToScroll = ui->scrollArea_2;

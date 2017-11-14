@@ -53,7 +53,7 @@ signals:
     void ImageUpdate(QImage*, int);
 
     // Temp widget communication for tool
-    void GrabTool();
+    void grabTool();
     void RequestCurrentTool();
     void ReturnDropperColor(QColor);
 

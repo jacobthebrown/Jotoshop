@@ -5,46 +5,58 @@ Dropper::Dropper()
 
 }
 
-QColor Dropper::GetColor()
+/*
+ * provides the current selected color
+ */
+QColor Dropper::getColor()
 {
     return color;
 }
 
-int Dropper::GetWidth()
+/*
+ * Provides the user with the width of the tool
+ */
+int Dropper::getWidth()
 {
     return width;
 }
 
-void Dropper::SetWidth(int newWidth)
+/*
+ * sets tool width with the value passed
+ */
+void Dropper::setWidth(int newWidth)
 {
     width = newWidth;
 }
 
-void Dropper::SetColor(QColor newcolor)
+/*
+ * sets the tool color to value passed
+ */
+void Dropper::setColor(QColor newcolor)
 {
     color = newcolor;
 }
 
-void Dropper::Paint(QImage* activeCanvas, QPoint endPoint)
+/*
+ * Declare since the base class is abstract
+ */
+void Dropper::paint(QImage* activeCanvas, QPoint endPoint)
 {
-
-      //emit SendColor(activeCanvas->pixelColor(endPoint.x(),endPoint.y()));
-//    if (activeCanvas == nullptr)
-//        return;
-
-//    QPainter painter(activeCanvas);
-
-//    painter.setPen(QPen(this->color, this->width, Qt::SolidLine, Qt::SquareCap));
-//    painter.drawPoint(endPoint);
 
 }
 
-QString Dropper::GetName()
+/*
+ * Gives a string representation of the tools' name
+ */
+QString Dropper::getName()
 {
     return name;
 }
 
-void Dropper::SetName(QString ToolName)
+/*
+ * Sets the tools name
+ */
+void Dropper::setName(QString ToolName)
 {
     name = ToolName;
 }

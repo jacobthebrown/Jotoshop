@@ -5,37 +5,58 @@ MouseTool::MouseTool()
 
 }
 
-QColor MouseTool::GetColor()
+/*
+ * provides the current selected color
+ */
+QColor MouseTool::getColor()
 {
     return color;
 }
 
-int MouseTool::GetWidth()
+/*
+ * Provides the user with the width of the tool
+ */
+int MouseTool::getWidth()
 {
     return width;
 }
 
-void MouseTool::SetWidth(int newWidth)
+/*
+ * sets tool width with the value passed
+ */
+void MouseTool::setWidth(int newWidth)
 {
     width = newWidth;
 }
 
-void MouseTool::SetColor(QColor newColor)
+/*
+ * sets the tool color to value passed
+ */
+void MouseTool::setColor(QColor newColor)
 {
     color = newColor;
 }
 
-void MouseTool::Paint(QImage *, QPoint)
+/*
+ * Overriden to fulfill the interface
+ */
+void MouseTool::paint(QImage *, QPoint)
 {
 
 }
 
-QString MouseTool::GetName()
+/*
+ * Gives a string representation of the tools' name
+ */
+QString MouseTool::getName()
 {
     return name;
 }
 
-void MouseTool::SetName(QString ToolName)
+/*
+ * Sets the tools name
+ */
+void MouseTool::setName(QString ToolName)
 {
     name = ToolName;
 }

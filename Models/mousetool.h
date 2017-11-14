@@ -7,15 +7,15 @@ class MouseTool : public BaseToolClass
 public:
     MouseTool();
 
-    QColor GetColor();
-    int GetWidth();
+    QColor getColor();
+    int getWidth();
 
-    void SetWidth(int newWidth);
-    void SetColor(QColor newColor);
-    void Paint(QImage*,QPoint);
+    void setWidth(int newWidth);
+    void setColor(QColor newColor);
+    void paint(QImage*,QPoint);
 
-    virtual QString GetName();
-    virtual void SetName(QString ToolName);
+    virtual QString getName();
+    virtual void setName(QString ToolName);
 };
 
 #endif // MOUSETOOL_H

@@ -9,14 +9,14 @@ public:
     paintbrushTool();
 
 public:
-    QColor GetColor();
-    int GetWidth();
+    QColor getColor();
+    int getWidth();
 
-    void SetWidth(int);
-    void SetColor(QColor);
-    void Paint(QImage*,QPoint);
-    virtual QString GetName();
-    virtual void SetName(QString ToolName);
+    void setWidth(int);
+    void setColor(QColor);
+    void paint(QImage*,QPoint);
+    virtual QString getName();
+    virtual void setName(QString ToolName);
 
 };
 

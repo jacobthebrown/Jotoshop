@@ -7,16 +7,16 @@ class bucketTool : public BaseToolClass
 public:
     bucketTool();
 
-    QColor GetColor();
-    int GetWidth();
+    QColor getColor();
+    int getWidth();
 
-    void SetWidth(int newWidth);
-    void SetColor(QColor newColor);
-    void Paint(QImage*, QPoint);
+    void setWidth(int newWidth);
+    void setColor(QColor newColor);
+    void paint(QImage*, QPoint);
 
-    virtual QString GetName();
-    virtual void SetName(QString ToolName);
-    void BreadthFirst(QImage* activeCanvas, QPoint mouse_pos);
+    virtual QString getName();
+    virtual void setName(QString ToolName);
+    void breadthFirst(QImage* activeCanvas, QPoint mouse_pos);
 };
 
 #endif // BUCKETTOOL_H

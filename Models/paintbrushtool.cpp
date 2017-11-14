@@ -6,26 +6,42 @@ paintbrushTool::paintbrushTool()
 {
 }
 
-QColor paintbrushTool::GetColor()
+/*
+ * provides the current selected color
+ */
+QColor paintbrushTool::getColor()
 {
     return color;
 }
 
-int paintbrushTool::GetWidth()
+/*
+ * Provides the user with the width of the tool
+ */
+int paintbrushTool::getWidth()
 {
     return width;
 }
 
-void paintbrushTool::SetWidth(int newWidth)
+/*
+ * sets tool width with the value passed
+ */
+void paintbrushTool::setWidth(int newWidth)
 {
     width = newWidth;
 }
 
-void paintbrushTool::SetColor(QColor newColor)
+/*
+ * sets the tool color to value passed
+ */
+void paintbrushTool::setColor(QColor newColor)
 {
     color =  newColor;
 }
-void paintbrushTool::Paint(QImage* activeCanvas, QPoint endPoint)
+
+/*
+ * Uses Qpainter to color the current point with the color and width of the tool
+ */
+void paintbrushTool::paint(QImage* activeCanvas, QPoint endPoint)
 {
 
     if (activeCanvas == nullptr)
@@ -38,12 +54,18 @@ void paintbrushTool::Paint(QImage* activeCanvas, QPoint endPoint)
 
 }
 
-QString paintbrushTool::GetName()
+/*
+ * Gives a string representation of the tools' name
+ */
+QString paintbrushTool::getName()
 {
     return name;
 }
 
-void paintbrushTool::SetName(QString ToolName)
+/*
+ * Sets the tools name
+ */
+void paintbrushTool::setName(QString ToolName)
 {
     name = ToolName;
 }

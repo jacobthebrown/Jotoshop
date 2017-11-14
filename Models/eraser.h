@@ -6,15 +6,15 @@ class Eraser : public BaseToolClass
 {
 public:
     Eraser();
-    QColor GetColor();
-    int GetWidth();
+    QColor getColor();
+    int getWidth();
 
-    void SetWidth(int);
-    void SetColor(QColor);
-    void Paint(QImage*,QPoint);
+    void setWidth(int);
+    void setColor(QColor);
+    void paint(QImage*,QPoint);
 
-    virtual QString GetName();
-    virtual void SetName(QString ToolName);
+    virtual QString getName();
+    virtual void setName(QString ToolName);
 };
 
 #endif // ERASER_H
