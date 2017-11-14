@@ -89,22 +89,22 @@ void bucketTool::breadthFirst(QImage* activeCanvas, QPoint mouse_pos)
         {
             current = q.front();
             q.pop();
-            if(current.y() - 1 >= 0 && (activeCanvas->pixelColor(current.x(),current.y()-1).alpha() == removeColor.alpha() ))
+            if(current.y() - 1 >= 0 && (activeCanvas->pixelColor(current.x(),current.y()-1) == removeColor ))
             {
                 activeCanvas->setPixel(current.x(), current.y() - 1,color.rgba());
                 q.push(QPoint(current.x(), current.y() - 1));
             }
-            if(current.y() + 1 < activeCanvas->height() && (activeCanvas->pixelColor(current.x(),current.y()+1).alpha()  == removeColor.alpha() ))
+            if(current.y() + 1 < activeCanvas->height() && (activeCanvas->pixelColor(current.x(),current.y()+1) == removeColor))
             {
                 activeCanvas->setPixel(current.x(), current.y() + 1,color.rgba());
                 q.push(QPoint(current.x(), current.y() + 1));
             }
-            if(current.x() - 1 >= 0  && (activeCanvas->pixelColor(current.x() - 1,current.y()).alpha()  == removeColor.alpha()))
+            if(current.x() - 1 >= 0  && (activeCanvas->pixelColor(current.x() - 1,current.y())  == removeColor))
             {
                 activeCanvas->setPixel(current.x() - 1, current.y(),color.rgba());
                 q.push(QPoint(current.x() - 1, current.y()));
             }
-            if(current.x() + 1 < activeCanvas->width()  && (activeCanvas->pixelColor(current.x() + 1,current.y()).alpha() == removeColor.alpha()))
+            if(current.x() + 1 < activeCanvas->width()  && (activeCanvas->pixelColor(current.x() + 1,current.y()) == removeColor))
             {
                 activeCanvas->setPixel(current.x() + 1, current.y(),color.rgba());
                 q.push(QPoint(current.x() + 1, current.y()));
