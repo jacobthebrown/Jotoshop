@@ -23,13 +23,13 @@ public:
 
 private:
     Ui::MainWindow *ui;
-    QString SaveFile(int width, int height, int frames, QVector<QImage*> images);
-    void LoadFile(QString);
+    QString saveFile(int width, int height, int frames, QVector<QImage*> images);
+    void loadFile(QString);
     QPushButton* canvas_ShrinkScale;
     QPushButton* canvas_GrowScale;
     QWidget *wrap(QLayout *l);
-    void CurrentToolRequest();
-    void AquiredCurrentTool(BaseToolClass *tool);
+    void currentToolRequest();
+    void aquiredCurrentTool(BaseToolClass *tool);
     void restoreDefaultUI();
 
 signals:
@@ -39,8 +39,8 @@ signals:
 	void exportToGIF(const QString&, const QVector<QImage*>&, int, int);
 
     //Signals to update tool info between canvas and toolbar
-    void GetcurrentToolFromBar();
-    void SendCanvasCurrentTool(BaseToolClass*);
+    void getcurrentToolFromBar();
+    void sendCanvasCurrentTool(BaseToolClass*);
 
 private slots:
     void sendPreviewImages(QVector<QImage*> images);

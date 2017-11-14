@@ -37,7 +37,7 @@ MainWindow::MainWindow(GifExporter& gifModel, QWidget *parent) : QMainWindow(par
 
     // TODO
     connect(ui->Canvas,SIGNAL(grabTool()),ui->Toolbar,SLOT(giveTool()));
-    connect(ui->Toolbar, SIGNAL(tool(BaseToolClass*)),ui->Canvas, SLOT(CurrentTool(BaseToolClass*)));
+    connect(ui->Toolbar, SIGNAL(tool(BaseToolClass*)),ui->Canvas, SLOT(currentTool(BaseToolClass*)));
     
     // Scroll set up
     this->ui->ExpandableScroller_1->WidgetToScroll = ui->scrollArea_2;
@@ -47,8 +47,7 @@ MainWindow::MainWindow(GifExporter& gifModel, QWidget *parent) : QMainWindow(par
     emit ui->actionNew->triggered();
 
     //TODO
-    connect(ui->Canvas,SIGNAL(ReturnDropperColor(QColor)),ui->Toolbar,SLOT(SetDropperColor(QColor)));
-
+    connect(ui->Canvas,SIGNAL(returnDropperColor(QColor)),ui->Toolbar,SLOT(setDropperColor(QColor)));
 }
 
 /*
@@ -60,7 +59,7 @@ MainWindow::~MainWindow()
 }
 
 /*
- * TODO: MOVE TO MAIN WINDOW MODEL
+ * Exports the images in the vectors to a Gif
  * TODO: SET FPS OF GIF.
  */
 void MainWindow::exportGIF()
@@ -87,10 +86,11 @@ void MainWindow::exportGIF()
 
 
 /*
- * TODO: MOVE TO MAIN WINDOW MODEL
- * TODO: CREATE ERROR HANDLING EXCEPTIONS
+ * Queries the user to choose a file name and directory
+ * Throws an error if the path is invalid
+ * Writes the HxW followed by number of frames and each frame's pixels in rgba fashion
  */
-QString MainWindow::SaveFile(int width, int height, int frames, QVector<QImage*> images)
+QString MainWindow::saveFile(int width, int height, int frames, QVector<QImage*> images)
 {
     // Grabs the filename saved; forcing the filter to be the extension
     const QString filter = "(*.ssp)";
@@ -151,10 +151,12 @@ QString MainWindow::SaveFile(int width, int height, int frames, QVector<QImage*>
 }
 
 /*
- * TODO: MOVE TO MODEL.
- * TODO: CREATE ERROR HANDLING EXCEPTIONS
+ * Queries the user to load a .ssp file
+ * Throws and error if the file is corrupt
+ * Empties vectors or previous project if there was one
+ * Reads the ssp line by line constructing the images and displaying them accordingly
  */
-void MainWindow::LoadFile(QString fileName)
+void MainWindow::loadFile(QString fileName)
 {
     QFile file(fileName);
 
@@ -276,7 +278,7 @@ void MainWindow::on_fpsSpeedSlider_valueChanged(int value)
 void MainWindow::on_actionSave_triggered()
 {
     QVector<QImage*> canvasVector = ui->Canvas->getAllCompositeImages();
-    SaveFile((canvasVector[0])->width(), (canvasVector[0])->height(), canvasVector.count(), canvasVector);
+    saveFile((canvasVector[0])->width(), (canvasVector[0])->height(), canvasVector.count(), canvasVector);
 }
 
 /*
@@ -363,7 +365,7 @@ void MainWindow::restoreDefaultUI()
 }
 
 /*
- * TODO
+ * Starts the Loadfile processes
  */
 void MainWindow::on_actionLoad_triggered()
 {
@@ -372,7 +374,7 @@ void MainWindow::on_actionLoad_triggered()
 
     if (fileName.length() > 0) {
         this->restoreDefaultUI();
-        LoadFile(fileName);
+        loadFile(fileName);
     }
 }
 
@@ -393,19 +395,19 @@ void MainWindow::on_fullPreviewButton_clicked()
 }
 
 /*
- * TODO: COMMENT
+ * Handles the transfer of the paint tool between widget
  */
-void MainWindow::CurrentToolRequest()
+void MainWindow::currentToolRequest()
 {
-    emit GetcurrentToolFromBar();
+    emit getcurrentToolFromBar();
 }
 
 /*
- * TODO: COMMENT
+ * Handles the transfer of the paint tool between widget
  */
-void MainWindow::AquiredCurrentTool(BaseToolClass * tool)
+void MainWindow::aquiredCurrentTool(BaseToolClass * tool)
 {
-    emit SendCanvasCurrentTool(tool);
+    emit sendCanvasCurrentTool(tool);
 }
 
 /*

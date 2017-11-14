@@ -265,7 +265,7 @@ void QWidgetToolbar::registerPaintBrushButton()
 */
 void QWidgetToolbar::registerBroadBrushButton()
 {
-        qDebug() << "BroadBrush";
+        //qDebug() << "BroadBrush";
         currentButtonIndex = 1;
         updateButtonsView(currentButtonIndex);
 
@@ -314,7 +314,7 @@ void QWidgetToolbar::registerBucketFillButton()
 */
 void QWidgetToolbar::registerMouseButton()
 {
-    qDebug() << "mouse";
+    //qDebug() << "mouse";
     currentTool = mouse;
     currentButtonIndex = 5;
     updateButtonsView(currentButtonIndex);
