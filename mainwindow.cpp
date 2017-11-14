@@ -27,28 +27,24 @@ MainWindow::MainWindow(GifExporter& gifModel, QWidget *parent) : QMainWindow(par
 	connect(ui->AnimationStrip, SIGNAL(sendClickedCanvas(QListWidgetItem*)), this, SLOT(onCanvasIconClicked(QListWidgetItem*)));
     //connect(this, SIGNAL(addToStrip(QLabel*)), ui->AnimationStrip, SLOT(addQImage(QLabel*)));
 
-    // Upon loading an image creates a new canvas
+    // Connects upon loading an image creates a new canvas
     connect(this,SIGNAL(loadImage(QImage*)),ui->Canvas,SLOT(load(QImage*)));
 
-    //
+    // Connects canvas and animation strip
     connect(ui->Canvas, SIGNAL(ImageUpdate(QImage*,int)), ui->AnimationStrip, SLOT(refreshImage(QImage*,int)) );
 
-    //this->ui->Right_horzLayout->setAlignment(this->ui->Preview, Qt::AlignHCenter);
-    //this->ui->Right_horzLayout->setSizeConstraint(QLayout::SetMaximumSize);
-
-    //this->ui->Preview->setSizePolicy(QSizePolicy::ExpandFlag);
-    //this->ui->Preview->
-            //setLayout(QLayout::SetMaximumSize);
-    this->ui->ExpandableScroller_1->WidgetToScroll = ui->scrollArea_2;
-    this->ui->ExpandableScroller_1->WidgetToProtect = ui->scrollArea;
-    //this->ui->ExpandableScroller_1->DefaultWidth = ui->scrollArea_2->width();
-
-    //QWidgetToolbar* tool = new QWidgetToolbar();
-
+    // Connects tools
     connect(ui->Canvas,SIGNAL(GrabTool()),ui->Toolbar,SLOT(GiveTool()));
     connect(ui->Toolbar, SIGNAL(Tool(BaseToolClass*)),ui->Canvas, SLOT(CurrentTool(BaseToolClass*)));
     
+    // Scroll set up
+    this->ui->ExpandableScroller_1->WidgetToScroll = ui->scrollArea_2;
+    this->ui->ExpandableScroller_1->WidgetToProtect = ui->scrollArea;
+
+    // Begin setup with a add new action
     emit ui->actionNew->triggered();
+
+    // Set size of canvas
     this->ui->Canvas->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
     this->ui->Canvas->setFixedSize(canvasSize.width(), canvasSize.height());
     this->ui->Canvas->imageHeight = canvasSize.height();
@@ -259,78 +255,7 @@ void MainWindow::onCanvasIconClicked(QListWidgetItem *item)
             // TODO: ERROR HANDLE FOR NULL CANVAS
             ui->Canvas->setActiveCanvas(ui->Canvas->composites.at(i));
     }
-
-    // update animation bar
-//    ui->AnimationStrip->addQImage(QPixmap::fromImage(*ui->Canvas->getActiveCanvasImage()),
-//                                  ui->Canvas->getAllCompositeImages().indexOf(ui->Canvas->getActiveCanvasImage()));
-
 }
-
-/*
-
-void MainWindow::SetToolBarPics()
-{
-    //QSize size(13,13);
-    //QPixmap pbMap(":buttonImages/paintBrush.png");
-    //QIcon pbIcon(pbMap);
-    //ui->paintBrushButton->setIcon(pbIcon);
-    //ui->paintBrushButton->setIconSize(size);
-    //
-    //QPixmap bbMap(":buttonImages/dropper.png");
-    //QIcon bbIcon(bbMap);
-    //ui->broadBrushButton->setIcon(bbIcon);
-    //ui->broadBrushButton->setIconSize(size);
-    //
-    //QPixmap erMap(":buttonImages/eraser.png");
-    //QIcon erIcon(erMap);
-    //ui->eraserButton->setIcon(erIcon);
-    //ui->eraserButton->setIconSize(size);
-    //
-    //QPixmap drMap(":buttonImages/dropper.png");
-    //QIcon drIcon(drMap);
-    //ui->dropperButton->setIcon(drIcon);
-    //ui->dropperButton->setIconSize(size);
-}
-
-
-
-void MainWindow::recieveSelectedColor(QColor receivedColor)
-{
-    emit updateToolBar(receivedColor);
-
-    //QImage image(ui->primaryColorWidget->width(),ui->primaryColorWidget->width(), QImage::Format_ARGB32);
-    //image.fill(receivedColor);
-
-    //QPixmap m(QPixmap::fromImage(image));
-    //ui->primaryColorWidget->setPixmap(m);
-}
-
-void MainWindow::paintCanvas(QPoint &pos)
-{
-    //qDebug() << "We in";
-    //canvasImage.setPixel(pos.x(),pos.y(),toolBar.getColor());
-    //QPixmap map(QPixmap::fromImage(canvasImage));
-    //ui->tempCanvas->setPixmap(map);
-}
-
-
-
-void MainWindow::on_broadBrushButton_clicked()
-{
-    emit ToolClicked("broadBrushButton");
-
-}
-
-void MainWindow::on_eraserButton_clicked()
-{
-    emit ToolClicked("eraserButton");
-}
-
-void MainWindow::on_dropperButton_clicked()
-{
-    emit ToolClicked("dropperButton");
-}
-*/
 
 /*
  * TODO
@@ -356,7 +281,7 @@ void MainWindow::on_addCanvasButton_clicked()
 }
 
 /*
- *
+ * Updates the speed in preview window when slider value is adjusted
  */
 void MainWindow::on_fpsSpeedSlider_valueChanged(int value)
 {
@@ -373,7 +298,9 @@ void MainWindow::on_actionSave_triggered()
     SaveFile((canvasVector[0])->width(), (canvasVector[0])->height(), canvasVector.count(), canvasVector);
 }
 
-
+/*
+ *
+ */
 void MainWindow::on_actionNew_triggered()
 {
     QDialog dialog(this);
@@ -423,13 +350,13 @@ void MainWindow::on_actionNew_triggered()
 
         QVector<QImage*> canvasVector;
 
-        QString fileName = SaveFile(width, height, 0, canvasVector);
-        LoadFile(fileName);
+
 
     }
 }
-
-// Restores the ui to its default state. (i.e., an empty canvas widget, empty frame viewer, and empty preview window)
+/*
+ * Restores the ui to its default state. (i.e., an empty canvas widget, empty frame viewer, and empty preview window)
+ */
 void MainWindow::restoreDefaultUI()
 {
     ui->Canvas->clear();
@@ -446,20 +373,6 @@ void MainWindow::on_actionLoad_triggered()
     QString fileName = QFileDialog::getOpenFileName(this, tr("Load Project"), "", tr("*.ssp"));
 
     LoadFile(fileName);
-}
-/*
- *
- */
-void MainWindow::resizeEvent(QResizeEvent *event)
-{
-    //MainWindow::resizeEvent(event);
-    if(this)
-    {
-        //int deltaChange = event->oldSize().width() - event->size().width();
-        //int oldMinimum = this->ui->scrollArea_2->minimumWidth();
-
-        //this->ui->scrollArea_2->setMinimumWidth(oldMinimum + deltaChange);
-    }
 }
 
 /*
@@ -478,22 +391,33 @@ void MainWindow::on_fullPreviewButton_clicked()
     ui->Preview->fullPreview();
 }
 
+/*
+ *
+ */
 void MainWindow::CurrentToolRequest()
 {
-    qDebug() <<" we in" ;
     emit GetcurrentToolFromBar();
 }
 
+/*
+ *
+ */
 void MainWindow::AquiredCurrentTool(BaseToolClass * tool)
 {
     emit SendCanvasCurrentTool(tool);
 }
 
+/*
+ *
+ */
 void MainWindow::on_canvas_GrowButton_clicked()
 {
     ui->Canvas->shiftScale(+0.05);
 }
 
+/*
+ *
+ */
 void MainWindow::on_canvas_ShrinkButton_clicked()
 {
     ui->Canvas->shiftScale(-0.05);
