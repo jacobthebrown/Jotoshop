@@ -19,6 +19,9 @@ QWidgetPreview::QWidgetPreview(QWidget *parent) : QWidget(parent)
 
 }
 
+/*
+ * Method for clearing qwidgetpreview
+ */
 void QWidgetPreview::clear()
 {
     activeStatus = false;
