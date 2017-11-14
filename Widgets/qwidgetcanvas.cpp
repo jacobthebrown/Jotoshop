@@ -7,37 +7,17 @@ QWidgetCanvas::QWidgetCanvas(QWidget *parent) : QWidget(parent)
 {
     this->ActiveCanvas = nullptr;
     this->CurrentScale = 1.0;
+    this->transparentBackground = nullptr;
 
 
     // TODO: CHANGE TO SIZE SETTINGS
-    this->imageHeight = 512;
-    this->imageWidth = 512;
     this->selectedTool = new paintbrushTool();
     this->selectedTool->SetWidth(5);
     //this->setMinimumSize(imageHeight * CurrentScale, imageWidth * CurrentScale);
     //
     //this->setMaximumSize(imageHeight * CurrentScale, imageWidth * CurrentScale);
-    //this->setSizePolicy(QSizePolicy::Maximum, QSizePolicy::);
 
-    this->transparentBackground = new QImage(QSize(imageWidth, imageHeight), QImage::Format_ARGB32);
 
-    QPainter painter(transparentBackground);
-
-    bool swap = false;
-    for (int i = 0; i < imageWidth/8; i++) {
-        for (int j = 0; j < imageHeight/8; j++) {
-            if (swap) {
-                QRect rect = QRect(16*i,16*j,16,16);
-                painter.fillRect(rect, QColor(255, 255, 255, 255));
-            }
-            else {
-                QRect rect = QRect(16*i,16*j,16,16);
-                painter.fillRect(rect, QColor(155, 155, 155, 255));
-            }
-            swap = !swap;
-        }
-        swap = !swap;
-    }
 
 
     emit sendImages(this->getAllCompositeImages());
@@ -131,25 +111,21 @@ void QWidgetCanvas::drawLineTo(const QPoint &endPoint)
  */
 void QWidgetCanvas::paintEvent(QPaintEvent *event) {
 
-    // Asks the ui to update the SelectedTool
-        //emit RequestCurrentTool();
-
         QPainter painter(this);
         QRect dirtyRect = this->rect();
 
-        //painter.scale(CurrentScale, CurrentScale);
-
-        if (getActiveCanvasImage() != nullptr && transparentBackground != nullptr) {
-            painter.drawImage(QRect(0,0,this->width(), this->height()), *transparentBackground);
-            painter.drawImage(QRect(0,0,this->width(), this->height()), *getActiveCanvasImage());
+        if (transparentBackground != nullptr && this->getAllCompositeImages().size() != 0) {
+            painter.drawImage(dirtyRect, *transparentBackground);
+        }
+        if (getActiveCanvasImage() != nullptr) {
+            painter.drawImage(dirtyRect, *getActiveCanvasImage());
 
         }
 
         QPainterPath path;
-        path.addRoundRect(0,0,this->width()-1,this->height()-1,0);
-
-        QPen pen(Qt::lightGray, 10);
+        QPen pen(Qt::lightGray, 1);
         painter.setPen(pen);
+        painter.drawRect(0,0,this->width()-1, this->height()-1);
         painter.drawPath(path);
 
 
@@ -173,7 +149,7 @@ void QWidgetCanvas::mouseMoveEvent(QMouseEvent *event)
 
         //QPoint point = event->pos().setX(event->pos->x()/2;)
         //QPoint point = event->
-        drawLineTo(event->pos());
+        drawLineTo(event->pos()/CurrentScale);
     }
 }
 
@@ -184,6 +160,7 @@ void QWidgetCanvas::mousePressEvent(QMouseEvent *event)
 {
     if (event->button() == Qt::LeftButton) {
         this->MouseDown = true;
+        drawLineTo(event->pos()/CurrentScale);
     }
 }
 
@@ -225,4 +202,47 @@ void QWidgetCanvas::addCanvas(QImage* im)
     this->composites.push_back(this->ActiveCanvas);
 
     emit sendImages(this->getAllCompositeImages());
+}
+
+void QWidgetCanvas::shiftScale(double Scale) {
+    this->setScale(this->CurrentScale + Scale);
+}
+
+void QWidgetCanvas::setScale(double Scale) {
+    this->CurrentScale = Scale;
+
+    int widthScaled = imageWidth * Scale;
+    int heightScaled = imageHeight * Scale;
+
+    this->setFixedSize(widthScaled, heightScaled);
+
+    delete this->transparentBackground;
+
+    this->transparentBackground = new QImage(QSize(widthScaled, heightScaled), QImage::Format_ARGB32);
+    this->transparentBackground->fill(QColor(255,255,255));
+
+    QPainter painter(transparentBackground);
+
+    //bool newline = false;
+    int offset = 0;
+
+    for (int row = 0; row <= widthScaled/4; row++) {
+        for (int col = 0; col <= heightScaled/4; col += 2) {
+
+            bool swap = false;
+
+            QRect rect = QRect(col*widthScaled/8 + offset,row*heightScaled/8,widthScaled/8,heightScaled/8);
+            painter.fillRect(rect, QColor(155, 155, 155, 255));
+
+
+        }
+        if (offset <= 0)
+            offset += widthScaled/8;
+        else {
+            offset = 0;
+        }
+    }
+
+    update();
+
 }

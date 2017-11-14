@@ -30,6 +30,8 @@ public:
     int imageHeight;
 
 
+    void shiftScale(double Scale);
+    void setScale(double Scale);
 protected:
     void mouseMoveEvent(QMouseEvent *mouse_event);
     void mousePressEvent(QMouseEvent *mouse_event);
