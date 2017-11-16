@@ -2,11 +2,13 @@
 
 Jotoshop is Sprite Editing software created for CS 3505 at the University of Utah. Created using Qt Creator, 
 
+## Media
+
+![Main View](https://github.com/jacobthebrown/Jotoshop/blob/master/Documentation/Screenshot_5.png?raw=true)
+
 ## Built With
 
 * [Qt Creator](https://www.qt.io/qt-features-libraries-apis-tools-and-ide/) - The web framework used
-* [Maven](https://maven.apache.org/) - Dependency Management
-* [ROME](https://rometools.github.io/rome/) - Used to generate RSS Feeds
 
 ## Versioning
 
