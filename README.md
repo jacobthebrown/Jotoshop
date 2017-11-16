@@ -10,7 +10,7 @@ Jotoshop is Sprite Editing software created for CS 3505 at the University of Uta
 
 ## Versioning
 
-We use [SemVer](http://semver.org/) for versioning. For the versions available, see the [tags on this repository](https://github.com/your/project/tags). 
+We used Git CMD.
 
 ## Authors
 
